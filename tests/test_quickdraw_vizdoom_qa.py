@@ -10,6 +10,7 @@ from typing import Any
 
 import pytest
 
+from quickdraw_vizdoom.qa import runner as qa_runner
 from quickdraw_vizdoom.qa.__main__ import main
 from quickdraw_vizdoom.qa.contract import ContractInfrastructureError, canonical_sha256
 from quickdraw_vizdoom.qa.results import Outcome, ValidationResult, aggregate_outcomes
@@ -54,6 +55,8 @@ def test_dev_profile_does_not_import_or_launch_vizdoom(monkeypatch) -> None:
     def reject_vizdoom_import(name, *args, **kwargs):
         if name == "vizdoom" or name.startswith("vizdoom."):
             raise AssertionError("The static dev profile imported ViZDoom.")
+        if name == "quickdraw_vizdoom.learning":
+            raise AssertionError("The static dev profile imported the learning module.")
         return original_import(name, *args, **kwargs)
 
     def reject_side_effect(*_args, **_kwargs):
@@ -276,7 +279,153 @@ def test_cli_prints_machine_readable_report(capsys) -> None:
     assert output["contract_id"] == "quickdraw.vizdoom-basic.v1"
 
 
-def test_integration_profile_collects_and_validates_canonical_trace() -> None:
+def _valid_smoke_result(loss: float = 0.25) -> dict[str, Any]:
+    return {
+        "decisions": 16,
+        "updates": 13,
+        "terminal": 1,
+        "truncated": 0,
+        "last_loss": loss,
+    }
+
+
+def test_training_smoke_runs_two_registered_sessions(monkeypatch) -> None:
+    calls: list[dict[str, Any]] = []
+
+    class StartupError(RuntimeError):
+        pass
+
+    def fake_run_smoke(**parameters):
+        calls.append(parameters)
+        return _valid_smoke_result(loss=parameters["seed"] / 100_000)
+
+    monkeypatch.setattr(
+        qa_runner,
+        "_load_training_runtime",
+        lambda: (fake_run_smoke, StartupError),
+    )
+
+    report = run_profile(BASIC_CONTRACT_PATH, "training-smoke")
+
+    assert report.outcome is Outcome.PASS
+    assert calls == [
+        {
+            "seed": 31001,
+            "steps": 16,
+            "warmup": 4,
+            "batch_size": 4,
+            "device": "cpu",
+        },
+        {
+            "seed": 31002,
+            "steps": 16,
+            "warmup": 4,
+            "batch_size": 4,
+            "device": "cpu",
+        },
+    ]
+    assert [session["seed"] for session in report.to_dict()["training_sessions"]] == [
+        31001,
+        31002,
+    ]
+    assert all(
+        set(session)
+        == {
+            "seed",
+            "decisions",
+            "updates",
+            "terminal",
+            "truncated",
+            "last_loss",
+        }
+        for session in report.to_dict()["training_sessions"]
+    )
+
+
+@pytest.mark.parametrize(
+    "invalid_result",
+    [
+        {**_valid_smoke_result(), "updates": 0},
+        {**_valid_smoke_result(), "last_loss": float("inf")},
+    ],
+)
+def test_invalid_training_session_fails(monkeypatch, invalid_result) -> None:
+    class StartupError(RuntimeError):
+        pass
+
+    monkeypatch.setattr(
+        qa_runner,
+        "_load_training_runtime",
+        lambda: (lambda **_parameters: invalid_result, StartupError),
+    )
+
+    report = run_profile(BASIC_CONTRACT_PATH, "training-smoke")
+
+    assert report.outcome is Outcome.FAIL
+    assert len(report.training_sessions or ()) == 2
+
+
+def test_missing_training_dependency_is_infrastructure_invalid(monkeypatch) -> None:
+    def missing_dependency():
+        raise ModuleNotFoundError("No module named 'torch'")
+
+    monkeypatch.setattr(qa_runner, "_load_training_runtime", missing_dependency)
+
+    report = run_profile(BASIC_CONTRACT_PATH, "training-smoke")
+
+    assert report.outcome is Outcome.INFRA_INVALID
+    assert report.training_sessions == ()
+
+
+def test_environment_startup_failure_is_infrastructure_invalid(monkeypatch) -> None:
+    class StartupError(RuntimeError):
+        pass
+
+    def fail_startup(**_parameters):
+        raise StartupError("ViZDoom did not start")
+
+    monkeypatch.setattr(
+        qa_runner,
+        "_load_training_runtime",
+        lambda: (fail_startup, StartupError),
+    )
+
+    report = run_profile(BASIC_CONTRACT_PATH, "training-smoke")
+
+    assert report.outcome is Outcome.INFRA_INVALID
+    assert len(report.training_sessions or ()) == 2
+
+
+def test_training_smoke_rejects_exceeded_session_budget(
+    tmp_path: Path, monkeypatch
+) -> None:
+    contract = _read_basic_contract()
+    contract["qa"]["profiles"]["training-smoke"]["budgets"]["training_sessions"] = 3
+    monkeypatch.setattr(
+        qa_runner,
+        "_load_training_runtime",
+        lambda: pytest.fail("Training started with an invalid budget."),
+    )
+
+    report = run_profile(_write_contract(tmp_path, contract), "training-smoke")
+
+    assert report.outcome is Outcome.FAIL
+    assert report.training_sessions == ()
+
+
+def test_integration_profile_collects_and_validates_canonical_trace(
+    monkeypatch,
+) -> None:
+    original_import = builtins.__import__
+
+    def reject_learning_import(name, *args, **kwargs):
+        if name == "quickdraw_vizdoom.learning":
+            raise AssertionError(
+                "The integration profile imported the learning module."
+            )
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", reject_learning_import)
     report = run_profile(BASIC_CONTRACT_PATH, "integration")
 
     assert report.outcome is Outcome.PASS

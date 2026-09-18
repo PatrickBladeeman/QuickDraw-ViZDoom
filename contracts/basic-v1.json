@@ -180,6 +180,32 @@
           "integration-rewards",
           "integration-endings"
         ]
+      },
+      "training-smoke": {
+        "budgets": {
+          "process_launches": 2,
+          "trace_collections": 0,
+          "training_sessions": 2,
+          "external_calls": 0
+        },
+        "validators": [
+          "json-schema",
+          "basic-environment",
+          "basic-observation",
+          "basic-actions",
+          "basic-timing",
+          "basic-reward",
+          "basic-episode",
+          "basic-reset",
+          "basic-state-channel",
+          "training-smoke-profile",
+          "training-smoke-sessions"
+        ],
+        "seeds": [31001, 31002],
+        "steps": 16,
+        "warmup": 4,
+        "batch_size": 4,
+        "device": "cpu"
       }
     }
   }

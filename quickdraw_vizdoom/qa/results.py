@@ -61,13 +61,14 @@ class QAReport:
     contract_id: str | None
     contract_sha256: str | None
     results: tuple[ValidationResult, ...]
+    training_sessions: tuple[dict[str, Any], ...] | None = None
 
     @property
     def outcome(self) -> Outcome:
         return aggregate_outcomes(self.results)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        report = {
             "schema_version": "quickdraw.vizdoom-qa-report.v1",
             "outcome": self.outcome.value,
             "profile": self.profile,
@@ -76,3 +77,6 @@ class QAReport:
             "contract_sha256": self.contract_sha256,
             "results": [result.to_dict() for result in self.results],
         }
+        if self.training_sessions is not None:
+            report["training_sessions"] = list(self.training_sessions)
+        return report
