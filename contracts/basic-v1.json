@@ -1,0 +1,186 @@
+{
+  "$schema": "schemas/environment-contract-v1.schema.json",
+  "schema_version": "quickdraw.vizdoom-environment-contract.v1",
+  "contract_id": "quickdraw.vizdoom-basic.v1",
+  "status": "accepted",
+  "environment": {
+    "name": "QuickDrawVizDoomBasic",
+    "kind": "basic",
+    "scenario": {
+      "config_path": "scenarios/quickdraw/basic-v1.cfg",
+      "wad_path": "scenarios/quickdraw/basic-v1.wad",
+      "artifact_status": "available",
+      "config_sha256": "d6827867675fba1397e31cb38ffb59d27696cc2108b04a817f6ffe1cf211fb4c",
+      "wad_sha256": "fd0b7e5e2422e09288c786e7fc32181bb8ee4a3faa613a75ef88a3e39b5ce94e"
+    }
+  },
+  "observation": {
+    "source": {
+      "format": "GRAY8",
+      "width": 160,
+      "height": 120
+    },
+    "preprocessing": {
+      "crop": {
+        "kind": "center",
+        "width": 120,
+        "height": 120
+      },
+      "resize": {
+        "algorithm": "area",
+        "width": 84,
+        "height": 84
+      },
+      "normalization": {
+        "kind": "divide",
+        "divisor": 255.0,
+        "minimum": 0.0,
+        "maximum": 1.0
+      }
+    },
+    "output": {
+      "shape": [84, 84, 4],
+      "dtype": "float32",
+      "channel_order": "HWC",
+      "frame_order": "oldest_to_newest"
+    },
+    "stack": {
+      "count": 4,
+      "reset_fill": "repeat_first_post_reset_frame"
+    }
+  },
+  "actions": {
+    "mask_polarity": "true_means_unavailable",
+    "decision_strobe": "ALTATTACK",
+    "button_order": ["ALTATTACK", "MOVE_LEFT", "MOVE_RIGHT", "ATTACK"],
+    "branches": [
+      {
+        "name": "movement",
+        "actions": [
+          {"index": 0, "semantic": "Stay", "button": null},
+          {"index": 1, "semantic": "Left", "button": "MOVE_LEFT"},
+          {"index": 2, "semantic": "Right", "button": "MOVE_RIGHT"}
+        ]
+      },
+      {
+        "name": "combat",
+        "actions": [
+          {"index": 0, "semantic": "Idle", "button": null},
+          {"index": 1, "semantic": "Shoot", "button": "ATTACK"}
+        ]
+      }
+    ]
+  },
+  "timing": {
+    "simulation_hz": 35,
+    "policy_interval_pattern_tics": [3, 4],
+    "policy_hz_average": 10.0,
+    "decision_limit": 300,
+    "episode_tics": 1050
+  },
+  "reward": {
+    "aggregation": "additive",
+    "terms": [
+      {"event": "decision", "value": -0.01},
+      {"event": "target_hit", "value": 1.0},
+      {"event": "missed_shot", "value": -0.02}
+    ]
+  },
+  "episode_end": {
+    "terminal": [
+      {"reason": "target_hit", "code": 1, "bootstrap": false}
+    ],
+    "truncation": [
+      {
+        "reason": "decision_limit",
+        "code": 2,
+        "at_decision": 300,
+        "bootstrap": true
+      }
+    ],
+    "infrastructure_invalid": [
+      {"reason": "infrastructure_invalid", "code": 3}
+    ]
+  },
+  "reset": {
+    "scenario_seed": 31001,
+    "episode_index_origin": 0,
+    "agent_start_slot": 0,
+    "target_slot": {
+      "minimum": -4,
+      "maximum": 4,
+      "sampling": "quickdraw.basic-target-slot.v1"
+    },
+    "remaining_ammunition": 300,
+    "cooldown_decisions": 0
+  },
+  "state_channel": {
+    "transport": "acs_user_variables",
+    "schema_id": 1001,
+    "variables": [
+      {"slot": "USER1", "name": "schema_id"},
+      {"slot": "USER2", "name": "episode_index"},
+      {"slot": "USER3", "name": "decision_count"},
+      {"slot": "USER4", "name": "position_slot"},
+      {"slot": "USER5", "name": "target_slot"},
+      {"slot": "USER6", "name": "movement_unavailable_bits"},
+      {"slot": "USER7", "name": "combat_unavailable_bits"},
+      {"slot": "USER8", "name": "terminal_reason_code"},
+      {"slot": "USER9", "name": "shots_fired"},
+      {"slot": "USER10", "name": "misses"},
+      {"slot": "USER11", "name": "remaining_ammunition"},
+      {"slot": "USER12", "name": "action_sequence"}
+    ]
+  },
+  "qa": {
+    "canonical_trace_path": "artifacts/quickdraw/basic-v1.trace.json",
+    "profiles": {
+      "dev": {
+        "budgets": {
+          "process_launches": 0,
+          "trace_collections": 0,
+          "training_sessions": 0,
+          "external_calls": 0
+        },
+        "validators": [
+          "json-schema",
+          "basic-environment",
+          "basic-observation",
+          "basic-actions",
+          "basic-timing",
+          "basic-reward",
+          "basic-episode",
+          "basic-reset",
+          "basic-state-channel",
+          "dev-profile"
+        ]
+      },
+      "integration": {
+        "budgets": {
+          "process_launches": 1,
+          "trace_collections": 1,
+          "training_sessions": 0,
+          "external_calls": 0
+        },
+        "validators": [
+          "json-schema",
+          "basic-environment",
+          "basic-observation",
+          "basic-actions",
+          "basic-timing",
+          "basic-reward",
+          "basic-episode",
+          "basic-reset",
+          "basic-state-channel",
+          "integration-profile",
+          "integration-runtime",
+          "integration-observation",
+          "integration-actions",
+          "integration-timing",
+          "integration-rewards",
+          "integration-endings"
+        ]
+      }
+    }
+  }
+}

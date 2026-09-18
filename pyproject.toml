@@ -8,10 +8,10 @@ src_paths = ["examples/python", "gymnasium_wrapper", "tests"]
 indent = 4
 lines_after_imports = 2
 multi_line_output = 3
-known_first_party = ['vizdoom']
+known_first_party = ["quickdraw_vizdoom", "vizdoom"]
 
 [tool.pyright]
-include = ["examples/python/**", "gymnasium_wrapper", "tests/**"]
+include = ["examples/python/**", "gymnasium_wrapper", "quickdraw_vizdoom", "tests/**"]
 exclude = ["**/__pycache__", "**/venv"]
 strict = []
 
@@ -32,6 +32,7 @@ reportAttributeAccessIssue = "warning"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+pythonpath = ["."]
 norecursedirs = ["src/lib_python/pybind11/tests", "examples", "docs", "build", "bin", "venv", ".venv", ".git"]
 
 [tool.cibuildwheel]
