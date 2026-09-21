@@ -1,0 +1,52 @@
+                                                  Zhiyuan Zhao
+                                  469-826-6457 | zhiyuan.zhao@utexas.edu | Austin, TX
+                             github.com/PatrickBladeeman | linkedin.com/in/zhiyuan-zhao
+EDUCATION​ ​            ​       ​        ​      ​      ​      ​        ​       ​        ​       ​      ​       ​
+The University of Texas at Austin, Austin, TX ​​       ​                                    August 2022 - May 2026
+Bachelor of Science, Computer Science, Minor in Business | GPA 3.72
+Relevant Coursework: Data Structures | Computer Architecture | Database Management |AI/ML
+SKILLS​ ​       ​       ​       ​        ​      ​      ​      ​        ​       ​        ​       ​      ​       ​
+Programming Languages and Skills: Python, Java, JavaScript/TypeScript, C++, C#, C, Rust, Bash, PyTorch
+Tools/Platforms: Kubernetes, Docker, AWS, GKE, GitHub Actions, Grafana, Jira, Confluence, CI/CD, DevOps
+Database: React, Flask, Pandas, MySQL, MongoDB, InfluxDB
+
+WORK EXPERIENCES​ ​               ​       ​       ​       ​         ​       ​     ​        ​       ​       ​       ​
+DevOps Intern, Aristocrat​        ​       ​       ​       ​         ​       ​                  January 2025 - May 2026
+    ●​ Developed and automated a metrics collection workflow using Python and Github Actions, achieving real-time
+       data ingestion from 600+ QA workflows.
+    ●​ Deployed and maintained an observability stack with influxDB and Grafana on Kubernetes. Conducted
+       time-series analysis and visualization for CI/CD health and software performance data.
+    ●​ Automated end-to-end Slack notifications for QA tests, parsing artifacts to post real-time test summaries to
+       Slack. Improved the QA workflow by eliminating 100 % of manual pings.
+Open Source Contributor, Kubeplus​ ​              ​       ​         ​       ​     ​              January 2025 - Present
+    ●​ Contributed onboarding and deployment documentation for KubePlus, a Kubernetes platform for multi-tenant
+       application management, including an ArgoCD-based multitenancy example for Kubernetes users.
+    ●​ Identified and resolved deployment reliability issues in a distributed systems environment, including sync
+       failures, scalability bottlenecks, and configuration drift across automated infrastructure workflows.
+    ●​ Built a GitOps-based cloud application deployment workflow using Kubernetes and Argo CD, improving
+       separation of responsibilities and automation across platform and tenant environments.
+Software Engineering Intern, Aristocrat​​         ​       ​         ​       ​     ​            May 2024 - January 2025
+    ●​ Integrated a new Unity UI library into existing editor tools, enhancing compatibility with legacy GUI tools and
+       streamlining the editor workflow, resulting in a 80% increase in editor performance.
+    ●​ Developed and implemented a flexible UI system in Unity, allowing for seamless toggling between different UI
+       libraries and plugins, improving user experience for developers and reducing transition issues by 50%.
+    ●​ Implemented a comprehensive package dependency analyzer for Unity Packages, improving dependency
+       tracking and management within the project, leading to a 25% decrease in debugging time and ensuring more
+       robust code integrity..
+    ●​ Designed and implemented a new data serialization model that improved the maintainability of internal tools,
+       leading to a 60% reduction of redundant assets and data.
+PROJECTS​       ​         ​       ​       ​       ​       ​         ​       ​     ​        ​       ​       ​       ​
+QuickDraw - Hierarchical Learning for Visual FPS Agents - PyTorch/Unity/C#                              September 2025
+    ●​ Developed a reproducible Unity/Python deep reinforcement learning platform for visual FPS agents using
+       computer vision, PyTorch, and Branching Double DQN
+    ●​ Built memory-efficient training-data replay, checkpoint recovery, and visual frame buffer for batched updates
+    ●​ Created a ViZDoom-inspired benchmark with 328 trainer tests, enabling multi-seed evaluation of tactical, reflex,
+       and language-model control.
+Food Oasis Texas | React, AWS, Python, mySQL,​            Flask​ ​          ​       ​                     October 2024
+    ●​ Developed a full-stack web application to provide information on food accessibility data and food resources,
+       completed with a data visualization dashboard as well as interactive geospatial visualizations.
+    ●​ Consolidated food resource and geospatial data using GeoJSON to create detailed interactive maps. Enriched the
+       food resources database with 10+ attributes for over 500 underserved regions .
+    ●​ Integrated an automatic and multi-platform frontend test suite using Selenium and Jest. Improved GUI testing
+       coverage by 70% and reduced UI errors by 40%.
+

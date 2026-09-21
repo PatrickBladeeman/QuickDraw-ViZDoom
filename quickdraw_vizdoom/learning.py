@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 from collections import deque
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from typing import Any
 
 import numpy as np
@@ -82,11 +82,16 @@ def select_action(
     epsilon: float,
     rng: np.random.Generator,
     device: torch.device | str = "cpu",
+    *,
+    on_selection: Callable[[bool], None] | None = None,
 ) -> BranchAction:
-    """Choose an epsilon-greedy tuple without selecting unavailable actions."""
+    """Choose a legal action; optionally report whether exploration was used."""
 
     movement_mask, combat_mask = normalize_masks(masks)
-    if rng.random() < epsilon:
+    exploring = rng.random() < epsilon
+    if on_selection is not None:
+        on_selection(exploring)
+    if exploring:
         return tuple(
             int(rng.choice(np.flatnonzero(~mask)))
             for mask in (movement_mask, combat_mask)
@@ -175,9 +180,35 @@ def run_smoke(
 ) -> dict[str, Any]:
     """Run a seeded rollout with real replay updates."""
 
+    try:
+        env = BasicV1Env()
+    except Exception as error:
+        raise EnvironmentStartupError(f"Environment startup failed: {error}") from error
+    with env:
+        result, _network = run_training(env, steps, warmup, batch_size, seed, device)
+    return result
+
+
+def run_training(
+    env: BasicV1Env,
+    steps: int,
+    warmup: int,
+    batch_size: int,
+    seed: int,
+    device: str,
+    epsilon: float = 0.2,
+    gamma: float = 0.99,
+    *,
+    on_selection: Callable[[bool], None] | None = None,
+    episode_seeds: Sequence[int] | None = None,
+) -> tuple[dict[str, Any], BranchingQNetwork]:
+    """Train in the caller-owned environment and return the in-memory policy."""
+
     threshold = max(warmup, batch_size)
     if steps < threshold or batch_size < 1 or warmup < 0:
         raise ValueError("steps must reach warmup and batch-size must be positive.")
+    if episode_seeds is not None and len(episode_seeds) != steps:
+        raise ValueError("episode_seeds must contain one seed per decision.")
 
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -189,60 +220,70 @@ def run_smoke(
     updates = terminals = truncations = episode = 0
     last_loss: float | None = None
 
+    reset_seeds = tuple(episode_seeds) if episode_seeds is not None else None
     try:
-        env = BasicV1Env()
+        observation, info = env.reset(
+            seed=seed if reset_seeds is None else reset_seeds[0]
+        )
+    except ValueError:
+        raise
     except Exception as error:
         raise EnvironmentStartupError(f"Environment startup failed: {error}") from error
-
-    with env:
-        try:
-            observation, info = env.reset(seed=seed)
-        except Exception as error:
-            raise EnvironmentStartupError(
-                f"Environment startup failed: {error}"
-            ) from error
-        masks = normalize_masks(info["next_unavailable_masks"])
-        for _ in range(steps):
-            action = select_action(
-                network, observation, masks, epsilon=0.2, rng=rng, device=torch_device
+    masks = normalize_masks(info["next_unavailable_masks"])
+    for decision in range(steps):
+        action = select_action(
+            network,
+            observation,
+            masks,
+            epsilon=epsilon,
+            rng=rng,
+            device=torch_device,
+            on_selection=on_selection,
+        )
+        next_observation, reward, terminated, truncated, info = env.step(action)
+        next_masks = normalize_masks(info["next_unavailable_masks"])
+        replay.append(
+            (
+                observation.copy(),
+                action,
+                reward,
+                next_observation.copy(),
+                terminated,
+                truncated,
+                next_masks,
             )
-            next_observation, reward, terminated, truncated, info = env.step(action)
-            next_masks = normalize_masks(info["next_unavailable_masks"])
-            replay.append(
-                (
-                    observation.copy(),
-                    action,
-                    reward,
-                    next_observation.copy(),
-                    terminated,
-                    truncated,
-                    next_masks,
-                )
+        )
+        if len(replay) >= threshold:
+            last_loss = train_step(
+                network,
+                optimizer,
+                replay,
+                batch_size,
+                rng,
+                gamma=gamma,
+                device=torch_device,
             )
-            if len(replay) >= threshold:
-                last_loss = train_step(
-                    network,
-                    optimizer,
-                    replay,
-                    batch_size,
-                    rng,
-                    device=torch_device,
-                )
-                updates += 1
+            updates += 1
 
-            if terminated or truncated:
-                terminals += int(terminated)
-                truncations += int(truncated)
-                episode += 1
-                try:
-                    observation, info = env.reset(seed=seed + episode)
-                except Exception as error:
-                    raise EnvironmentStartupError(
-                        f"Environment startup failed: {error}"
-                    ) from error
-                masks = normalize_masks(info["next_unavailable_masks"])
-            else:
-                observation, masks = next_observation, next_masks
+        if terminated or truncated:
+            terminals += int(terminated)
+            truncations += int(truncated)
+            episode += 1
+            if decision == steps - 1:
+                break
+            try:
+                observation, info = env.reset(
+                    seed=seed + episode if reset_seeds is None else reset_seeds[episode]
+                )
+            except ValueError:
+                raise
+            except Exception as error:
+                raise EnvironmentStartupError(
+                    f"Environment startup failed: {error}"
+                ) from error
+            masks = normalize_masks(info["next_unavailable_masks"])
+        else:
+            observation, masks = next_observation, next_masks
 
     if last_loss is None:
         raise RuntimeError("Smoke run completed without an optimizer update.")
@@ -252,7 +293,7 @@ def run_smoke(
         "terminal": terminals,
         "truncated": truncations,
         "last_loss": last_loss,
-    }
+    }, network
 
 
 def main(argv: Sequence[str] | None = None) -> int:

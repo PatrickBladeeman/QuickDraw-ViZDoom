@@ -75,6 +75,32 @@ def test_replay_update_is_finite_and_changes_a_parameter() -> None:
     )
 
 
+def test_exploration_reporting_preserves_rng_and_labels_matching_actions():
+    network = BranchingQNetwork()
+    rng = np.random.default_rng(42)
+    reference = np.random.default_rng(42)
+    flags, expected = [], []
+    masks = ([False, True, True], [False, True])
+    for _ in range(20):
+        exploring = reference.random() < 0.5
+        expected.append(exploring)
+        if exploring:
+            for mask in masks:
+                reference.choice(np.flatnonzero(~np.asarray(mask)))
+        action = select_action(
+            network,
+            _observation(),
+            masks,
+            epsilon=0.5,
+            rng=rng,
+            on_selection=flags.append,
+        )
+        # Random selection can choose exactly the same action as greedy selection.
+        assert action == (0, 0)
+    assert flags == expected and set(flags) == {False, True}
+    assert rng.bit_generator.state == reference.bit_generator.state
+
+
 def test_terminated_does_not_bootstrap_but_truncated_does() -> None:
     class FixedNetwork(BranchingQNetwork):
         def forward(self, observations):

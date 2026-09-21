@@ -211,6 +211,29 @@ def run_profile(contract_path: str | Path, profile: str) -> QAReport:
             ),
         )
 
+    if profile not in loaded.data["qa"]["profiles"]:
+        return _report(
+            profile,
+            loaded,
+            [
+                ValidationResult(
+                    validator_id="profile-selection",
+                    outcome=Outcome.FAIL,
+                    message=f"Unsupported QA profile: {profile!r}.",
+                )
+            ],
+        )
+
+    if profile == "micro-learning":
+        from .micro_learning import run_micro_learning
+
+        return run_micro_learning(loaded)
+
+    if profile == "micro-learning-generalization":
+        from .micro_learning_generalization import run_micro_learning_generalization
+
+        return run_micro_learning_generalization(loaded)
+
     if profile == "training-smoke":
         return _run_training_smoke(loaded)
 

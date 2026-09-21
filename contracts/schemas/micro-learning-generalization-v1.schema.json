@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shuffled-seed Basic-arena contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema_version", "contract_id", "environment", "observation", "actions", "reset", "timing", "reward", "episode_end", "qa"],
+  "properties": {
+    "$schema": {"const": "schemas/micro-learning-generalization-v1.schema.json"},
+    "schema_version": {"const": "quickdraw.vizdoom-micro-learning-generalization.v1"},
+    "contract_id": {"const": "quickdraw.vizdoom-micro-learning-generalization.v1"},
+    "environment": {"$ref": "#/$defs/environment"},
+    "observation": {"$ref": "#/$defs/observation"},
+    "actions": {"$ref": "#/$defs/actions"},
+    "reset": {"$ref": "#/$defs/reset"},
+    "timing": {"$ref": "#/$defs/timing"},
+    "reward": {"$ref": "#/$defs/reward"},
+    "episode_end": {"$ref": "#/$defs/episode_end"},
+    "qa": {"$ref": "#/$defs/qa"}
+  },
+  "$defs": {
+    "environment": {
+      "const": {
+        "name": "MicroLearningGeneralizationV1",
+        "kind": "micro-learning-generalization",
+        "scenario": {
+          "config_path": "scenarios/quickdraw/basic-v1.cfg",
+          "wad_path": "scenarios/quickdraw/basic-v1.wad",
+          "config_sha256": "d6827867675fba1397e31cb38ffb59d27696cc2108b04a817f6ffe1cf211fb4c",
+          "wad_sha256": "fd0b7e5e2422e09288c786e7fc32181bb8ee4a3faa613a75ef88a3e39b5ce94e"
+        }
+      }
+    },
+    "observation": {
+      "const": {
+        "source": {"format": "GRAY8", "width": 160, "height": 120, "headless": true},
+        "preprocessing": {
+          "crop": {"kind": "center", "width": 120, "height": 120},
+          "resize": {"algorithm": "area", "width": 84, "height": 84},
+          "normalization": {"divisor": 255, "minimum": 0, "maximum": 1}
+        },
+        "output": {"shape": [84, 84, 4], "dtype": "float32", "frame_order": "oldest_to_newest"},
+        "stack": {"count": 4, "reset_fill": "repeat_first_post_reset_frame"},
+        "policy_inputs": ["frames", "unavailable_masks"]
+      }
+    },
+    "actions": {
+      "const": {
+        "branch_sizes": [3, 2],
+        "semantic_actions": [["Stay", "Left", "Right"], ["Idle", "Shoot"]],
+        "mask_polarity": "true_means_unavailable"
+      }
+    },
+    "reset": {
+      "const": {
+        "scenario_seed": 32001,
+        "target_slot": {"minimum": -4, "maximum": 4, "sampling": "quickdraw.basic-target-slot.v1"},
+        "training_seed_range": "session_seed through session_seed + 511",
+        "held_out_seed_range": "36000 through 36099",
+        "seed_permutation": "seeded permutation of the contiguous reset-seed range",
+        "visual_split": "metadata only; both phases use the Basic arena",
+        "render_before_observation": true
+      }
+    },
+    "timing": {
+      "const": {"simulation_hz": 35, "policy_interval_pattern_tics": [3, 4], "decision_limit": 300, "episode_tics": 1050}
+    },
+    "reward": {
+      "const": {
+        "aggregation": "additive",
+        "terms": [
+          {"event": "decision", "value": -0.01},
+          {"event": "target_hit", "value": 1.0},
+          {"event": "missed_shot", "value": -0.02}
+        ]
+      }
+    },
+    "episode_end": {
+      "const": {
+        "terminal": {"reason": "target_hit", "bootstrap": false},
+        "truncation": {"reason": "decision_limit", "bootstrap": true},
+        "real_final_observation": true
+      }
+    },
+    "qa": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profiles"],
+      "properties": {
+        "profiles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["micro-learning-generalization"],
+          "properties": {
+            "micro-learning-generalization": {"$ref": "#/$defs/profile"}
+          }
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["budgets", "validators", "seeds", "steps", "warmup", "batch_size", "epsilon", "gamma", "device", "evaluation_seed_start", "evaluation_episodes", "minimum_success_rate"],
+      "properties": {
+        "budgets": {"const": {"process_launches": 2, "training_sessions": 2, "training_decisions": 1024, "evaluation_episodes": 200, "trace_collections": 0, "external_calls": 0, "checkpoints": 0}},
+        "validators": {"const": ["json-schema", "micro-learning-generalization-artifacts", "micro-learning-generalization-sessions"]},
+        "seeds": {"const": [32001, 34001]},
+        "steps": {"const": 512},
+        "warmup": {"const": 32},
+        "batch_size": {"const": 32},
+        "epsilon": {"const": 0.2},
+        "gamma": {"const": 0.99},
+        "device": {"const": "cpu"},
+        "evaluation_seed_start": {"const": 36000},
+        "evaluation_episodes": {"const": 100},
+        "minimum_success_rate": {"const": 0.8}
+      }
+    }
+  }
+}

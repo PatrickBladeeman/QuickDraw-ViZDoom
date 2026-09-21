@@ -1,0 +1,89 @@
+{
+  "$schema": "schemas/micro-learning-generalization-v1.schema.json",
+  "schema_version": "quickdraw.vizdoom-micro-learning-generalization.v1",
+  "contract_id": "quickdraw.vizdoom-micro-learning-generalization.v1",
+  "environment": {
+    "name": "MicroLearningGeneralizationV1",
+    "kind": "micro-learning-generalization",
+    "scenario": {
+      "config_path": "scenarios/quickdraw/basic-v1.cfg",
+      "wad_path": "scenarios/quickdraw/basic-v1.wad",
+      "config_sha256": "d6827867675fba1397e31cb38ffb59d27696cc2108b04a817f6ffe1cf211fb4c",
+      "wad_sha256": "fd0b7e5e2422e09288c786e7fc32181bb8ee4a3faa613a75ef88a3e39b5ce94e"
+    }
+  },
+  "observation": {
+    "source": {"format": "GRAY8", "width": 160, "height": 120, "headless": true},
+    "preprocessing": {
+      "crop": {"kind": "center", "width": 120, "height": 120},
+      "resize": {"algorithm": "area", "width": 84, "height": 84},
+      "normalization": {"divisor": 255, "minimum": 0, "maximum": 1}
+    },
+    "output": {"shape": [84, 84, 4], "dtype": "float32", "frame_order": "oldest_to_newest"},
+    "stack": {"count": 4, "reset_fill": "repeat_first_post_reset_frame"},
+    "policy_inputs": ["frames", "unavailable_masks"]
+  },
+  "actions": {
+    "branch_sizes": [3, 2],
+    "semantic_actions": [["Stay", "Left", "Right"], ["Idle", "Shoot"]],
+    "mask_polarity": "true_means_unavailable"
+  },
+  "reset": {
+    "scenario_seed": 32001,
+    "target_slot": {"minimum": -4, "maximum": 4, "sampling": "quickdraw.basic-target-slot.v1"},
+    "training_seed_range": "session_seed through session_seed + 511",
+    "held_out_seed_range": "36000 through 36099",
+    "seed_permutation": "seeded permutation of the contiguous reset-seed range",
+    "visual_split": "metadata only; both phases use the Basic arena",
+    "render_before_observation": true
+  },
+  "timing": {
+    "simulation_hz": 35,
+    "policy_interval_pattern_tics": [3, 4],
+    "decision_limit": 300,
+    "episode_tics": 1050
+  },
+  "reward": {
+    "aggregation": "additive",
+    "terms": [
+      {"event": "decision", "value": -0.01},
+      {"event": "target_hit", "value": 1.0},
+      {"event": "missed_shot", "value": -0.02}
+    ]
+  },
+  "episode_end": {
+    "terminal": {"reason": "target_hit", "bootstrap": false},
+    "truncation": {"reason": "decision_limit", "bootstrap": true},
+    "real_final_observation": true
+  },
+  "qa": {
+    "profiles": {
+      "micro-learning-generalization": {
+        "budgets": {
+          "process_launches": 2,
+          "training_sessions": 2,
+          "training_decisions": 1024,
+          "evaluation_episodes": 200,
+          "trace_collections": 0,
+          "external_calls": 0,
+          "checkpoints": 0
+        },
+        "validators": [
+          "json-schema",
+          "micro-learning-generalization-artifacts",
+          "micro-learning-generalization-sessions"
+        ],
+        "seeds": [32001, 34001],
+        "steps": 512,
+        "warmup": 32,
+        "batch_size": 32,
+        "epsilon": 0.2,
+        "gamma": 0.99,
+        "device": "cpu",
+        "evaluation_seed_start": 36000,
+        "evaluation_episodes": 100,
+        "minimum_success_rate": 0.8
+      }
+    }
+  }
+}

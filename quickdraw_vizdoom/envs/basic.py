@@ -33,8 +33,14 @@ class BasicV1Env:
     branch_sizes = (3, 2)
     semantic_actions = (("Stay", "Left", "Right"), ("Idle", "Shoot"))
 
-    def __init__(self, config_path: str | Path = DEFAULT_CONFIG_PATH) -> None:
+    def __init__(
+        self,
+        config_path: str | Path = DEFAULT_CONFIG_PATH,
+        *,
+        window_visible: bool = False,
+    ) -> None:
         self.config_path = Path(config_path).resolve()
+        self._window_visible = window_visible
         self._vzd: Any = None
         self._game: Any = None
         self._raw_frame: np.ndarray | None = None
@@ -79,7 +85,9 @@ class BasicV1Env:
 
         game = vzd.DoomGame()
         game.load_config(str(self.config_path))
-        game.set_window_visible(False)
+        game.set_window_visible(self._window_visible)
+        if self._window_visible:
+            game.add_game_args("+vid_winscale 4")
         game.set_seed(seed)
         game.init()
         self._vzd = vzd

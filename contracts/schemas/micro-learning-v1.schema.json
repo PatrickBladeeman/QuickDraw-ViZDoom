@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fixed micro-learning-v1 learnability contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema","schema_version","contract_id","environment","observation","actions","reset","timing","reward","episode_end","qa"],
+  "properties": {
+    "$schema": {"const": "schemas/micro-learning-v1.schema.json"},
+    "schema_version": {"const": "quickdraw.vizdoom-micro-learning.v1"},
+    "contract_id": {"const": "quickdraw.vizdoom-micro-learning.v1"},
+    "environment": {"const": {"name":"MicroLearningV1","kind":"micro-learning","scenario":{"config_path":"scenarios/quickdraw/micro-learning-v1.cfg","wad_path":"scenarios/quickdraw/micro-learning-v1.wad","config_sha256":"b767ba94e00648dfe72f631d56cbb55f7040074ea4efb06182f0e7cf00427cd6","wad_sha256":"0c5c79e7d9a10756fe809d88425ba99b55a0b4e4a233f16196d365980cdae67e"}}},
+    "observation": {"const": {"source":{"format":"GRAY8","width":160,"height":120,"headless":true},"preprocessing":{"crop":{"kind":"center","width":120,"height":120},"resize":{"algorithm":"area","width":84,"height":84},"normalization":{"divisor":255,"minimum":0,"maximum":1}},"output":{"shape":[84,84,4],"dtype":"float32","frame_order":"oldest_to_newest"},"stack":{"count":4,"reset_fill":"repeat_first_post_reset_frame"},"policy_inputs":["frames","unavailable_masks"]}},
+    "actions": {"const": {"branch_sizes":[3,2],"semantic_actions":[["Stay","Left","Right"],["Idle","Shoot"]],"unavailable_masks":[[false,true,true],[false,false]],"mask_polarity":"true_means_unavailable"}},
+    "reset": {"const": {"target_present":"seed % 2 == 1","target_present_map":"map01","target_absent_map":"map02","render_before_observation":true,"episode_seeds":"session_seed + episode_index"}},
+    "timing": {"const": {"simulation_hz":35,"decision_limit":1,"decision_tics":1}},
+    "reward": {"const": {"correct":1,"incorrect":-1}},
+    "episode_end": {"const": {"terminated":true,"truncated":false,"bootstrap":false,"real_final_observation":true}},
+    "qa": {"const": {"profiles":{"micro-learning":{"budgets":{"process_launches":2,"training_sessions":2,"training_decisions":1024,"evaluation_episodes":200,"trace_collections":0,"external_calls":0},"validators":["json-schema","micro-learning-artifacts","micro-learning-sessions"],"seeds":[32001,34001],"steps":512,"warmup":32,"batch_size":32,"epsilon":0.2,"gamma":0.99,"device":"cpu","evaluation_seed_start":36000,"evaluation_episodes":100,"random_baseline_rate":0.5,"minimum_success_rate":0.9,"minimum_improvement":0.3}}}}
+  }
+}
