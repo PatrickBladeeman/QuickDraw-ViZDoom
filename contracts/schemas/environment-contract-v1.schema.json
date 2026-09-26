@@ -274,11 +274,19 @@
         "profiles": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["dev", "integration", "training-smoke"],
+          "required": [
+            "dev",
+            "integration",
+            "training-smoke",
+            "goal-conditioning"
+          ],
           "properties": {
             "dev": {"$ref": "#/$defs/qa_profile"},
             "integration": {"$ref": "#/$defs/qa_profile"},
-            "training-smoke": {"$ref": "#/$defs/training_smoke_profile"}
+            "training-smoke": {"$ref": "#/$defs/training_smoke_profile"},
+            "goal-conditioning": {
+              "$ref": "#/$defs/goal_conditioning_profile"
+            }
           }
         }
       }
@@ -437,6 +445,71 @@
         "warmup": {"type": "integer", "minimum": 0},
         "batch_size": {"type": "integer", "minimum": 1},
         "device": {"type": "string", "minLength": 1}
+      }
+    },
+    "goal_conditioning_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "budgets",
+        "validators",
+        "conditions",
+        "seeds",
+        "steps",
+        "warmup",
+        "batch_size",
+        "epsilon",
+        "gamma",
+        "device",
+        "evaluation_seed_start",
+        "evaluation_episodes"
+      ],
+      "properties": {
+        "budgets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "process_launches",
+            "trace_collections",
+            "training_sessions",
+            "external_calls"
+          ],
+          "properties": {
+            "process_launches": {"type": "integer", "const": 9},
+            "trace_collections": {"type": "integer", "const": 0},
+            "training_sessions": {"type": "integer", "const": 9},
+            "external_calls": {"type": "integer", "const": 0}
+          }
+        },
+        "validators": {
+          "const": [
+            "json-schema",
+            "basic-environment",
+            "basic-observation",
+            "basic-actions",
+            "basic-timing",
+            "basic-reward",
+            "basic-episode",
+            "basic-reset",
+            "basic-state-channel",
+            "goal-conditioning-profile",
+            "goal-conditioning-sessions"
+          ]
+        },
+        "conditions": {
+          "const": ["no_goal", "correct_goal", "shuffled_goal"]
+        },
+        "seeds": {
+          "const": [32001, 34001, 35001]
+        },
+        "steps": {"type": "integer", "const": 512},
+        "warmup": {"type": "integer", "const": 32},
+        "batch_size": {"type": "integer", "const": 32},
+        "epsilon": {"type": "number", "const": 0.2},
+        "gamma": {"type": "number", "const": 0.99},
+        "device": {"const": "cpu"},
+        "evaluation_seed_start": {"const": 36000},
+        "evaluation_episodes": {"type": "integer", "const": 100}
       }
     }
   }

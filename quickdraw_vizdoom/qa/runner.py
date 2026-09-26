@@ -234,6 +234,11 @@ def run_profile(contract_path: str | Path, profile: str) -> QAReport:
 
         return run_micro_learning_generalization(loaded)
 
+    if profile == "goal-conditioning":
+        from .goal_conditioning import run_goal_conditioning
+
+        return run_goal_conditioning(loaded)
+
     if profile == "training-smoke":
         return _run_training_smoke(loaded)
 

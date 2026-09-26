@@ -206,6 +206,37 @@
         "warmup": 4,
         "batch_size": 4,
         "device": "cpu"
+      },
+      "goal-conditioning": {
+        "budgets": {
+          "process_launches": 9,
+          "trace_collections": 0,
+          "training_sessions": 9,
+          "external_calls": 0
+        },
+        "validators": [
+          "json-schema",
+          "basic-environment",
+          "basic-observation",
+          "basic-actions",
+          "basic-timing",
+          "basic-reward",
+          "basic-episode",
+          "basic-reset",
+          "basic-state-channel",
+          "goal-conditioning-profile",
+          "goal-conditioning-sessions"
+        ],
+        "conditions": ["no_goal", "correct_goal", "shuffled_goal"],
+        "seeds": [32001, 34001, 35001],
+        "steps": 512,
+        "warmup": 32,
+        "batch_size": 32,
+        "epsilon": 0.2,
+        "gamma": 0.99,
+        "device": "cpu",
+        "evaluation_seed_start": 36000,
+        "evaluation_episodes": 100
       }
     }
   }
