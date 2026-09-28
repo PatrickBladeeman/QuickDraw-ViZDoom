@@ -90,7 +90,7 @@ def _episode(
 def collect_canonical_trace(
     contract_path: Path,
     contract: dict[str, Any],
-) -> tuple[dict[str, Any], Path]:
+) -> dict[str, Any]:
     """Collect terminal and 300-decision boundary episodes in one game process."""
 
     config_path = resolve_contract_path(
@@ -138,4 +138,4 @@ def collect_canonical_trace(
     trace_path.write_text(
         json.dumps(trace, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    return trace, trace_path
+    return trace

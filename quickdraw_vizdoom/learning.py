@@ -6,236 +6,48 @@ import argparse
 import operator
 from collections import Counter, deque
 from collections.abc import Callable, Mapping, Sequence
+from itertools import cycle
 from typing import Any
 
 import numpy as np
 import torch
-from torch import nn
-from torch.nn import functional as F
 
 from quickdraw_vizdoom.envs import BasicV1Env
-
-
-BranchAction = tuple[int, int]
-Masks = tuple[np.ndarray, np.ndarray]
-UnconditionedTransition = tuple[
-    np.ndarray,
+from quickdraw_vizdoom.learning_components import (
+    BasicGoal,
     BranchAction,
-    float,
-    np.ndarray,
-    bool,
-    bool,
+    BranchingQNetwork,
+    ConditionedTransition,
+    EnvironmentStartupError,
+    GoalConditionedQNetwork,
+    GoalPotential,
+    GoalRow,
+    GoalSelector,
+    GOAL_COUNT,
+    GOAL_TARGET_SYNC_INTERVAL,
+    JOINT_ACTIONS,
     Masks,
-]
-ConditionedTransition = tuple[
-    np.ndarray,
-    BranchAction,
-    float,
-    np.ndarray,
-    bool,
-    bool,
-    Masks,
-    int,
-    int,
-]
-Transition = UnconditionedTransition | ConditionedTransition
-GoalSelector = Callable[[Mapping[str, Any]], int]
-
-
-class EnvironmentStartupError(RuntimeError):
-    """Raised when a smoke session cannot start its environment."""
-
-
-class BranchingQNetwork(nn.Module):
-    """A shared image encoder with movement and combat Q-value heads."""
-
-    def __init__(self, goal_count: int = 0) -> None:
-        super().__init__()
-        if goal_count < 0:
-            raise ValueError("goal_count must not be negative.")
-        self.goal_count = goal_count
-        self.encoder = nn.Sequential(
-            nn.Conv2d(4, 16, kernel_size=8, stride=4),
-            nn.ReLU(),
-            nn.Conv2d(16, 32, kernel_size=4, stride=2),
-            nn.ReLU(),
-            nn.Flatten(),
-            nn.Linear(32 * 9 * 9, 64),
-            nn.ReLU(),
-        )
-        self.movement_head = nn.Linear(64 + goal_count, 3)
-        self.combat_head = nn.Linear(64 + goal_count, 2)
-
-    def forward(
-        self, observations: torch.Tensor, goals: torch.Tensor | None = None
-    ) -> tuple[torch.Tensor, torch.Tensor]:
-        if observations.ndim == 3:
-            observations = observations.unsqueeze(0)
-        if observations.ndim != 4:
-            raise ValueError("Observations must be HWC or batched NHWC.")
-        if observations.shape[-1] == 4:
-            observations = observations.permute(0, 3, 1, 2)
-        if observations.shape[1:] != (4, 84, 84):
-            raise ValueError("Observations must have shape (84, 84, 4).")
-        encoded = self.encoder(observations.float().contiguous())
-        if self.goal_count:
-            if goals is None:
-                raise ValueError("A categorical goal is required by this network.")
-            goals = torch.as_tensor(goals, device=encoded.device)
-            if goals.ndim == 0:
-                goals = goals.expand(encoded.shape[0])
-            if goals.ndim != 1 or goals.shape[0] != encoded.shape[0]:
-                raise ValueError(
-                    "Goals must contain one categorical ID per observation."
-                )
-            if torch.any(goals != goals.long()) or torch.any(
-                (goals < 0) | (goals >= self.goal_count)
-            ):
-                raise ValueError(f"Goal IDs must be in [0, {self.goal_count}).")
-            encoded = torch.cat(
-                (encoded, F.one_hot(goals.long(), self.goal_count).float()), dim=1
-            )
-        elif goals is not None:
-            raise ValueError("The unconditioned network does not accept goals.")
-        return self.movement_head(encoded), self.combat_head(encoded)
-
-
-def normalize_masks(masks: Sequence[Sequence[bool] | np.ndarray]) -> Masks:
-    normalized = tuple(np.asarray(mask, dtype=bool) for mask in masks)
-    if (
-        len(normalized) != 2
-        or normalized[0].shape != (3,)
-        or normalized[1].shape != (2,)
-    ):
-        raise ValueError("Masks must match the movement (3) and combat (2) branches.")
-    if any(mask.all() for mask in normalized):
-        raise ValueError("Each action branch must have at least one available action.")
-    return normalized[0], normalized[1]
-
-
-def select_action(
-    network: BranchingQNetwork,
-    observation: np.ndarray,
-    masks: Sequence[Sequence[bool] | np.ndarray],
-    epsilon: float,
-    rng: np.random.Generator,
-    device: torch.device | str = "cpu",
-    *,
-    goal: int | None = None,
-    on_selection: Callable[[bool], None] | None = None,
-) -> BranchAction:
-    """Choose a legal action; optionally report whether exploration was used."""
-
-    movement_mask, combat_mask = normalize_masks(masks)
-    exploring = rng.random() < epsilon
-    if on_selection is not None:
-        on_selection(exploring)
-    if exploring:
-        return tuple(
-            int(rng.choice(np.flatnonzero(~mask)))
-            for mask in (movement_mask, combat_mask)
-        )  # type: ignore[return-value]
-
-    with torch.no_grad():
-        tensor = torch.as_tensor(observation, device=device)
-        values = (
-            network(tensor) if goal is None else network(tensor, torch.tensor(goal))
-        )
-    return tuple(
-        int(
-            branch_values[0]
-            .masked_fill(torch.as_tensor(mask, device=device), -torch.inf)
-            .argmax()
-            .item()
-        )
-        for branch_values, mask in zip(values, (movement_mask, combat_mask))
-    )  # type: ignore[return-value]
-
-
-def _transition_goals(
-    transitions: Sequence[Transition],
-    index: int,
-    device: torch.device | str,
-) -> torch.Tensor | None:
-    lengths = {len(transition) for transition in transitions}
-    if lengths == {7}:
-        return None
-    if lengths != {9}:
-        raise ValueError(
-            "Replay batches cannot mix conditioned and unconditioned data."
-        )
-    return torch.tensor(
-        [transition[index] for transition in transitions], device=device
-    )
-
-
-def compute_td_targets(
-    network: BranchingQNetwork,
-    transitions: Sequence[Transition],
-    gamma: float = 0.99,
-    device: torch.device | str = "cpu",
-) -> torch.Tensor:
-    """Compute masked branch-sum targets, bootstrapping through truncation."""
-
-    rewards = torch.tensor([item[2] for item in transitions], device=device)
-    terminated = torch.tensor(
-        [item[4] for item in transitions], dtype=torch.bool, device=device
-    )
-    next_observations = torch.as_tensor(
-        np.stack([item[3] for item in transitions]), device=device
-    )
-    masks = [normalize_masks(item[6]) for item in transitions]
-    movement_masks = torch.as_tensor(
-        np.stack([item[0] for item in masks]), device=device
-    )
-    combat_masks = torch.as_tensor(np.stack([item[1] for item in masks]), device=device)
-    next_goals = _transition_goals(transitions, 8, device)
-
-    with torch.no_grad():
-        values = (
-            network(next_observations)
-            if next_goals is None
-            else network(next_observations, next_goals)
-        )
-        movement, combat = values
-        next_values = movement.masked_fill(movement_masks, -torch.inf).max(1).values
-        next_values += combat.masked_fill(combat_masks, -torch.inf).max(1).values
-        return rewards + gamma * (~terminated).float() * next_values
-
-
-def train_step(
-    network: BranchingQNetwork,
-    optimizer: torch.optim.Optimizer,
-    replay: Sequence[Transition],
-    batch_size: int,
-    rng: np.random.Generator,
-    gamma: float = 0.99,
-    device: torch.device | str = "cpu",
-) -> float:
-    """Sample replay and perform one optimizer update."""
-
-    if len(replay) < batch_size:
-        raise ValueError("Replay does not contain a full batch.")
-    indices = rng.choice(len(replay), size=batch_size, replace=False)
-    batch = [replay[int(index)] for index in indices]
-    observations = torch.as_tensor(np.stack([item[0] for item in batch]), device=device)
-    actions = torch.tensor([item[1] for item in batch], device=device)
-    goals = _transition_goals(batch, 7, device)
-
-    values = network(observations) if goals is None else network(observations, goals)
-    movement, combat = values
-    selected = movement.gather(1, actions[:, :1]).squeeze(1)
-    selected += combat.gather(1, actions[:, 1:]).squeeze(1)
-    targets = compute_td_targets(network, batch, gamma=gamma, device=device)
-    loss = F.smooth_l1_loss(selected, targets)
-
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
-    value = float(loss.detach().cpu())
-    if not np.isfinite(value):
-        raise RuntimeError("Optimizer produced a non-finite loss.")
-    return value
+    PhysicalTransition,
+    Transition,
+    UnconditionedTransition,
+    _image_encoder,
+    _prepare_observations,
+    _transition_goals,
+    compute_goal_td_targets,
+    compute_td_targets,
+    goal_achieved,
+    goal_done,
+    goal_one_hot,
+    goal_reward,
+    goal_train_step,
+    joint_action_index,
+    joint_action_mask,
+    normalize_masks,
+    relabel_transition,
+    select_action,
+    select_goal_action,
+    train_step,
+)
 
 
 def _select_goal(selector: GoalSelector | None, info: Mapping[str, Any]) -> int | None:
@@ -250,6 +62,26 @@ def _select_goal(selector: GoalSelector | None, info: Mapping[str, Any]) -> int 
     return goal
 
 
+def potential_shaping_reward(
+    potential: GoalPotential,
+    info: Mapping[str, Any],
+    goal: int | None,
+    next_info: Mapping[str, Any],
+    next_goal: int | None,
+    *,
+    terminated: bool,
+    gamma: float,
+) -> float:
+    """Return the fixed training-only potential shaping reward."""
+
+    current = float(potential(info, goal))
+    following = 0.0 if terminated else float(potential(next_info, next_goal))
+    reward = 0.1 * (gamma * following - current)
+    if not np.isfinite(reward):
+        raise ValueError("Goal-shaping rewards must be finite.")
+    return reward
+
+
 def transition_metric(
     *,
     action: BranchAction,
@@ -261,6 +93,8 @@ def transition_metric(
     next_goal: int | None,
     goal_source: str,
     goal_age: int,
+    goal_shaping_reward: float = 0.0,
+    training_reward: float | None = None,
 ) -> dict[str, Any]:
     """Build the policy-safe telemetry record for one completed decision."""
 
@@ -275,11 +109,26 @@ def transition_metric(
             or (goal == 2 and "target_hit" in events)
         )
     )
+    environment_reward = float(reward)
+    shaping_reward = float(goal_shaping_reward)
+    learned_reward = (
+        environment_reward + shaping_reward
+        if training_reward is None
+        else float(training_reward)
+    )
+    if not all(
+        np.isfinite(value)
+        for value in (environment_reward, shaping_reward, learned_reward)
+    ):
+        raise ValueError("Reward components must be finite.")
     return {
         "episode": info.get("episode_index"),
         "decision": info.get("decision"),
         "action": list(action),
-        "reward": float(reward),
+        "reward": environment_reward,
+        "environment_reward": environment_reward,
+        "goal_shaping_reward": shaping_reward,
+        "training_reward": learned_reward,
         "terminated": bool(terminated),
         "truncated": bool(truncated),
         "shot": bool(info.get("shots_fired", action[1] == 1)),
@@ -291,6 +140,9 @@ def transition_metric(
         "goal_changed": changed,
         "time_to_goal": goal_age if success else None,
         "events": events,
+        "native_kill_delta": int(info.get("native_kill_delta", 0)),
+        "native_episode_finished": bool(info.get("engine_episode_finished", False)),
+        "infrastructure_invalid": bool(info.get("infrastructure_invalid", False)),
     }
 
 
@@ -324,13 +176,24 @@ def summarize_metrics(
     def key(name: str) -> str:
         return f"{prefix}{name}"
 
+    environment_reward = sum(
+        float(item.get("environment_reward", item["reward"])) for item in transitions
+    )
+    shaping_reward = sum(
+        float(item.get("goal_shaping_reward", 0.0)) for item in transitions
+    )
+    training_reward = sum(
+        float(item.get("training_reward", item["reward"])) for item in transitions
+    )
+
     return {
         key("transition_metrics"): list(transitions),
         key("episode_metrics"): list(episodes),
         key("episode_returns"): [float(item["return"]) for item in episodes],
-        key("cumulative_episode_return"): float(
-            sum(float(item["reward"]) for item in transitions)
-        ),
+        key("cumulative_episode_return"): float(environment_reward),
+        key("cumulative_environment_reward"): float(environment_reward),
+        key("cumulative_goal_shaping_reward"): float(shaping_reward),
+        key("cumulative_training_reward"): float(training_reward),
         key("mean_episode_return"): float(
             np.mean([item["return"] for item in episodes]) if episodes else 0.0
         ),
@@ -387,6 +250,7 @@ def run_training(
     episode_seeds: Sequence[int] | None = None,
     goal_selector: GoalSelector | None = None,
     goal_source: str = "no_goal",
+    goal_potential: GoalPotential | None = None,
 ) -> tuple[dict[str, Any], BranchingQNetwork]:
     """Train in the caller-owned environment and return the in-memory policy."""
 
@@ -395,6 +259,8 @@ def run_training(
         raise ValueError("steps must reach warmup and batch-size must be positive.")
     if episode_seeds is not None and len(episode_seeds) != steps:
         raise ValueError("episode_seeds must contain one seed per decision.")
+    if goal_potential is not None and goal_selector is None:
+        raise ValueError("Goal potential requires a categorical goal selector.")
 
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -435,13 +301,28 @@ def run_training(
             goal=goal,
             on_selection=on_selection,
         )
-        next_observation, reward, terminated, truncated, info = env.step(action)
-        next_masks = normalize_masks(info["next_unavailable_masks"])
-        next_goal = _select_goal(goal_selector, info)
+        current_info = info
+        next_observation, reward, terminated, truncated, next_info = env.step(action)
+        next_masks = normalize_masks(next_info["next_unavailable_masks"])
+        next_goal = _select_goal(goal_selector, next_info)
+        shaping_reward = (
+            0.0
+            if goal_potential is None
+            else potential_shaping_reward(
+                goal_potential,
+                current_info,
+                goal,
+                next_info,
+                next_goal,
+                terminated=terminated,
+                gamma=gamma,
+            )
+        )
+        training_reward = float(reward) + shaping_reward
         transition: Transition = (
             observation.copy(),
             action,
-            reward,
+            training_reward,
             next_observation.copy(),
             terminated,
             truncated,
@@ -455,11 +336,13 @@ def run_training(
             reward=reward,
             terminated=terminated,
             truncated=truncated,
-            info=info,
+            info=next_info,
             goal=goal,
             next_goal=next_goal,
             goal_source=goal_source,
             goal_age=goal_age,
+            goal_shaping_reward=shaping_reward,
+            training_reward=training_reward,
         )
         transition_metrics.append(metric)
         episode_return += float(reward)
@@ -522,7 +405,12 @@ def run_training(
             episode_return = 0.0
             episode_decisions = episode_shots = episode_hits = 0
         else:
-            observation, masks, goal = next_observation, next_masks, next_goal
+            observation, masks, goal, info = (
+                next_observation,
+                next_masks,
+                next_goal,
+                next_info,
+            )
             goal_age = (
                 1 if metric["goal_success"] or metric["goal_changed"] else goal_age + 1
             )
@@ -539,6 +427,172 @@ def run_training(
         **summarize_metrics(transition_metrics, episode_metrics),
     }
     return result, network
+
+
+def _goal_replay_counts(
+    payloads: Sequence[PhysicalTransition],
+) -> dict[str, dict[str, int]]:
+    behavior, relabeled, actions, rewards, successes = (Counter() for _ in range(5))
+    for payload in payloads:
+        if payload.behavior_goal is not None:
+            behavior[payload.behavior_goal.name] += 1
+        for goal in BasicGoal:
+            relabeled[goal.name] += 1
+            actions[str(payload.action)] += 1
+            rewards[str(goal_reward(goal, payload.action, payload.next_info))] += 1
+            successes[str(goal_achieved(goal, payload.action, payload.next_info)).lower()] += 1
+    return {
+        "behavior_goal": dict(behavior),
+        "relabeled_goal": dict(relabeled),
+        "joint_action": dict(actions),
+        "goal_reward": dict(rewards),
+        "goal_success": dict(successes),
+    }
+
+
+def run_goal_conditioned_training(
+    env: BasicV1Env,
+    steps: int,
+    warmup: int,
+    batch_size: int,
+    seed: int,
+    device: str,
+    epsilon: float = 0.2,
+    gamma: float = 0.99,
+    *,
+    episode_seeds: Sequence[int] | None = None,
+) -> tuple[dict[str, Any], GoalConditionedQNetwork]:
+    """Train Basic with a fixed-goal, joint-action Double-DQN path.
+
+    Target synchronization is deliberately fixed at
+    ``GOAL_TARGET_SYNC_INTERVAL`` optimizer updates for every run.
+    Truncations keep the repository's existing bootstrap behavior.
+    """
+
+    threshold = max(warmup, batch_size)
+    if steps < threshold or batch_size < 1 or warmup < 0:
+        raise ValueError("steps must reach warmup and batch-size must be positive.")
+    if episode_seeds is not None and len(episode_seeds) != steps:
+        raise ValueError("episode_seeds must contain one seed per decision.")
+    if not 0.0 <= epsilon <= 1.0:
+        raise ValueError("epsilon must be between zero and one.")
+
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    rng = np.random.default_rng(seed)
+    torch_device = torch.device(device)
+    network = GoalConditionedQNetwork().to(torch_device)
+    target_network = GoalConditionedQNetwork().to(torch_device)
+    target_network.load_state_dict(network.state_dict())
+    optimizer = torch.optim.Adam(network.parameters(), lr=1e-3)
+    replay: deque[PhysicalTransition] = deque(maxlen=10_000)
+    goals = cycle(BasicGoal)
+    reset_seeds = tuple(episode_seeds) if episode_seeds is not None else None
+    reset_index = 0
+    reset_seeds_used: list[int] = []
+
+    def reset() -> tuple[np.ndarray, Mapping[str, Any]]:
+        nonlocal reset_index
+        selected_seed = seed + reset_index if reset_seeds is None else reset_seeds[reset_index]
+        try:
+            value = env.reset(seed=selected_seed)
+        except ValueError:
+            raise
+        except Exception as error:
+            raise EnvironmentStartupError(f"Environment startup failed: {error}") from error
+        reset_index += 1
+        observation, info = value
+        reset_seeds_used.append(int(info.get("seed", selected_seed)))
+        return observation, info
+
+    observation, info = reset()
+    masks = info["next_unavailable_masks"]
+    behavior_goal = next(goals)
+    updates = target_syncs = terminals = truncations = 0
+    last_loss: float | None = None
+    environment_return = 0.0
+
+    for decision in range(steps):
+        action = select_goal_action(
+            network,
+            observation,
+            masks,
+            epsilon,
+            rng,
+            torch_device,
+            goal=behavior_goal,
+        )
+        current_info = info
+        next_observation, environment_reward, terminated, truncated, next_info = env.step(
+            action
+        )
+        next_masks = next_info["next_unavailable_masks"]
+        payload = PhysicalTransition(
+            observation,
+            action,
+            environment_reward,
+            next_observation,
+            terminated,
+            truncated,
+            next_masks,
+            current_info,
+            next_info,
+            behavior_goal,
+        )
+        replay.append(payload)
+        environment_return += float(environment_reward)
+
+        if len(replay) >= threshold:
+            last_loss = goal_train_step(
+                network,
+                optimizer,
+                replay,
+                batch_size,
+                rng,
+                gamma=gamma,
+                device=torch_device,
+                target_network=target_network,
+            )
+            updates += 1
+            if updates % GOAL_TARGET_SYNC_INTERVAL == 0:
+                target_network.load_state_dict(network.state_dict())
+                target_syncs += 1
+
+        if terminated or truncated:
+            terminals += int(terminated)
+            truncations += int(truncated)
+            if decision == steps - 1:
+                break
+            observation, info = reset()
+            masks = info["next_unavailable_masks"]
+            behavior_goal = next(goals)
+        else:
+            observation, info, masks = next_observation, next_info, next_masks
+            if goal_achieved(behavior_goal, action, next_info):
+                behavior_goal = next(goals)
+
+    if last_loss is None:
+        raise RuntimeError("Goal-conditioned run completed without an optimizer update.")
+    payloads = list(replay)
+    counts = _goal_replay_counts(payloads)
+    summary = {
+        "trainer": "goal_conditioned_joint_double_dqn",
+        "goal_conditioned": True,
+        "goal_names": [goal.name for goal in BasicGoal],
+        "decisions": steps,
+        "optimizer_updates": updates,
+        "target_network_sync_interval": GOAL_TARGET_SYNC_INTERVAL,
+        "target_network_sync_count": target_syncs,
+        "terminal": terminals,
+        "truncated": truncations,
+        "last_loss": last_loss,
+        "training_episode_seeds": reset_seeds_used,
+        "physical_replay_count": len(payloads),
+        "relabeled_row_count": 2 * len(payloads),
+        "replay_counts": counts,
+        "cumulative_environment_reward": environment_return,
+    }
+    return summary, network
 
 
 def main(argv: Sequence[str] | None = None) -> int:

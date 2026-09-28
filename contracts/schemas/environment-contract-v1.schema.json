@@ -475,9 +475,9 @@
             "external_calls"
           ],
           "properties": {
-            "process_launches": {"type": "integer", "const": 9},
+            "process_launches": {"type": "integer", "const": 15},
             "trace_collections": {"type": "integer", "const": 0},
-            "training_sessions": {"type": "integer", "const": 9},
+            "training_sessions": {"type": "integer", "const": 15},
             "external_calls": {"type": "integer", "const": 0}
           }
         },
@@ -497,7 +497,13 @@
           ]
         },
         "conditions": {
-          "const": ["no_goal", "correct_goal", "shuffled_goal"]
+          "const": [
+            "no_goal",
+            "correct_goal",
+            "shuffled_goal",
+            "correct_goal_potential",
+            "shuffled_goal_potential"
+          ]
         },
         "seeds": {
           "const": [32001, 34001, 35001]

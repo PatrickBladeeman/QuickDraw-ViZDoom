@@ -32,6 +32,9 @@ class BasicV1Env:
     interval_pattern = (3, 4)
     branch_sizes = (3, 2)
     semantic_actions = (("Stay", "Left", "Right"), ("Idle", "Shoot"))
+    state_schema_id = 1001
+    native_kill_hit_fallback = True
+    reject_unmatched_native_exit = False
 
     def __init__(
         self,
@@ -53,6 +56,7 @@ class BasicV1Env:
         self._shots_fired = 0
         self._misses = 0
         self._target_hits = 0
+        self._native_kill_count = 0
         self._decision_count = 0
         self._simulation_tic = 0
         self._terminated = False
@@ -89,9 +93,13 @@ class BasicV1Env:
         if self._window_visible:
             game.add_game_args("+vid_winscale 4")
         game.set_seed(seed)
+        self._configure_episode(game)
         game.init()
         self._vzd = vzd
         self._game = game
+
+    def _configure_episode(self, _game: Any) -> None:
+        """Apply version-specific engine settings before an episode starts."""
 
     @staticmethod
     def _copy_screen(state: Any) -> np.ndarray:
@@ -138,7 +146,7 @@ class BasicV1Env:
     def _state_channel(self, terminal_reason: int = 0) -> dict[str, int]:
         movement, combat = self._current_masks()
         return {
-            "USER1": 1001,
+            "USER1": self.state_schema_id,
             "USER2": self._episode_index,
             "USER3": self._decision_count,
             "USER4": self._position_slot,
@@ -181,19 +189,21 @@ class BasicV1Env:
         """Start an episode and duplicate its first post-reset frame four times."""
 
         self._seed = int(31001 if seed is None else seed)
+        self._target_slot = self._seed % 9 - 4
         if self._game is None:
             self._load_game(self._seed)
         else:
             self._game.set_seed(self._seed)
+            self._configure_episode(self._game)
             self._game.new_episode()
 
         self._episode_index += 1
-        self._target_slot = self._seed % 9 - 4
         self._position_slot = 0
         self._remaining_ammunition = 300
         self._shots_fired = 0
         self._misses = 0
         self._target_hits = 0
+        self._native_kill_count = 0
         self._decision_count = 0
         self._simulation_tic = 0
         self._terminated = False
@@ -249,9 +259,7 @@ class BasicV1Env:
 
     def _game_variable(self, variable_name: str) -> float:
         return float(
-            self._game.get_game_variable(
-                getattr(self._vzd.GameVariable, variable_name)
-            )
+            self._game.get_game_variable(getattr(self._vzd.GameVariable, variable_name))
         )
 
     def step(
@@ -263,6 +271,9 @@ class BasicV1Env:
             raise RuntimeError("reset(seed) must be called before step().")
         if self._terminated or self._truncated:
             raise RuntimeError("reset() must be called after an episode ends.")
+        if self.reject_unmatched_native_exit and self._game.is_episode_finished():
+            self._truncated = True
+            raise RuntimeError("reset() must be called after the engine exits.")
 
         movement, combat = self._validate_action(branch_action)
         current_masks = self._current_masks()
@@ -279,8 +290,14 @@ class BasicV1Env:
         encoded = self._encoded_buttons(movement, combat, strobe=True)
         self._advance(encoded, interval)
 
-        engine_kills = self._game_variable("KILLCOUNT")
-        target_hit = target_hit or engine_kills > 0
+        engine_kills = int(self._game_variable("KILLCOUNT"))
+        native_kill_delta = max(0, engine_kills - self._native_kill_count)
+        self._native_kill_count = engine_kills
+        target_hit = target_hit or (self.native_kill_hit_fallback and engine_kills > 0)
+        engine_finished = bool(self._game.is_episode_finished())
+        infrastructure_invalid = (
+            self.reject_unmatched_native_exit and engine_finished and not target_hit
+        )
         events = ["decision"]
         reward = -0.01
         if combat == 1:
@@ -298,17 +315,24 @@ class BasicV1Env:
             reward += 1.0
             events.append("target_hit")
             self._target_hits += 1
+        if infrastructure_invalid:
+            events.append("infrastructure_invalid")
 
         self._decision_count += 1
         self._simulation_tic += interval
         terminated = bool(target_hit)
-        truncated = not terminated and self._decision_count >= 300
+        truncated = not terminated and (
+            infrastructure_invalid or self._decision_count >= 300
+        )
         self._terminated = terminated
         self._truncated = truncated
 
         if terminated:
             terminal_reason = "target_hit"
             truncation_reason = None
+        elif infrastructure_invalid:
+            terminal_reason = None
+            truncation_reason = "infrastructure_invalid"
         elif truncated:
             terminal_reason = None
             truncation_reason = "decision_limit"
@@ -367,9 +391,21 @@ class BasicV1Env:
                 self._frame_hash(self._frames[index]) for index in range(4)
             ],
             "state_channel": self._state_channel(
-                1 if terminated else 2 if truncated else 0
+                1
+                if terminated
+                else 3 if infrastructure_invalid else 2 if truncated else 0
             ),
         }
+        if self.reject_unmatched_native_exit:
+            info.update(
+                {
+                    "native_kill_count": engine_kills,
+                    "native_kill_delta": native_kill_delta,
+                    "native_target_killed": engine_kills > 0,
+                    "engine_episode_finished": engine_finished,
+                    "infrastructure_invalid": infrastructure_invalid,
+                }
+            )
         return observation, float(reward), terminated, truncated, info
 
     def close(self) -> None:
@@ -377,7 +413,7 @@ class BasicV1Env:
             self._game.close()
             self._game = None
 
-    def __enter__(self) -> "BasicV1Env":
+    def __enter__(self) -> BasicV1Env:
         return self
 
     def __exit__(self, *_args: Any) -> None:

@@ -209,9 +209,9 @@
       },
       "goal-conditioning": {
         "budgets": {
-          "process_launches": 9,
+          "process_launches": 15,
           "trace_collections": 0,
-          "training_sessions": 9,
+          "training_sessions": 15,
           "external_calls": 0
         },
         "validators": [
@@ -227,7 +227,13 @@
           "goal-conditioning-profile",
           "goal-conditioning-sessions"
         ],
-        "conditions": ["no_goal", "correct_goal", "shuffled_goal"],
+        "conditions": [
+          "no_goal",
+          "correct_goal",
+          "shuffled_goal",
+          "correct_goal_potential",
+          "shuffled_goal_potential"
+        ],
         "seeds": [32001, 34001, 35001],
         "steps": 512,
         "warmup": 32,

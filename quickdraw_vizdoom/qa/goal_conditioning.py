@@ -1,4 +1,4 @@
-"""QA runner for the registered three-condition Basic baseline."""
+"""QA runner for the registered goal-conditioned Basic baseline."""
 
 from __future__ import annotations
 
@@ -39,6 +39,65 @@ def _finite(value: object) -> bool:
     )
 
 
+def _research_gate_errors(
+    sessions: Mapping[str, list[Mapping[str, Any]]],
+) -> list[str]:
+    correct = sessions.get("correct_goal_potential", [])
+    shuffled = sessions.get("shuffled_goal_potential", [])
+    if not correct or not shuffled:
+        return ["potential comparison sessions are missing"]
+
+    def mean(values) -> float:
+        numbers = [float(value) for value in values]
+        return sum(numbers) / len(numbers)
+
+    causal = mean(
+        session["counterfactual_goal_action_switch_rate"] for session in correct
+    )
+    correct_selection = mean(
+        rate
+        for session in correct
+        for rate in session["intended_action_selection_rate_per_goal"].values()
+    )
+    shuffled_selection = mean(
+        rate
+        for session in shuffled
+        for rate in session["intended_action_selection_rate_per_goal"].values()
+    )
+    return_advantage = mean(session["held_out_return"] for session in correct) - mean(
+        session["held_out_return"] for session in shuffled
+    )
+    correct_decisions = [
+        decision
+        for session in correct
+        for decision in session.get("evaluation_decisions_to_hit", [])
+    ]
+    shuffled_decisions = [
+        decision
+        for session in shuffled
+        for decision in session.get("evaluation_decisions_to_hit", [])
+    ]
+    efficiency_advantage = (
+        mean(shuffled_decisions) - mean(correct_decisions)
+        if correct_decisions and shuffled_decisions
+        else 0.0
+    )
+    errors = []
+    if causal <= 0:
+        errors.append("causal gate failed: changing goals never changed an action")
+    if correct_selection <= shuffled_selection:
+        errors.append(
+            "performance gate failed: correct potential goals did not improve "
+            "intended-action selection"
+        )
+    if return_advantage <= 0 and efficiency_advantage <= 0:
+        errors.append(
+            "performance gate failed: correct potential goals improved neither "
+            "held-out environment return nor decisions-to-hit"
+        )
+    return errors
+
+
 def _session_summary(
     condition: str, seed: int, result: object
 ) -> tuple[dict[str, Any], list[str]]:
@@ -50,6 +109,9 @@ def _session_summary(
         "updates": values.get("updates"),
         "last_loss": values.get("last_loss"),
         "cumulative_episode_return": values.get("cumulative_episode_return"),
+        "cumulative_environment_reward": values.get("cumulative_environment_reward"),
+        "cumulative_goal_shaping_reward": values.get("cumulative_goal_shaping_reward"),
+        "cumulative_training_reward": values.get("cumulative_training_reward"),
         "mean_decisions_to_hit": values.get("mean_decisions_to_hit"),
         "shot_percentage": values.get("shot_percentage"),
         "goal_completion_rate": values.get("goal_completion_rate"),
@@ -60,6 +122,15 @@ def _session_summary(
         "evaluation_seed_schedule": values.get("evaluation_seed_schedule"),
         "goal_selection_counts": values.get("goal_selection_counts"),
         "goal_transition_counts": values.get("goal_transition_counts"),
+        "counterfactual_goal_action_switch_rate": values.get(
+            "counterfactual_goal_action_switch_rate"
+        ),
+        "intended_action_selection_rate_per_goal": values.get(
+            "intended_action_selection_rate_per_goal"
+        ),
+        "intended_action_q_margin_per_goal": values.get(
+            "intended_action_q_margin_per_goal"
+        ),
     }
     errors: list[str] = []
     if not isinstance(result, Mapping):
@@ -77,14 +148,26 @@ def _session_summary(
     for field in (
         "last_loss",
         "cumulative_episode_return",
+        "cumulative_environment_reward",
+        "cumulative_goal_shaping_reward",
+        "cumulative_training_reward",
         "mean_decisions_to_hit",
         "shot_percentage",
         "goal_completion_rate",
         "held_out_return",
         "held_out_target_hit_rate",
+        "counterfactual_goal_action_switch_rate",
     ):
         if not _finite(values.get(field)):
             errors.append(f"{field} must be finite")
+    for field in (
+        "counterfactual_goal_action_switch_rate",
+        "held_out_target_hit_rate",
+        "goal_completion_rate",
+    ):
+        value = values.get(field)
+        if _finite(value) and not 0 <= float(value) <= 1:
+            errors.append(f"{field} must be a rate in [0, 1]")
     if values.get("evaluation_updates") != 0:
         errors.append("evaluation must perform zero optimizer updates")
     if values.get("evaluation_parameters_unchanged") is not True:
@@ -99,6 +182,18 @@ def _session_summary(
         errors.append("goal selection counts are missing")
     if not isinstance(values.get("goal_transition_counts"), Mapping):
         errors.append("goal transition counts are missing")
+    goal_names = {"ALIGN_RIGHT", "ALIGN_LEFT", "TAKE_SHOT"}
+    for field in (
+        "intended_action_selection_rate_per_goal",
+        "intended_action_q_margin_per_goal",
+    ):
+        metrics = values.get(field)
+        if (
+            not isinstance(metrics, Mapping)
+            or set(metrics) != goal_names
+            or any(not _finite(value) for value in metrics.values())
+        ):
+            errors.append(f"{field} must contain finite metrics for every goal")
     required = {
         "goal",
         "next_goal",
@@ -106,6 +201,9 @@ def _session_summary(
         "goal_success",
         "goal_changed",
         "events",
+        "environment_reward",
+        "goal_shaping_reward",
+        "training_reward",
     }
     for field in ("transition_metrics", "evaluation_transition_metrics"):
         records = values.get(field)
@@ -118,6 +216,27 @@ def _session_summary(
             for record in records
         ):
             errors.append(f"{field} goal telemetry is invalid")
+        else:
+            for record in records:
+                environment = record["environment_reward"]
+                shaping = record["goal_shaping_reward"]
+                training = record["training_reward"]
+                if not all(
+                    _finite(value) for value in (environment, shaping, training)
+                ):
+                    errors.append(f"{field} reward components must be finite")
+                    break
+                if not math.isclose(
+                    float(training), float(environment) + float(shaping)
+                ):
+                    errors.append(f"{field} training reward is inconsistent")
+                    break
+                if (
+                    field == "evaluation_transition_metrics"
+                    or not condition.endswith("_potential")
+                ) and shaping != 0:
+                    errors.append(f"{field} unexpectedly contains shaping reward")
+                    break
     return summary, errors
 
 
@@ -167,6 +286,7 @@ def run_goal_conditioning(loaded) -> QAReport:
     failures: list[str] = []
     infrastructure: list[str] = []
     schedules: dict[int, tuple[object, object]] = {}
+    raw_sessions: dict[str, list[Mapping[str, Any]]] = {}
     for condition in profile["conditions"]:
         for seed in profile["seeds"]:
             try:
@@ -191,6 +311,7 @@ def run_goal_conditioning(loaded) -> QAReport:
             sessions.append(summary)
             failures.extend(f"{condition}/{seed}: {error}" for error in errors)
             if isinstance(raw, Mapping):
+                raw_sessions.setdefault(condition, []).append(raw)
                 pair = (
                     raw.get("training_seed_schedule"),
                     raw.get("evaluation_seed_schedule"),
@@ -201,12 +322,15 @@ def run_goal_conditioning(loaded) -> QAReport:
                         f"{condition}/{seed}: seed schedules differ by condition"
                     )
 
+    if not failures and not infrastructure:
+        failures.extend(_research_gate_errors(raw_sessions))
+
     if failures:
         outcome, message = Outcome.FAIL, "; ".join(failures)
     elif infrastructure:
         outcome, message = Outcome.INFRA_INVALID, "; ".join(infrastructure)
     else:
         outcome = Outcome.PASS
-        message = "All nine registered goal-conditioning sessions passed."
+        message = "All 15 registered sessions and research gates passed."
     results.append(ValidationResult("goal-conditioning-sessions", outcome, message))
     return _report(loaded, results, sessions)

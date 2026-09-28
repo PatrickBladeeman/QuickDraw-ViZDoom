@@ -246,7 +246,7 @@ def run_profile(contract_path: str | Path, profile: str) -> QAReport:
         try:
             from .integration import collect_canonical_trace
 
-            trace, _trace_path = collect_canonical_trace(
+            trace = collect_canonical_trace(
                 loaded.path,
                 loaded.data,
             )
