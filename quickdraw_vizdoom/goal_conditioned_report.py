@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import Counter
+from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 
@@ -150,6 +151,7 @@ def run_goal_conditioned_report(
     evaluation_seeds: tuple[int, ...] = EVALUATION_SEEDS,
     output_path: str | Path | None = None,
     device: str = "cpu",
+    behavior_goal_selector: Callable[[Mapping[str, Any], np.random.Generator], BasicGoal] | None = None,
 ) -> dict[str, Any]:
     training_seeds, evaluation_seeds = tuple(map(int, training_seeds)), tuple(map(int, evaluation_seeds))
     schedules = {seed: tuple(range(seed, seed + TRAINING_DECISIONS)) for seed in training_seeds}
@@ -168,6 +170,7 @@ def run_goal_conditioned_report(
             result, network = run_goal_conditioned_training(
                 env, TRAINING_DECISIONS, WARMUP, BATCH_SIZE, seed, device,
                 epsilon=EPSILON, gamma=GAMMA, episode_seeds=schedules[seed],
+                behavior_goal_selector=behavior_goal_selector,
             )
             evaluation = evaluate_goal_conditioned(network, env, evaluation_seeds)
         finally:
@@ -187,6 +190,11 @@ def run_goal_conditioned_report(
             },
             "evaluation": evaluation,
         })
+        if behavior_goal_selector is not None:
+            sessions[-1]["training"].update({
+                "behavior_goal_seed": result["behavior_goal_seed"],
+                "behavior_goal_selection_counts": result["behavior_goal_selection_counts"],
+            })
 
     aggregate_goals = {}
     for goal in BasicGoal:

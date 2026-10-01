@@ -122,10 +122,11 @@ class BranchingQNetwork(nn.Module):
 
 
 class GoalConditionedQNetwork(nn.Module):
-    """Six-way joint-action Q network conditioned on a two-way goal."""
+    """Six-way joint-action Q network, optionally conditioned on a two-way goal."""
 
-    def __init__(self) -> None:
+    def __init__(self, goal_conditioning: bool = True) -> None:
         super().__init__()
+        self.goal_conditioning = bool(goal_conditioning)
         self.encoder = _image_encoder()
         self.goal_hidden = nn.Linear(64 + GOAL_COUNT, 64)
         self.joint_head = nn.Linear(64, len(JOINT_ACTIONS))
@@ -133,17 +134,29 @@ class GoalConditionedQNetwork(nn.Module):
     def forward(
         self,
         observations: torch.Tensor,
-        goals: torch.Tensor | Sequence[Sequence[float]],
+        goals: torch.Tensor | Sequence[Sequence[float]] | None = None,
     ) -> torch.Tensor:
         observations = _prepare_observations(observations)
         encoded = self.encoder(observations.float().contiguous())
-        vectors = torch.as_tensor(goals, device=encoded.device).float()
-        if vectors.ndim == 1 and encoded.shape[0] == 1:
-            vectors = vectors.unsqueeze(0)
-        if vectors.shape != (encoded.shape[0], GOAL_COUNT) or not torch.isfinite(vectors).all():
-            raise ValueError("Goals must be finite two-element one-hot vectors.")
-        if torch.any((vectors != 0) & (vectors != 1)) or not torch.all(vectors.sum(1) == 1):
-            raise ValueError("Goals must be one-hot vectors.")
+        if self.goal_conditioning:
+            if goals is None:
+                raise ValueError("A categorical goal is required by this network.")
+            vectors = torch.as_tensor(goals, device=encoded.device).float()
+            if vectors.ndim == 1 and encoded.shape[0] == 1:
+                vectors = vectors.unsqueeze(0)
+            if (
+                vectors.shape != (encoded.shape[0], GOAL_COUNT)
+                or not torch.isfinite(vectors).all()
+            ):
+                raise ValueError("Goals must be finite two-element one-hot vectors.")
+            if torch.any((vectors != 0) & (vectors != 1)) or not torch.all(
+                vectors.sum(1) == 1
+            ):
+                raise ValueError("Goals must be one-hot vectors.")
+        else:
+            if goals is not None:
+                raise ValueError("The unconditioned network does not accept goals.")
+            vectors = torch.zeros((encoded.shape[0], GOAL_COUNT), device=encoded.device)
         hidden = F.relu(self.goal_hidden(torch.cat((encoded, vectors), dim=1)))
         return self.joint_head(hidden)
 
@@ -306,11 +319,15 @@ def goal_done(
     return bool(terminated or goal_achieved(goal, action, next_info))
 
 
-GoalRow = tuple[PhysicalTransition, BasicGoal]
+GoalRow = tuple[PhysicalTransition, BasicGoal | None]
 
 
-def relabel_transition(physical: PhysicalTransition) -> tuple[GoalRow, GoalRow]:
-    return tuple((physical, goal) for goal in BasicGoal)  # type: ignore[return-value]
+def relabel_transition(
+    physical: PhysicalTransition, *, goal_conditioning: bool = True
+) -> tuple[GoalRow, ...]:
+    if not goal_conditioning:
+        return ((physical, None),)
+    return tuple((physical, goal) for goal in BasicGoal)
 
 
 def select_action(
@@ -360,7 +377,7 @@ def select_goal_action(
     rng: np.random.Generator,
     device: torch.device | str = "cpu",
     *,
-    goal: int | BasicGoal,
+    goal: int | BasicGoal | None = None,
 ) -> BranchAction:
     """Choose one legal joint action with a fixed requested goal."""
 
@@ -373,10 +390,14 @@ def select_goal_action(
         return JOINT_ACTIONS[index]
     with torch.no_grad():
         observation_tensor = torch.as_tensor(observation, device=device)
-        values = network(
-            observation_tensor,
-            goal_one_hot(goal, device=device),
-        )[0]
+        if getattr(network, "goal_conditioning", True):
+            if goal is None:
+                raise ValueError("A categorical goal is required by this network.")
+            values = network(observation_tensor, goal_one_hot(goal, device=device))[0]
+        else:
+            if goal is not None:
+                raise ValueError("The unconditioned network does not accept goals.")
+            values = network(observation_tensor)[0]
         selected = values.masked_fill(
             torch.as_tensor(unavailable, device=device), -torch.inf
         ).argmax()
@@ -478,21 +499,49 @@ def compute_goal_td_targets(
 ) -> torch.Tensor:
     """Compute masked Double-DQN targets without changing the row's goal."""
 
+    conditioned = getattr(online_network, "goal_conditioning", True)
+    if getattr(target_network, "goal_conditioning", True) != conditioned:
+        raise ValueError("Online and target networks must agree on goal conditioning.")
+    if any((goal is not None) != conditioned for _, goal in transitions):
+        raise ValueError("Replay goal presence must match policy conditioning.")
     observations = torch.as_tensor(
-        np.stack([row[0].next_observation for row in transitions]), device=device
+        np.stack([physical.next_observation for physical, _ in transitions]),
+        device=device,
     )
-    goals = torch.stack([goal_one_hot(row[1], device=device) for row in transitions])
+    goals = (
+        torch.stack([goal_one_hot(row[1], device=device) for row in transitions])
+        if conditioned
+        else None
+    )
     masks = torch.as_tensor(
-        np.stack([joint_action_mask(row[0].next_masks) for row in transitions]), device=device
+        np.stack(
+            [joint_action_mask(physical.next_masks) for physical, _ in transitions]
+        ),
+        device=device,
     )
     rewards = torch.as_tensor(
-        [goal_reward(row[1], row[0].action, row[0].next_info) for row in transitions],
+        [
+            (
+                goal_reward(goal, physical.action, physical.next_info)
+                if conditioned
+                else physical.environment_reward
+            )
+            for physical, goal in transitions
+        ],
         dtype=torch.float32,
         device=device,
     )
     done = torch.as_tensor(
-        [goal_done(row[1], row[0].action, row[0].next_info, row[0].terminated)
-         for row in transitions],
+        [
+            (
+                goal_done(
+                    goal, physical.action, physical.next_info, physical.terminated
+                )
+                if conditioned
+                else physical.terminated
+            )
+            for physical, goal in transitions
+        ],
         dtype=torch.bool,
         device=device,
     )
@@ -518,21 +567,30 @@ def goal_train_step(
     *,
     target_network: GoalConditionedQNetwork,
 ) -> float:
-    """Perform one optimizer update over both counterfactual rows per sample."""
+    """Perform one optimizer update over relabeled or unconditioned rows."""
 
     if len(replay) < batch_size:
         raise ValueError("Replay does not contain a full batch.")
     rows = [
         row
         for index in rng.choice(len(replay), batch_size, replace=False)
-        for row in relabel_transition(replay[int(index)])
+        for row in relabel_transition(
+            replay[int(index)],
+            goal_conditioning=getattr(network, "goal_conditioning", True),
+        )
     ]
     observations = torch.as_tensor(
-        np.stack([row[0].observation for row in rows]), device=device
+        np.stack([physical.observation for physical, _ in rows]),
+        device=device,
     )
-    goals = torch.stack([goal_one_hot(row[1], device=device) for row in rows])
+    goals = (
+        torch.stack([goal_one_hot(row[1], device=device) for row in rows])
+        if getattr(network, "goal_conditioning", True)
+        else None
+    )
     actions = torch.as_tensor(
-        [joint_action_index(row[0].action) for row in rows], device=device
+        [joint_action_index(physical.action) for physical, _ in rows],
+        device=device,
     )
     values = network(observations, goals)
     selected = values.gather(1, actions.unsqueeze(1)).squeeze(1)

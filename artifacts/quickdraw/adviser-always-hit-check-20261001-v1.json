@@ -1,0 +1,554 @@
+{
+  "report_version": "quickdraw.frozen-adviser.v1",
+  "scope": "post-hoc constant-goal control; not a prespecified arm",
+  "source_four_arm_report": "C:\\projects\\QuickDraw-ViZDoom\\artifacts\\quickdraw\\adviser-four-arm-pilot-20261001-v2.json",
+  "checkpoint": "C:\\projects\\QuickDraw-ViZDoom\\artifacts\\quickdraw\\adviser-baseline-pilot-20261001-v1-policies.pt",
+  "adviser": "always HIT_TARGET, no API calls",
+  "evaluation_seed_schedule": [
+    36000,
+    36001,
+    36002,
+    36003,
+    36004,
+    36005,
+    36006,
+    36007,
+    36008,
+    36009
+  ],
+  "sessions": [
+    {
+      "training_seed": 32001,
+      "evaluation": {
+        "episodes": [
+          {
+            "seed": 36000,
+            "teacher_rng_seed": 3200136000,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36001,
+            "teacher_rng_seed": 3200136001,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36002,
+            "teacher_rng_seed": 3200136002,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36003,
+            "teacher_rng_seed": 3200136003,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36004,
+            "teacher_rng_seed": 3200136004,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36005,
+            "teacher_rng_seed": 3200136005,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36006,
+            "teacher_rng_seed": 3200136006,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36007,
+            "teacher_rng_seed": 3200136007,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36008,
+            "teacher_rng_seed": 3200136008,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36009,
+            "teacher_rng_seed": 3200136009,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -2.99999999999998,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          }
+        ],
+        "evaluation_updates": 0,
+        "parameter_hash_before": "c0bf740523d0f2a4108e7d0f758331e9b3d29035602330f7e8ab7a24e94c51aa",
+        "parameter_hash_after": "c0bf740523d0f2a4108e7d0f758331e9b3d29035602330f7e8ab7a24e94c51aa",
+        "evaluation_parameters_unchanged": true
+      },
+      "all_episode_records_match_llm": true
+    },
+    {
+      "training_seed": 34001,
+      "evaluation": {
+        "episodes": [
+          {
+            "seed": 36000,
+            "teacher_rng_seed": 3400136000,
+            "target_hit": true,
+            "decisions": 4,
+            "decisions_to_hit": 4,
+            "decision_cost": 4,
+            "environment_return": 0.9,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36001,
+            "teacher_rng_seed": 3400136001,
+            "target_hit": true,
+            "decisions": 3,
+            "decisions_to_hit": 3,
+            "decision_cost": 3,
+            "environment_return": 0.9299999999999999,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36002,
+            "teacher_rng_seed": 3400136002,
+            "target_hit": true,
+            "decisions": 2,
+            "decisions_to_hit": 2,
+            "decision_cost": 2,
+            "environment_return": 0.96,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36003,
+            "teacher_rng_seed": 3400136003,
+            "target_hit": true,
+            "decisions": 1,
+            "decisions_to_hit": 1,
+            "decision_cost": 1,
+            "environment_return": 0.99,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36004,
+            "teacher_rng_seed": 3400136004,
+            "target_hit": true,
+            "decisions": 2,
+            "decisions_to_hit": 2,
+            "decision_cost": 2,
+            "environment_return": 0.96,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36005,
+            "teacher_rng_seed": 3400136005,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -8.920000000000002,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36006,
+            "teacher_rng_seed": 3400136006,
+            "target_hit": true,
+            "decisions": 2,
+            "decisions_to_hit": 2,
+            "decision_cost": 2,
+            "environment_return": 0.96,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36007,
+            "teacher_rng_seed": 3400136007,
+            "target_hit": true,
+            "decisions": 2,
+            "decisions_to_hit": 2,
+            "decision_cost": 2,
+            "environment_return": 0.96,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36008,
+            "teacher_rng_seed": 3400136008,
+            "target_hit": true,
+            "decisions": 2,
+            "decisions_to_hit": 2,
+            "decision_cost": 2,
+            "environment_return": 0.96,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36009,
+            "teacher_rng_seed": 3400136009,
+            "target_hit": true,
+            "decisions": 4,
+            "decisions_to_hit": 4,
+            "decision_cost": 4,
+            "environment_return": 0.9,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          }
+        ],
+        "evaluation_updates": 0,
+        "parameter_hash_before": "dc120727ac64fc96811c6dfe70d5db26debeadcaae461dff39f8fc18dbb66a3f",
+        "parameter_hash_after": "dc120727ac64fc96811c6dfe70d5db26debeadcaae461dff39f8fc18dbb66a3f",
+        "evaluation_parameters_unchanged": true
+      },
+      "all_episode_records_match_llm": true
+    },
+    {
+      "training_seed": 35001,
+      "evaluation": {
+        "episodes": [
+          {
+            "seed": 36000,
+            "teacher_rng_seed": 3500136000,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36001,
+            "teacher_rng_seed": 3500136001,
+            "target_hit": true,
+            "decisions": 5,
+            "decisions_to_hit": 5,
+            "decision_cost": 5,
+            "environment_return": 0.95,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36002,
+            "teacher_rng_seed": 3500136002,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36003,
+            "teacher_rng_seed": 3500136003,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36004,
+            "teacher_rng_seed": 3500136004,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36005,
+            "teacher_rng_seed": 3500136005,
+            "target_hit": true,
+            "decisions": 14,
+            "decisions_to_hit": 14,
+            "decision_cost": 14,
+            "environment_return": 0.76,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36006,
+            "teacher_rng_seed": 3500136006,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36007,
+            "teacher_rng_seed": 3500136007,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36008,
+            "teacher_rng_seed": 3500136008,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          },
+          {
+            "seed": 36009,
+            "teacher_rng_seed": 3500136009,
+            "target_hit": false,
+            "decisions": 300,
+            "decisions_to_hit": null,
+            "decision_cost": 300,
+            "environment_return": -5.959999999999982,
+            "teacher_error": null,
+            "goal_trace": [
+              {
+                "decision": 0,
+                "goal": "HIT_TARGET"
+              }
+            ]
+          }
+        ],
+        "evaluation_updates": 0,
+        "parameter_hash_before": "fb7c758b1cfffb485bba0c176ff65ca54e2a1a965e0113df1a0a8b017dd62da5",
+        "parameter_hash_after": "fb7c758b1cfffb485bba0c176ff65ca54e2a1a965e0113df1a0a8b017dd62da5",
+        "evaluation_parameters_unchanged": true
+      },
+      "all_episode_records_match_llm": true
+    }
+  ],
+  "aggregate": {
+    "episodes": 30,
+    "hits": 11,
+    "hit_rate": 0.36666666666666664,
+    "environment_return_mean": -2.545666666666655,
+    "decisions_to_hit_mean": 3.727272727272727,
+    "decision_cost_mean": 191.36666666666667,
+    "teacher_failed_episodes": 0,
+    "teacher_calls": 30,
+    "teacher_failed_calls": 0,
+    "teacher_latency_seconds_total": null,
+    "provider_reported_cost": null,
+    "provider_cost_calls_reported": 0
+  },
+  "all_episode_records_match_llm": true,
+  "constant_selector_latency_measured": false,
+  "api_calls": 0
+}

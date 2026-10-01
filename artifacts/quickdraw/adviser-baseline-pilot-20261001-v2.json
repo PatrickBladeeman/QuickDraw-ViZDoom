@@ -1,0 +1,3268 @@
+{
+  "report_version": "quickdraw.frozen-adviser.v1",
+  "created_utc": "2026-10-01T18:11:15.854417+00:00",
+  "scope": "Basic pilot of adviser effectiveness during execution",
+  "design": "Three paired training seeds. No-goal DDQN uses environment reward; the goal policy uses balanced goals, goal rewards and exhaustive relabeling. All advisers share its frozen weights. This isolates adviser choice during execution.",
+  "no_goal_comparison": "Whole systems differ in reward/relabeling and symbolic adviser inputs. Not an ablation of goal input alone.",
+  "teacher_input": "same privileged slot/decision/ammunition fields",
+  "primary_metric": "target-hit rate; adviser errors count as failures",
+  "decision_cost_definition": "decisions to hit; 300 for each failure",
+  "checkpoint": "C:\\projects\\QuickDraw-ViZDoom\\artifacts\\quickdraw\\adviser-baseline-pilot-20261001-v1-policies.pt",
+  "hyperparameters": {
+    "training_decisions": 512,
+    "warmup": 32,
+    "batch_size": 32,
+    "epsilon": 0.2,
+    "gamma": 0.99,
+    "episode_decision_limit": 300
+  },
+  "evaluation_seed_schedule": [
+    36000,
+    36001,
+    36002,
+    36003,
+    36004,
+    36005,
+    36006,
+    36007,
+    36008,
+    36009
+  ],
+  "runtime": {
+    "python": "3.12.0",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.5.3",
+    "torch_threads": 1,
+    "device": "cpu"
+  },
+  "llm_prompt": null,
+  "llm_endpoint": null,
+  "llm_requested_model": null,
+  "sessions": [
+    {
+      "training_seed": 32001,
+      "training": {
+        "no_goal": {
+          "trainer": "unconditioned_joint_double_dqn",
+          "goal_conditioned": false,
+          "goal_names": [],
+          "decisions": 512,
+          "optimizer_updates": 481,
+          "target_network_sync_interval": 100,
+          "target_network_sync_count": 4,
+          "terminal": 44,
+          "truncated": 0,
+          "last_loss": 0.019670138135552406,
+          "training_episode_seeds": [
+            100000,
+            100001,
+            100002,
+            100003,
+            100004,
+            100005,
+            100006,
+            100007,
+            100008,
+            100009,
+            100010,
+            100011,
+            100012,
+            100013,
+            100014,
+            100015,
+            100016,
+            100017,
+            100018,
+            100019,
+            100020,
+            100021,
+            100022,
+            100023,
+            100024,
+            100025,
+            100026,
+            100027,
+            100028,
+            100029,
+            100030,
+            100031,
+            100032,
+            100033,
+            100034,
+            100035,
+            100036,
+            100037,
+            100038,
+            100039,
+            100040,
+            100041,
+            100042,
+            100043,
+            100044
+          ],
+          "physical_replay_count": 512,
+          "relabeled_row_count": 512,
+          "replay_counts": {
+            "behavior_goal": {},
+            "relabeled_goal": {
+              "none": 512
+            },
+            "joint_action": {
+              "(2, 0)": 84,
+              "(0, 0)": 61,
+              "(1, 0)": 51,
+              "(0, 1)": 43,
+              "(1, 1)": 187,
+              "(2, 1)": 86
+            },
+            "goal_reward": {
+              "-0.01": 192,
+              "-0.03": 276,
+              "0.99": 44
+            },
+            "goal_success": {
+              "false": 468,
+              "true": 44
+            }
+          },
+          "cumulative_environment_reward": 33.3599999999998
+        },
+        "goal_conditioned": {
+          "trainer": "goal_conditioned_joint_double_dqn",
+          "goal_conditioned": true,
+          "goal_names": [
+            "ALIGN_WITHOUT_FIRE",
+            "HIT_TARGET"
+          ],
+          "decisions": 512,
+          "optimizer_updates": 481,
+          "target_network_sync_interval": 100,
+          "target_network_sync_count": 4,
+          "terminal": 7,
+          "truncated": 0,
+          "last_loss": 0.02078075148165226,
+          "training_episode_seeds": [
+            100000,
+            100001,
+            100002,
+            100003,
+            100004,
+            100005,
+            100006,
+            100007
+          ],
+          "physical_replay_count": 512,
+          "relabeled_row_count": 1024,
+          "replay_counts": {
+            "behavior_goal": {
+              "ALIGN_WITHOUT_FIRE": 252,
+              "HIT_TARGET": 260
+            },
+            "relabeled_goal": {
+              "ALIGN_WITHOUT_FIRE": 512,
+              "HIT_TARGET": 512
+            },
+            "joint_action": {
+              "(2, 0)": 352,
+              "(0, 0)": 244,
+              "(1, 0)": 284,
+              "(0, 1)": 46,
+              "(1, 1)": 68,
+              "(2, 1)": 30
+            },
+            "goal_reward": {
+              "-0.01": 853,
+              "-1.0": 72,
+              "-0.1": 69,
+              "1.0": 30
+            },
+            "goal_success": {
+              "false": 994,
+              "true": 30
+            }
+          },
+          "cumulative_environment_reward": 0.4999999999999949
+        }
+      },
+      "conditions": {
+        "no_goal": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 4,
+              "decisions_to_hit": 4,
+              "decision_cost": 4,
+              "environment_return": 0.9,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 3,
+              "decisions_to_hit": 3,
+              "decision_cost": 3,
+              "environment_return": 0.9299999999999999,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 1,
+              "decisions_to_hit": 1,
+              "decision_cost": 1,
+              "environment_return": 0.99,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 24,
+              "decisions_to_hit": 24,
+              "decision_cost": 24,
+              "environment_return": 0.4199999999999997,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 4,
+              "decisions_to_hit": 4,
+              "decision_cost": 4,
+              "environment_return": 0.9,
+              "teacher_error": null,
+              "goal_trace": []
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "01fd18028abeab65527f3c71eb40b7c8b3f8c2bd9f5c37bf10820123c536c110",
+          "parameter_hash_after": "01fd18028abeab65527f3c71eb40b7c8b3f8c2bd9f5c37bf10820123c536c110",
+          "evaluation_parameters_unchanged": true
+        },
+        "random": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": 3200136000,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": 3200136001,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": 3200136002,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": 3200136003,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": 3200136004,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": 3200136005,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": 3200136006,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 2,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": 3200136007,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 3,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 5,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": 3200136008,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": 3200136009,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "c0bf740523d0f2a4108e7d0f758331e9b3d29035602330f7e8ab7a24e94c51aa",
+          "parameter_hash_after": "c0bf740523d0f2a4108e7d0f758331e9b3d29035602330f7e8ab7a24e94c51aa",
+          "evaluation_parameters_unchanged": true
+        },
+        "rule": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": 3200136000,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": 3200136001,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": 3200136002,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": 3200136003,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": 3200136004,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": 3200136005,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 1,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": 3200136006,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 2,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": 3200136007,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 3,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": 3200136008,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 4,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": 3200136009,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "c0bf740523d0f2a4108e7d0f758331e9b3d29035602330f7e8ab7a24e94c51aa",
+          "parameter_hash_after": "c0bf740523d0f2a4108e7d0f758331e9b3d29035602330f7e8ab7a24e94c51aa",
+          "evaluation_parameters_unchanged": true
+        }
+      }
+    },
+    {
+      "training_seed": 34001,
+      "training": {
+        "no_goal": {
+          "trainer": "unconditioned_joint_double_dqn",
+          "goal_conditioned": false,
+          "goal_names": [],
+          "decisions": 512,
+          "optimizer_updates": 481,
+          "target_network_sync_interval": 100,
+          "target_network_sync_count": 4,
+          "terminal": 18,
+          "truncated": 0,
+          "last_loss": 0.01627819426357746,
+          "training_episode_seeds": [
+            100512,
+            100513,
+            100514,
+            100515,
+            100516,
+            100517,
+            100518,
+            100519,
+            100520,
+            100521,
+            100522,
+            100523,
+            100524,
+            100525,
+            100526,
+            100527,
+            100528,
+            100529,
+            100530
+          ],
+          "physical_replay_count": 512,
+          "relabeled_row_count": 512,
+          "replay_counts": {
+            "behavior_goal": {},
+            "relabeled_goal": {
+              "none": 512
+            },
+            "joint_action": {
+              "(2, 1)": 227,
+              "(1, 1)": 162,
+              "(2, 0)": 11,
+              "(0, 0)": 35,
+              "(1, 0)": 47,
+              "(0, 1)": 30
+            },
+            "goal_reward": {
+              "-0.03": 401,
+              "0.99": 18,
+              "-0.01": 93
+            },
+            "goal_success": {
+              "false": 494,
+              "true": 18
+            }
+          },
+          "cumulative_environment_reward": 4.860000000000066
+        },
+        "goal_conditioned": {
+          "trainer": "goal_conditioned_joint_double_dqn",
+          "goal_conditioned": true,
+          "goal_names": [
+            "ALIGN_WITHOUT_FIRE",
+            "HIT_TARGET"
+          ],
+          "decisions": 512,
+          "optimizer_updates": 481,
+          "target_network_sync_interval": 100,
+          "target_network_sync_count": 4,
+          "terminal": 19,
+          "truncated": 0,
+          "last_loss": 0.013147572055459023,
+          "training_episode_seeds": [
+            100512,
+            100513,
+            100514,
+            100515,
+            100516,
+            100517,
+            100518,
+            100519,
+            100520,
+            100521,
+            100522,
+            100523,
+            100524,
+            100525,
+            100526,
+            100527,
+            100528,
+            100529,
+            100530,
+            100531
+          ],
+          "physical_replay_count": 512,
+          "relabeled_row_count": 1024,
+          "replay_counts": {
+            "behavior_goal": {
+              "ALIGN_WITHOUT_FIRE": 230,
+              "HIT_TARGET": 282
+            },
+            "relabeled_goal": {
+              "ALIGN_WITHOUT_FIRE": 512,
+              "HIT_TARGET": 512
+            },
+            "joint_action": {
+              "(2, 1)": 152,
+              "(0, 0)": 304,
+              "(2, 0)": 206,
+              "(1, 0)": 192,
+              "(1, 1)": 136,
+              "(0, 1)": 34
+            },
+            "goal_reward": {
+              "-1.0": 161,
+              "-0.1": 145,
+              "-0.01": 679,
+              "1.0": 39
+            },
+            "goal_success": {
+              "false": 985,
+              "true": 39
+            }
+          },
+          "cumulative_environment_reward": 10.980000000000144
+        }
+      },
+      "conditions": {
+        "no_goal": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 7,
+              "decisions_to_hit": 7,
+              "decision_cost": 7,
+              "environment_return": 0.83,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 19,
+              "decisions_to_hit": 19,
+              "decision_cost": 19,
+              "environment_return": 0.5899999999999999,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -6.039999999999983,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -6.039999999999983,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -6.039999999999983,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 1,
+              "decisions_to_hit": 1,
+              "decision_cost": 1,
+              "environment_return": 0.99,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 3,
+              "decisions_to_hit": 3,
+              "decision_cost": 3,
+              "environment_return": 0.9299999999999999,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 4,
+              "decisions_to_hit": 4,
+              "decision_cost": 4,
+              "environment_return": 0.9,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 7,
+              "decisions_to_hit": 7,
+              "decision_cost": 7,
+              "environment_return": 0.83,
+              "teacher_error": null,
+              "goal_trace": []
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "5f31e09540c1efea08b8f719a8b3b743b8224c9a5f06f31d66836a323d80b982",
+          "parameter_hash_after": "5f31e09540c1efea08b8f719a8b3b743b8224c9a5f06f31d66836a323d80b982",
+          "evaluation_parameters_unchanged": true
+        },
+        "random": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": 3400136000,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": 3400136001,
+              "target_hit": true,
+              "decisions": 3,
+              "decisions_to_hit": 3,
+              "decision_cost": 3,
+              "environment_return": 0.9299999999999999,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": 3400136002,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": 3400136003,
+              "target_hit": true,
+              "decisions": 1,
+              "decisions_to_hit": 1,
+              "decision_cost": 1,
+              "environment_return": 0.99,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": 3400136004,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": 3400136005,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -8.920000000000002,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": 3400136006,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 2,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": 3400136007,
+              "target_hit": true,
+              "decisions": 9,
+              "decisions_to_hit": 9,
+              "decision_cost": 9,
+              "environment_return": 0.81,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 3,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": 3400136008,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": 3400136009,
+              "target_hit": true,
+              "decisions": 4,
+              "decisions_to_hit": 4,
+              "decision_cost": 4,
+              "environment_return": 0.9,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "dc120727ac64fc96811c6dfe70d5db26debeadcaae461dff39f8fc18dbb66a3f",
+          "parameter_hash_after": "dc120727ac64fc96811c6dfe70d5db26debeadcaae461dff39f8fc18dbb66a3f",
+          "evaluation_parameters_unchanged": true
+        },
+        "rule": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": 3400136000,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": 3400136001,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": 3400136002,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": 3400136003,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": 3400136004,
+              "target_hit": true,
+              "decisions": 2,
+              "decisions_to_hit": 2,
+              "decision_cost": 2,
+              "environment_return": 0.96,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": 3400136005,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -8.880000000000003,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 1,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": 3400136006,
+              "target_hit": true,
+              "decisions": 8,
+              "decisions_to_hit": 8,
+              "decision_cost": 8,
+              "environment_return": 0.82,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 2,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": 3400136007,
+              "target_hit": true,
+              "decisions": 9,
+              "decisions_to_hit": 9,
+              "decision_cost": 9,
+              "environment_return": 0.81,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 3,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": 3400136008,
+              "target_hit": true,
+              "decisions": 14,
+              "decisions_to_hit": 14,
+              "decision_cost": 14,
+              "environment_return": 0.6799999999999999,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 4,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": 3400136009,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "dc120727ac64fc96811c6dfe70d5db26debeadcaae461dff39f8fc18dbb66a3f",
+          "parameter_hash_after": "dc120727ac64fc96811c6dfe70d5db26debeadcaae461dff39f8fc18dbb66a3f",
+          "evaluation_parameters_unchanged": true
+        }
+      }
+    },
+    {
+      "training_seed": 35001,
+      "training": {
+        "no_goal": {
+          "trainer": "unconditioned_joint_double_dqn",
+          "goal_conditioned": false,
+          "goal_names": [],
+          "decisions": 512,
+          "optimizer_updates": 481,
+          "target_network_sync_interval": 100,
+          "target_network_sync_count": 4,
+          "terminal": 10,
+          "truncated": 0,
+          "last_loss": 0.024071691557765007,
+          "training_episode_seeds": [
+            101024,
+            101025,
+            101026,
+            101027,
+            101028,
+            101029,
+            101030,
+            101031,
+            101032,
+            101033,
+            101034
+          ],
+          "physical_replay_count": 512,
+          "relabeled_row_count": 512,
+          "replay_counts": {
+            "behavior_goal": {},
+            "relabeled_goal": {
+              "none": 512
+            },
+            "joint_action": {
+              "(0, 0)": 148,
+              "(0, 1)": 61,
+              "(2, 1)": 135,
+              "(1, 1)": 28,
+              "(1, 0)": 118,
+              "(2, 0)": 22
+            },
+            "goal_reward": {
+              "-0.01": 287,
+              "-0.03": 215,
+              "0.99": 10
+            },
+            "goal_success": {
+              "false": 502,
+              "true": 10
+            }
+          },
+          "cumulative_environment_reward": 0.5800000000000165
+        },
+        "goal_conditioned": {
+          "trainer": "goal_conditioned_joint_double_dqn",
+          "goal_conditioned": true,
+          "goal_names": [
+            "ALIGN_WITHOUT_FIRE",
+            "HIT_TARGET"
+          ],
+          "decisions": 512,
+          "optimizer_updates": 481,
+          "target_network_sync_interval": 100,
+          "target_network_sync_count": 4,
+          "terminal": 5,
+          "truncated": 1,
+          "last_loss": 0.01265319436788559,
+          "training_episode_seeds": [
+            101024,
+            101025,
+            101026,
+            101027,
+            101028,
+            101029,
+            101030
+          ],
+          "physical_replay_count": 512,
+          "relabeled_row_count": 1024,
+          "replay_counts": {
+            "behavior_goal": {
+              "ALIGN_WITHOUT_FIRE": 475,
+              "HIT_TARGET": 37
+            },
+            "relabeled_goal": {
+              "ALIGN_WITHOUT_FIRE": 512,
+              "HIT_TARGET": 512
+            },
+            "joint_action": {
+              "(0, 0)": 604,
+              "(0, 1)": 42,
+              "(2, 1)": 36,
+              "(1, 1)": 48,
+              "(1, 0)": 142,
+              "(2, 0)": 152
+            },
+            "goal_reward": {
+              "-0.01": 881,
+              "-1.0": 63,
+              "-0.1": 60,
+              "1.0": 20
+            },
+            "goal_success": {
+              "false": 1004,
+              "true": 20
+            }
+          },
+          "cumulative_environment_reward": -1.3199999999999714
+        }
+      },
+      "conditions": {
+        "no_goal": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 5,
+              "decisions_to_hit": 5,
+              "decision_cost": 5,
+              "environment_return": 0.95,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": null,
+              "target_hit": true,
+              "decisions": 14,
+              "decisions_to_hit": 14,
+              "decision_cost": 14,
+              "environment_return": 0.76,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": null,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": []
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "5fc9c09d9876a02167f53e0e871a3af44392c1cc8139345193c5a82d71fcdb3c",
+          "parameter_hash_after": "5fc9c09d9876a02167f53e0e871a3af44392c1cc8139345193c5a82d71fcdb3c",
+          "evaluation_parameters_unchanged": true
+        },
+        "random": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": 3500136000,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.939999999999983,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 4,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 6,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": 3500136001,
+              "target_hit": true,
+              "decisions": 5,
+              "decisions_to_hit": 5,
+              "decision_cost": 5,
+              "environment_return": 0.95,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": 3500136002,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 2,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": 3500136003,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 1,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": 3500136004,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": 3500136005,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": 3500136006,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": 3500136007,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": 3500136008,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": 3500136009,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 4,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "fb7c758b1cfffb485bba0c176ff65ca54e2a1a965e0113df1a0a8b017dd62da5",
+          "parameter_hash_after": "fb7c758b1cfffb485bba0c176ff65ca54e2a1a965e0113df1a0a8b017dd62da5",
+          "evaluation_parameters_unchanged": true
+        },
+        "rule": {
+          "episodes": [
+            {
+              "seed": 36000,
+              "teacher_rng_seed": 3500136000,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 4,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36001,
+              "teacher_rng_seed": 3500136001,
+              "target_hit": true,
+              "decisions": 5,
+              "decisions_to_hit": 5,
+              "decision_cost": 5,
+              "environment_return": 0.95,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 3,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36002,
+              "teacher_rng_seed": 3500136002,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 2,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36003,
+              "teacher_rng_seed": 3500136003,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 1,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36004,
+              "teacher_rng_seed": 3500136004,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            },
+            {
+              "seed": 36005,
+              "teacher_rng_seed": 3500136005,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36006,
+              "teacher_rng_seed": 3500136006,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36007,
+              "teacher_rng_seed": 3500136007,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36008,
+              "teacher_rng_seed": 3500136008,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -2.99999999999998,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                }
+              ]
+            },
+            {
+              "seed": 36009,
+              "teacher_rng_seed": 3500136009,
+              "target_hit": false,
+              "decisions": 300,
+              "decisions_to_hit": null,
+              "decision_cost": 300,
+              "environment_return": -5.959999999999982,
+              "teacher_error": null,
+              "goal_trace": [
+                {
+                  "decision": 0,
+                  "goal": "ALIGN_WITHOUT_FIRE"
+                },
+                {
+                  "decision": 4,
+                  "goal": "HIT_TARGET"
+                }
+              ]
+            }
+          ],
+          "evaluation_updates": 0,
+          "parameter_hash_before": "fb7c758b1cfffb485bba0c176ff65ca54e2a1a965e0113df1a0a8b017dd62da5",
+          "parameter_hash_after": "fb7c758b1cfffb485bba0c176ff65ca54e2a1a965e0113df1a0a8b017dd62da5",
+          "evaluation_parameters_unchanged": true
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "no_goal": {
+      "episodes": 30,
+      "hits": 19,
+      "hit_rate": 0.6333333333333333,
+      "environment_return_mean": -1.6373333333333266,
+      "decisions_to_hit_mean": 5.684210526315789,
+      "decision_cost_mean": 113.6,
+      "teacher_failed_episodes": 0,
+      "teacher_calls": 0,
+      "teacher_failed_calls": 0,
+      "teacher_latency_seconds_total": 0,
+      "provider_reported_cost": null,
+      "provider_cost_calls_reported": 0
+    },
+    "random": {
+      "episodes": 30,
+      "hits": 7,
+      "hit_rate": 0.23333333333333334,
+      "environment_return_mean": -2.9706666666666526,
+      "decisions_to_hit_mean": 3.7142857142857144,
+      "decision_cost_mean": 230.86666666666667,
+      "teacher_failed_episodes": 0,
+      "teacher_calls": 40,
+      "teacher_failed_calls": 0,
+      "teacher_latency_seconds_total": 0.0005481000407598913,
+      "provider_reported_cost": null,
+      "provider_cost_calls_reported": 0
+    },
+    "rule": {
+      "episodes": 30,
+      "hits": 5,
+      "hit_rate": 0.16666666666666666,
+      "environment_return_mean": -3.048666666666652,
+      "decisions_to_hit_mean": 7.6,
+      "decision_cost_mean": 251.26666666666668,
+      "teacher_failed_episodes": 0,
+      "teacher_calls": 43,
+      "teacher_failed_calls": 0,
+      "teacher_latency_seconds_total": 0.00014110002666711807,
+      "provider_reported_cost": null,
+      "provider_cost_calls_reported": 0
+    }
+  },
+  "teacher_audit": {
+    "no_goal": [],
+    "random": [
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.550003748387098e-05,
+        "training_seed": 32001,
+        "episode_seed": 36000,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:17.167683+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.3999990187585354e-05,
+        "training_seed": 32001,
+        "episode_seed": 36001,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:17.631696+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.4199991710484028e-05,
+        "training_seed": 32001,
+        "episode_seed": 36002,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:18.054705+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.4499993994832039e-05,
+        "training_seed": 32001,
+        "episode_seed": 36003,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:18.476578+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 0,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.309998333454132e-05,
+        "training_seed": 32001,
+        "episode_seed": 36004,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:19.107426+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.3899989426136017e-05,
+        "training_seed": 32001,
+        "episode_seed": 36005,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:19.634944+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.4699995517730713e-05,
+        "training_seed": 32001,
+        "episode_seed": 36006,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:20.024950+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 2,
+          "target_slot": 2,
+          "decision": 2,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.750001683831215e-05,
+        "training_seed": 32001,
+        "episode_seed": 36006,
+        "decision": 2,
+        "timestamp_utc": "2026-10-01T18:11:20.027950+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.3299984857439995e-05,
+        "training_seed": 32001,
+        "episode_seed": 36007,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:20.380467+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 3,
+          "target_slot": 3,
+          "decision": 3,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.0200019460171461e-05,
+        "training_seed": 32001,
+        "episode_seed": 36007,
+        "decision": 3,
+        "timestamp_utc": "2026-10-01T18:11:20.384468+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 3,
+          "target_slot": 3,
+          "decision": 5,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 9.800016414374113e-06,
+        "training_seed": 32001,
+        "episode_seed": 36007,
+        "decision": 5,
+        "timestamp_utc": "2026-10-01T18:11:20.386466+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.4499993994832039e-05,
+        "training_seed": 32001,
+        "episode_seed": 36008,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:21.557800+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.4499993994832039e-05,
+        "training_seed": 32001,
+        "episode_seed": 36009,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:21.949805+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.9900035113096237e-05,
+        "training_seed": 34001,
+        "episode_seed": 36000,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:37.149731+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.2699980288743973e-05,
+        "training_seed": 34001,
+        "episode_seed": 36001,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:37.718751+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 9.000010322779417e-06,
+        "training_seed": 34001,
+        "episode_seed": 36002,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:37.722751+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.4299992471933365e-05,
+        "training_seed": 34001,
+        "episode_seed": 36003,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:38.530835+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 0,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 9.199953638017178e-06,
+        "training_seed": 34001,
+        "episode_seed": 36004,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:38.532835+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 8.90000956133008e-06,
+        "training_seed": 34001,
+        "episode_seed": 36005,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:38.535834+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.3199984095990658e-05,
+        "training_seed": 34001,
+        "episode_seed": 36006,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:38.945840+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 2,
+          "target_slot": 2,
+          "decision": 2,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.550000160932541e-05,
+        "training_seed": 34001,
+        "episode_seed": 36006,
+        "decision": 2,
+        "timestamp_utc": "2026-10-01T18:11:38.947843+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.3299984857439995e-05,
+        "training_seed": 34001,
+        "episode_seed": 36007,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:39.346694+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 3,
+          "target_slot": 3,
+          "decision": 3,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.0500021744519472e-05,
+        "training_seed": 34001,
+        "episode_seed": 36007,
+        "decision": 3,
+        "timestamp_utc": "2026-10-01T18:11:39.350695+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 9.700015652924776e-06,
+        "training_seed": 34001,
+        "episode_seed": 36008,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:39.358695+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 9.599956683814526e-06,
+        "training_seed": 34001,
+        "episode_seed": 36009,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:39.363694+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.98000343516469e-05,
+        "training_seed": 35001,
+        "episode_seed": 36000,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:49.177499+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": -4,
+          "target_slot": -4,
+          "decision": 4,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.7900019884109497e-05,
+        "training_seed": 35001,
+        "episode_seed": 36000,
+        "decision": 4,
+        "timestamp_utc": "2026-10-01T18:11:49.301015+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": -4,
+          "target_slot": -4,
+          "decision": 6,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.2499978765845299e-05,
+        "training_seed": 35001,
+        "episode_seed": 36000,
+        "decision": 6,
+        "timestamp_utc": "2026-10-01T18:11:49.304017+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.3999990187585354e-05,
+        "training_seed": 35001,
+        "episode_seed": 36001,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:49.678021+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 9.200011845678091e-06,
+        "training_seed": 35001,
+        "episode_seed": 36002,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:49.685021+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": -2,
+          "target_slot": -2,
+          "decision": 2,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 9.200011845678091e-06,
+        "training_seed": 35001,
+        "episode_seed": 36002,
+        "decision": 2,
+        "timestamp_utc": "2026-10-01T18:11:49.687021+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.3800046872347593e-05,
+        "training_seed": 35001,
+        "episode_seed": 36003,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:50.118539+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": -1,
+          "target_slot": -1,
+          "decision": 1,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.1300027836114168e-05,
+        "training_seed": 35001,
+        "episode_seed": 36003,
+        "decision": 1,
+        "timestamp_utc": "2026-10-01T18:11:50.120540+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 0,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.2999982573091984e-05,
+        "training_seed": 35001,
+        "episode_seed": 36004,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:50.824341+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.3999990187585354e-05,
+        "training_seed": 35001,
+        "episode_seed": 36005,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:51.226856+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.3399985618889332e-05,
+        "training_seed": 35001,
+        "episode_seed": 36006,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:51.873934+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.4399993233382702e-05,
+        "training_seed": 35001,
+        "episode_seed": 36007,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:52.292449+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.4999997802078724e-05,
+        "training_seed": 35001,
+        "episode_seed": 36008,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:52.949230+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.4499993994832039e-05,
+        "training_seed": 35001,
+        "episode_seed": 36009,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:53.749291+00:00"
+      },
+      {
+        "teacher": "random",
+        "state": {
+          "position_slot": -4,
+          "target_slot": -4,
+          "decision": 4,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.0600022505968809e-05,
+        "training_seed": 35001,
+        "episode_seed": 36009,
+        "decision": 4,
+        "timestamp_utc": "2026-10-01T18:11:53.753289+00:00"
+      }
+    ],
+    "rule": [
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.680001150816679e-05,
+        "training_seed": 32001,
+        "episode_seed": 36000,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:22.870067+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 4.599976819008589e-06,
+        "training_seed": 32001,
+        "episode_seed": 36001,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:23.609998+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.400025889277458e-06,
+        "training_seed": 32001,
+        "episode_seed": 36002,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:24.269549+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.3999676816165447e-06,
+        "training_seed": 32001,
+        "episode_seed": 36003,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:24.946859+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 0,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 3.6999699659645557e-06,
+        "training_seed": 32001,
+        "episode_seed": 36004,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:25.998255+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 4.00003045797348e-06,
+        "training_seed": 32001,
+        "episode_seed": 36005,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:27.135225+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 1,
+          "target_slot": 1,
+          "decision": 1,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.9000144675374031e-06,
+        "training_seed": 32001,
+        "episode_seed": 36005,
+        "decision": 1,
+        "timestamp_utc": "2026-10-01T18:11:27.136225+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 4.699977580457926e-06,
+        "training_seed": 32001,
+        "episode_seed": 36006,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:27.557233+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 2,
+          "target_slot": 2,
+          "decision": 2,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.9000144675374031e-06,
+        "training_seed": 32001,
+        "episode_seed": 36006,
+        "decision": 2,
+        "timestamp_utc": "2026-10-01T18:11:27.559233+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.600027412176132e-06,
+        "training_seed": 32001,
+        "episode_seed": 36007,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:29.036162+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 3,
+          "target_slot": 3,
+          "decision": 3,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 3.2999669201672077e-06,
+        "training_seed": 32001,
+        "episode_seed": 36007,
+        "decision": 3,
+        "timestamp_utc": "2026-10-01T18:11:29.160682+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 2.7999631129205227e-06,
+        "training_seed": 32001,
+        "episode_seed": 36008,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:29.869692+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 4,
+          "target_slot": 4,
+          "decision": 4,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 2.100015990436077e-06,
+        "training_seed": 32001,
+        "episode_seed": 36008,
+        "decision": 4,
+        "timestamp_utc": "2026-10-01T18:11:29.875693+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.7999707274138927e-06,
+        "training_seed": 32001,
+        "episode_seed": 36009,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:31.273989+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 5.799985956400633e-06,
+        "training_seed": 34001,
+        "episode_seed": 36000,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:39.976112+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.400025889277458e-06,
+        "training_seed": 34001,
+        "episode_seed": 36001,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:40.743657+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.999972250312567e-06,
+        "training_seed": 34001,
+        "episode_seed": 36002,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:41.147205+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.0999653972685337e-06,
+        "training_seed": 34001,
+        "episode_seed": 36003,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:41.481210+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 0,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 3.200024366378784e-06,
+        "training_seed": 34001,
+        "episode_seed": 36004,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:42.047534+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 2.400018274784088e-06,
+        "training_seed": 34001,
+        "episode_seed": 36005,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:42.051534+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 1,
+          "target_slot": 1,
+          "decision": 1,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.7999554984271526e-06,
+        "training_seed": 34001,
+        "episode_seed": 36005,
+        "decision": 1,
+        "timestamp_utc": "2026-10-01T18:11:42.052535+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.1999661587178707e-06,
+        "training_seed": 34001,
+        "episode_seed": 36006,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:42.749992+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 2,
+          "target_slot": 2,
+          "decision": 2,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.600012183189392e-06,
+        "training_seed": 34001,
+        "episode_seed": 36006,
+        "decision": 2,
+        "timestamp_utc": "2026-10-01T18:11:42.751994+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.600012183189392e-06,
+        "training_seed": 34001,
+        "episode_seed": 36007,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:42.758991+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 3,
+          "target_slot": 3,
+          "decision": 3,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.400010660290718e-06,
+        "training_seed": 34001,
+        "episode_seed": 36007,
+        "decision": 3,
+        "timestamp_utc": "2026-10-01T18:11:42.762993+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.600012183189392e-06,
+        "training_seed": 34001,
+        "episode_seed": 36008,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:42.770993+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 4,
+          "target_slot": 4,
+          "decision": 4,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.500011421740055e-06,
+        "training_seed": 34001,
+        "episode_seed": 36008,
+        "decision": 4,
+        "timestamp_utc": "2026-10-01T18:11:42.774992+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 2.9999646358191967e-06,
+        "training_seed": 34001,
+        "episode_seed": 36009,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:42.786993+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 4.600035026669502e-06,
+        "training_seed": 35001,
+        "episode_seed": 36000,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:54.719451+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": -4,
+          "target_slot": -4,
+          "decision": 4,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 3.100023604929447e-06,
+        "training_seed": 35001,
+        "episode_seed": 36000,
+        "decision": 4,
+        "timestamp_utc": "2026-10-01T18:11:54.769459+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.300025127828121e-06,
+        "training_seed": 35001,
+        "episode_seed": 36001,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:55.570679+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": -3,
+          "target_slot": -3,
+          "decision": 3,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 2.800021320581436e-06,
+        "training_seed": 35001,
+        "episode_seed": 36001,
+        "decision": 3,
+        "timestamp_utc": "2026-10-01T18:11:55.573680+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 2.0999577827751637e-06,
+        "training_seed": 35001,
+        "episode_seed": 36002,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:55.577679+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": -2,
+          "target_slot": -2,
+          "decision": 2,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.400010660290718e-06,
+        "training_seed": 35001,
+        "episode_seed": 36002,
+        "decision": 2,
+        "timestamp_utc": "2026-10-01T18:11:55.579681+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.200024366378784e-06,
+        "training_seed": 35001,
+        "episode_seed": 36003,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:56.515717+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": -1,
+          "target_slot": -1,
+          "decision": 1,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.500011421740055e-06,
+        "training_seed": 35001,
+        "episode_seed": 36003,
+        "decision": 1,
+        "timestamp_utc": "2026-10-01T18:11:56.516717+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 0,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 2.8999638743698597e-06,
+        "training_seed": 35001,
+        "episode_seed": 36004,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:56.978725+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 1,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.100023604929447e-06,
+        "training_seed": 35001,
+        "episode_seed": 36005,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:57.852944+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 2,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.00002284348011e-06,
+        "training_seed": 35001,
+        "episode_seed": 36006,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:58.468464+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 3,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.300025127828121e-06,
+        "training_seed": 35001,
+        "episode_seed": 36007,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:58.882470+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": 4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.1999661587178707e-06,
+        "training_seed": 35001,
+        "episode_seed": 36008,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:11:59.667918+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": 0,
+          "target_slot": -4,
+          "decision": 0,
+          "remaining_ammunition": 300
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 3.300025127828121e-06,
+        "training_seed": 35001,
+        "episode_seed": 36009,
+        "decision": 0,
+        "timestamp_utc": "2026-10-01T18:12:02.166126+00:00"
+      },
+      {
+        "teacher": "rule",
+        "state": {
+          "position_slot": -4,
+          "target_slot": -4,
+          "decision": 4,
+          "remaining_ammunition": 300
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 2.700020559132099e-06,
+        "training_seed": 35001,
+        "episode_seed": 36009,
+        "decision": 4,
+        "timestamp_utc": "2026-10-01T18:12:02.171129+00:00"
+      }
+    ]
+  },
+  "paired_comparisons": {
+    "no_goal_vs_random": {
+      "per_training_seed": [
+        {
+          "training_seed": 32001,
+          "first_only_hits": 10,
+          "second_only_hits": 0,
+          "hit_rate_delta_first_minus_second": 1.0,
+          "decision_cost_delta_first_minus_second": -295.4
+        },
+        {
+          "training_seed": 34001,
+          "first_only_hits": 3,
+          "second_only_hits": 2,
+          "hit_rate_delta_first_minus_second": 0.1,
+          "decision_cost_delta_first_minus_second": -27.8
+        },
+        {
+          "training_seed": 35001,
+          "first_only_hits": 1,
+          "second_only_hits": 0,
+          "hit_rate_delta_first_minus_second": 0.1,
+          "decision_cost_delta_first_minus_second": -28.6
+        }
+      ],
+      "hit_rate_delta_first_minus_second": 0.4000000000000001
+    },
+    "no_goal_vs_rule": {
+      "per_training_seed": [
+        {
+          "training_seed": 32001,
+          "first_only_hits": 10,
+          "second_only_hits": 0,
+          "hit_rate_delta_first_minus_second": 1.0,
+          "decision_cost_delta_first_minus_second": -295.4
+        },
+        {
+          "training_seed": 34001,
+          "first_only_hits": 4,
+          "second_only_hits": 1,
+          "hit_rate_delta_first_minus_second": 0.3,
+          "decision_cost_delta_first_minus_second": -89.0
+        },
+        {
+          "training_seed": 35001,
+          "first_only_hits": 1,
+          "second_only_hits": 0,
+          "hit_rate_delta_first_minus_second": 0.1,
+          "decision_cost_delta_first_minus_second": -28.6
+        }
+      ],
+      "hit_rate_delta_first_minus_second": 0.46666666666666673
+    },
+    "random_vs_rule": {
+      "per_training_seed": [
+        {
+          "training_seed": 32001,
+          "first_only_hits": 0,
+          "second_only_hits": 0,
+          "hit_rate_delta_first_minus_second": 0.0,
+          "decision_cost_delta_first_minus_second": 0.0
+        },
+        {
+          "training_seed": 34001,
+          "first_only_hits": 3,
+          "second_only_hits": 1,
+          "hit_rate_delta_first_minus_second": 0.2,
+          "decision_cost_delta_first_minus_second": -61.2
+        },
+        {
+          "training_seed": 35001,
+          "first_only_hits": 0,
+          "second_only_hits": 0,
+          "hit_rate_delta_first_minus_second": 0.0,
+          "decision_cost_delta_first_minus_second": 0.0
+        }
+      ],
+      "hit_rate_delta_first_minus_second": 0.06666666666666667
+    }
+  }
+}

@@ -430,17 +430,25 @@ def run_training(
 
 
 def _goal_replay_counts(
-    payloads: Sequence[PhysicalTransition],
+    payloads: Sequence[PhysicalTransition], *, goal_conditioning: bool = True
 ) -> dict[str, dict[str, int]]:
     behavior, relabeled, actions, rewards, successes = (Counter() for _ in range(5))
     for payload in payloads:
         if payload.behavior_goal is not None:
             behavior[payload.behavior_goal.name] += 1
-        for goal in BasicGoal:
-            relabeled[goal.name] += 1
+        if goal_conditioning:
+            for goal in BasicGoal:
+                relabeled[goal.name] += 1
+                actions[str(payload.action)] += 1
+                rewards[str(goal_reward(goal, payload.action, payload.next_info))] += 1
+                successes[
+                    str(goal_achieved(goal, payload.action, payload.next_info)).lower()
+                ] += 1
+        else:
+            relabeled["none"] += 1
             actions[str(payload.action)] += 1
-            rewards[str(goal_reward(goal, payload.action, payload.next_info))] += 1
-            successes[str(goal_achieved(goal, payload.action, payload.next_info)).lower()] += 1
+            rewards[str(payload.environment_reward)] += 1
+            successes[str(payload.terminated).lower()] += 1
     return {
         "behavior_goal": dict(behavior),
         "relabeled_goal": dict(relabeled),
@@ -461,8 +469,12 @@ def run_goal_conditioned_training(
     gamma: float = 0.99,
     *,
     episode_seeds: Sequence[int] | None = None,
+    behavior_goal_selector: (
+        Callable[[Mapping[str, Any], np.random.Generator], BasicGoal] | None
+    ) = None,
+    goal_conditioning: bool = True,
 ) -> tuple[dict[str, Any], GoalConditionedQNetwork]:
-    """Train Basic with a fixed-goal, joint-action Double-DQN path.
+    """Train Basic with a matched joint-action Double-DQN path.
 
     Target synchronization is deliberately fixed at
     ``GOAL_TARGET_SYNC_INTERVAL`` optimizer updates for every run.
@@ -476,30 +488,58 @@ def run_goal_conditioned_training(
         raise ValueError("episode_seeds must contain one seed per decision.")
     if not 0.0 <= epsilon <= 1.0:
         raise ValueError("epsilon must be between zero and one.")
+    if not goal_conditioning and behavior_goal_selector is not None:
+        raise ValueError("An unconditioned run cannot use a behavior goal selector.")
 
     np.random.seed(seed)
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
     torch_device = torch.device(device)
-    network = GoalConditionedQNetwork().to(torch_device)
-    target_network = GoalConditionedQNetwork().to(torch_device)
+    network = GoalConditionedQNetwork(goal_conditioning=goal_conditioning).to(
+        torch_device
+    )
+    target_network = GoalConditionedQNetwork(goal_conditioning=goal_conditioning).to(
+        torch_device
+    )
     target_network.load_state_dict(network.state_dict())
     optimizer = torch.optim.Adam(network.parameters(), lr=1e-3)
     replay: deque[PhysicalTransition] = deque(maxlen=10_000)
-    goals = cycle(BasicGoal)
+    goals = cycle(BasicGoal) if goal_conditioning else None
+    goal_rng = np.random.default_rng(seed + 1)
+    goal_selections: list[str] = []
+
+    def select_behavior_goal(info: Mapping[str, Any]) -> BasicGoal | None:
+        if not goal_conditioning:
+            return None
+        selected = (
+            next(goals)
+            if behavior_goal_selector is None
+            else behavior_goal_selector(info, goal_rng)
+        )
+        try:
+            goal = BasicGoal(operator.index(selected))
+        except (TypeError, ValueError) as error:
+            raise ValueError("Behavior teacher must return a BasicGoal ID.") from error
+        goal_selections.append(goal.name)
+        return goal
+
     reset_seeds = tuple(episode_seeds) if episode_seeds is not None else None
     reset_index = 0
     reset_seeds_used: list[int] = []
 
     def reset() -> tuple[np.ndarray, Mapping[str, Any]]:
         nonlocal reset_index
-        selected_seed = seed + reset_index if reset_seeds is None else reset_seeds[reset_index]
+        selected_seed = (
+            seed + reset_index if reset_seeds is None else reset_seeds[reset_index]
+        )
         try:
             value = env.reset(seed=selected_seed)
         except ValueError:
             raise
         except Exception as error:
-            raise EnvironmentStartupError(f"Environment startup failed: {error}") from error
+            raise EnvironmentStartupError(
+                f"Environment startup failed: {error}"
+            ) from error
         reset_index += 1
         observation, info = value
         reset_seeds_used.append(int(info.get("seed", selected_seed)))
@@ -507,7 +547,7 @@ def run_goal_conditioned_training(
 
     observation, info = reset()
     masks = info["next_unavailable_masks"]
-    behavior_goal = next(goals)
+    behavior_goal = select_behavior_goal(info)
     updates = target_syncs = terminals = truncations = 0
     last_loss: float | None = None
     environment_return = 0.0
@@ -523,8 +563,8 @@ def run_goal_conditioned_training(
             goal=behavior_goal,
         )
         current_info = info
-        next_observation, environment_reward, terminated, truncated, next_info = env.step(
-            action
+        next_observation, environment_reward, terminated, truncated, next_info = (
+            env.step(action)
         )
         next_masks = next_info["next_unavailable_masks"]
         payload = PhysicalTransition(
@@ -565,20 +605,30 @@ def run_goal_conditioned_training(
                 break
             observation, info = reset()
             masks = info["next_unavailable_masks"]
-            behavior_goal = next(goals)
+            behavior_goal = select_behavior_goal(info)
         else:
             observation, info, masks = next_observation, next_info, next_masks
-            if goal_achieved(behavior_goal, action, next_info):
-                behavior_goal = next(goals)
+            if (
+                goal_conditioning
+                and decision < steps - 1
+                and goal_achieved(behavior_goal, action, next_info)
+            ):
+                behavior_goal = select_behavior_goal(info)
 
     if last_loss is None:
-        raise RuntimeError("Goal-conditioned run completed without an optimizer update.")
+        raise RuntimeError(
+            "Goal-conditioned run completed without an optimizer update."
+        )
     payloads = list(replay)
-    counts = _goal_replay_counts(payloads)
+    counts = _goal_replay_counts(payloads, goal_conditioning=goal_conditioning)
     summary = {
-        "trainer": "goal_conditioned_joint_double_dqn",
-        "goal_conditioned": True,
-        "goal_names": [goal.name for goal in BasicGoal],
+        "trainer": (
+            "goal_conditioned_joint_double_dqn"
+            if goal_conditioning
+            else "unconditioned_joint_double_dqn"
+        ),
+        "goal_conditioned": goal_conditioning,
+        "goal_names": [goal.name for goal in BasicGoal] if goal_conditioning else [],
         "decisions": steps,
         "optimizer_updates": updates,
         "target_network_sync_interval": GOAL_TARGET_SYNC_INTERVAL,
@@ -588,10 +638,15 @@ def run_goal_conditioned_training(
         "last_loss": last_loss,
         "training_episode_seeds": reset_seeds_used,
         "physical_replay_count": len(payloads),
-        "relabeled_row_count": 2 * len(payloads),
+        "relabeled_row_count": (
+            len(BasicGoal) * len(payloads) if goal_conditioning else len(payloads)
+        ),
         "replay_counts": counts,
         "cumulative_environment_reward": environment_return,
     }
+    if goal_conditioning and behavior_goal_selector is not None:
+        summary["behavior_goal_seed"] = seed + 1
+        summary["behavior_goal_selection_counts"] = dict(Counter(goal_selections))
     return summary, network
 
 

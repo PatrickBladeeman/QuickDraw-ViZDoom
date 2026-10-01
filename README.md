@@ -1,182 +1,267 @@
-[![Python](https://img.shields.io/pypi/pyversions/vizdoom.svg)](https://badge.fury.io/py/vizdoom)
-[![PyPI version](https://badge.fury.io/py/vizdoom.svg)](https://badge.fury.io/py/vizdoom) [![Build and test](https://github.com/Farama-Foundation/ViZDoom/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/Farama-Foundation/ViZDoom/actions/workflows/build-and-test.yml) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://pre-commit.com/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+# QuickDraw-ViZDoom
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Farama-Foundation/ViZDoom/main/docs/_static/img/vizdoom-text.png" width="500px"/>
-</p>
+QuickDraw-ViZDoom is a research fork of [ViZDoom](https://github.com/Farama-Foundation/ViZDoom)
+for testing goal-conditioned reinforcement learning and LLM advisers. The current
+Basic task compares no goal conditioning, random goals, rule-based goals, and
+LLM-selected goals on held-out target-hit episodes.
 
-ViZDoom allows developing AI **bots that play Doom using only visual information** (the screen buffer). It is primarily intended for research in machine visual learning, and deep reinforcement learning, in particular.
+QuickDraw adds task wrappers, learning and QA code, and experiment reports to the
+upstream ViZDoom platform. The [original ViZDoom README](docs/upstream/ViZDoom-README.md)
+is preserved for upstream installation instructions, features, and licensing
+information. See the [ViZDoom documentation](https://vizdoom.farama.org/) for its API.
 
-ViZDoom is based on [ZDoom](https://zdoom.org) engine to provide the game mechanics.
+All commands below run from the repository root. Learning experiments require
+ViZDoom, NumPy, and PyTorch in the Python environment used to run them.
 
-![ViZDoom Demo](https://raw.githubusercontent.com/Farama-Foundation/ViZDoom/main/docs/_static/img/vizdoom-demo.gif)
+## Setup and QA
 
+Run the checkout-local static gate from the repository root:
 
-## Features
-- API for Python (including [Gymnasium](https://gymnasium.farama.org/)/Gym wrappers) and C++,
-- Multi-platform (Linux, macOS, Windows),
-- Fast (up to 7000 frames/steps per second in sync mode, single-threaded on a modern CPU),
-- Lightweight (few MBs),
-- Easy-to-create custom scenarios (visual editors, powerful scripting language, and examples available),
-- Async and sync single-player and multiplayer modes,
-- Customizable resolution and rendering parameters,
-- Access to the depth buffer (3D vision),
-- Automatic labeling and categorization of game objects visible in the frame,
-- Access to the audio buffer,
-- Access to the list of actors/objects and map geometry,
-- Access to in-game text messages and notifications,
-- Off-screen rendering,
-- Episodes recording,
-- In-game time scaling in async mode.
-
-ViZDoom API is **reinforcement learning** friendly (suitable also for learning from demonstration, apprenticeship learning or apprenticeship via inverse reinforcement learning, etc.).
-
-
-## Cite as
-> M Wydmuch, M Kempka & W Jaśkowski, ViZDoom Competitions: Playing Doom from Pixels, IEEE Transactions on Games, vol. 11, no. 3, pp. 248-259, 2019
-([arXiv:1809.03470](https://arxiv.org/abs/1809.03470))
-```
-@article{Wydmuch2019ViZdoom,
-  author  = {Marek Wydmuch and Micha{\l} Kempka and Wojciech Ja\'skowski},
-  title   = {{ViZDoom} {C}ompetitions: {P}laying {D}oom from {P}ixels},
-  journal = {IEEE Transactions on Games},
-  year    = {2019},
-  volume  = {11},
-  number  = {3},
-  pages   = {248--259},
-  doi     = {10.1109/TG.2018.2877047},
-  note    = {The 2022 IEEE Transactions on Games Outstanding Paper Award}
-}
-```
-or/and
-
-> M. Kempka, M. Wydmuch, G. Runc, J. Toczek & W. Jaśkowski, ViZDoom: A Doom-based AI Research Platform for Visual Reinforcement Learning, IEEE Conference on Computational Intelligence and Games, pp. 341-348, Santorini, Greece, 2016	([arXiv:1605.02097](http://arxiv.org/abs/1605.02097))
-```
-@inproceedings{Kempka2016ViZDoom,
-  author    = {Micha{\l} Kempka and Marek Wydmuch and Grzegorz Runc and Jakub Toczek and Wojciech Ja\'skowski},
-  title     = {{ViZDoom}: A {D}oom-based {AI} Research Platform for Visual Reinforcement Learning},
-  booktitle = {IEEE Conference on Computational Intelligence and Games},
-  year      = {2016},
-  address   = {Santorini, Greece},
-  month     = {Sep},
-  pages     = {341--348},
-  publisher = {IEEE},
-  doi       = {10.1109/CIG.2016.7860433},
-  note      = {The Best Paper Award}
-}
+```powershell
+python -m pip install -r requirements-quickdraw.txt
+python -m quickdraw_vizdoom.qa run --contract contracts/basic-v1.json --profile dev
 ```
 
+The `dev` profile validates contracts without launching ViZDoom or making external
+calls. The integration gate launches one process and validates the saved canonical
+trace:
 
-## Python quick start
-
-
-### Linux
-To install the latest release of ViZDoom, just run:
-```sh
-pip install vizdoom
-```
-Both x86-64 and AArch64 (ARM64) architectures are supported.
-Wheels are available for Python 3.10+ on Linux.
-
-⚠️ To use audio features, you need OpenAL install in your system.
-On apt-based distros (Ubuntu, Debian, Linux Mint, etc.)
-```sh
-apt install libopenal-dev
+```powershell
+python -m quickdraw_vizdoom.qa run --contract contracts/basic-v1.json --profile integration
 ```
 
-On dnf/yum-based distros (Fedora, RHEL, CentOS, Alma/Rocky Linux, etc.)
-```sh
-dnf install openal-soft-devel
+## Visual demonstrations
+
+Watch a fresh micro-learning agent train in the actual Doom window:
+
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.watch --delay 0.4
 ```
 
-If Python wheel is not available for your platform (Python version <3.10, distros below manylinux_2_28 standard), pip will try to install (build) ViZDoom from the source.
-ViZDoom requires a C++11 compiler, CMake 3.12+, Boost 1.54+ SDL2, OpenAL (optional) to install from source.
-See [documentation](https://vizdoom.farama.org/introduction/python_quickstart/) for more details.
+Watch the visual-generalization profile instead:
 
-
-### macOS
-To install the latest release of ViZDoom, just run:
-```sh
-pip install vizdoom
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.watch_generalization --delay 0.4
 ```
-Since 1.3.0+, pre-build wheels are available only for Apple Silicon (M-series chips) macOS 14.0+.
 
-⚠️ To install pre-build wheels on Intel macOS 13.0+, you need to install version 1.2.4 using pip:
-```sh
-pip install vizdoom==1.2.4
+The agent controls the game; the terminal shows its action, reward, selection
+source (`random` or `greedy`), and recent accuracy. A random
+action can coincide with the greedy action and is still labeled exploration.
+This tiny task alternates target-present and target-absent episodes,
+each lasting one decision, with movement disabled. The demonstration runs 512
+training decisions followed by 100 greedy held-out episodes. `--delay` sets the
+viewing pace; Ctrl+C in the terminal stops the run. QA profiles remain headless.
+The generalization watcher also prints the current visual split and variant.
+
+## Collection-teacher comparison
+
+Compare collection teachers for the genuine two-goal Basic learner:
+
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.goal_teachers --teachers rule random --output artifacts/quickdraw/goal-teachers-v1.json
 ```
-If Python wheel is not available for your platform (Python version <3.10, older macOS version), pip will try to install (build) ViZDoom from the source.
-ViZDoom requires a C++11 compiler, CMake 3.12+, Boost 1.54+ SDL2, OpenAL (optional) to install from source.
-See [documentation](https://vizdoom.farama.org/introduction/building/) for more details how to install dependencies.
 
+Each teacher trains the same three seeds for 512 decisions. Rule goals request
+`ALIGN_WITHOUT_FIRE` until aligned, then `HIT_TARGET`; random goals use a separate
+seeded stream. Goals persist until success or environment end. Every transition
+still trains both goals. Frozen evaluation requests each goal directly on the
+same 100 held-out reset seeds, and reports correct/swapped-goal success, returns,
+paired action selections, replay coverage, and parameter hashes. This tests the
+teacher's effect on collected training experience, not a director during evaluation.
+All teachers receive the same privileged slot/ammunition/decision summary.
+This is an exploratory toy task, with no claim of general LLM teaching.
 
-### Windows
-To install the latest release of ViZDoom, just run:
-```sh
-pip install vizdoom
+For an LLM comparison, add `llm` to `--teachers` and supply `--llm-url` (the full
+chat-completions URL) and `--llm-model`. A local loopback server or
+`https://openrouter.ai/api/v1/chat/completions` is supported. OpenRouter reads
+`OPENROUTER_API_KEY` from the environment; keys are never written to the report.
+The CLI defaults to OpenRouter model `qwen/qwen3.5-9b` when `llm` is selected.
+Requests use temperature 0 and at most 64 output tokens. Raw replies, latency,
+provider usage when returned, and failed conditions are retained; invalid goals
+or timeouts fail the condition without a fallback. Use `--evaluation-episodes 10`
+for a small pilot. Output paths must be new so earlier results are preserved.
+
+## Frozen-policy adviser comparison
+
+To test adviser effectiveness during execution, use the four-arm runner:
+
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.adviser_evaluation --arms no_goal random rule --evaluation-episodes 10 --output artifacts/quickdraw/adviser-baselines-new.json
 ```
-At the moment, only x86-64 architecture is supported on Windows.
-Wheels are available for Python 3.10+ on Windows.
 
-Please note that the Windows version is not as well-tested as Linux and macOS versions.
-It can be used for development and testing but if you want to conduct serious (time and resource-extensive) experiments on Windows,
-please consider using [Docker](https://docs.docker.com/docker-for-windows/install/) or [WSL](https://docs.microsoft.com/en-us/windows/wsl) with Linux version.
+It trains two policies for each of three seeds: a no-goal policy with environment
+reward, and a goal-conditioned policy with balanced alternating goals and the
+existing exhaustive relabeling. Both use the same image encoder, nonlinear
+six-action head, Adam optimizer, replay capacity, Double-DQN update, target sync
+interval and 512-decision budget. The no-goal policy's two goal features are zero.
+The no-goal arm runs without an adviser; random, rule and LLM use the same frozen
+goal-conditioned policy per seed. Each adviser chooses a goal at reset or goal
+success, and that goal persists until success or episode end.
 
+The report records held-out target-hit rate, decisions to hit, environment return,
+goal traces, adviser errors/latency/provider-reported cost, paired differences per
+training seed, and unchanged parameter hashes. Failed episodes, including invalid
+LLM responses/timeouts, count against hit rate and receive a decision cost of 300;
+there is no rule fallback. The ten reset seeds give 30 rollouts per arm, with
+three independently trained policies. This is a pilot, not a significance claim.
 
-### Gymnasium/Gym wrappers
-Gymnasium environments are installed along with ViZDoom and are available on all platforms.
-See [documentation](https://github.com/Farama-Foundation/ViZDoom/blob/main/doc/Gymnasium.md) and [examples](https://github.com/Farama-Foundation/ViZDoom/blob/main/examples/python/gymnasium_wrapper.py) on the use of Gymnasium API.
+After setting `OPENROUTER_API_KEY`, reuse the saved policies to evaluate all four
+arms, including the actual LLM, without retraining:
 
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.adviser_evaluation --checkpoint artifacts/quickdraw/adviser-baseline-pilot-20261001-v1-policies.pt --evaluation-episodes 10 --output artifacts/quickdraw/adviser-four-arm-pilot-20261001-v3.json
+```
 
-## Examples
-- [Python](https://github.com/Farama-Foundation/ViZDoom/blob/main/examples/python) (contain learning examples implemented in PyTorch, TensorFlow, and Theano)
-- [C++](https://github.com/Farama-Foundation/ViZDoom/blob/main/examples/c%2B%2B)
+The LLM adapter defaults to `qwen/qwen3.5-9b`; endpoint/model/timeout can be set
+with the same flags as the collection-teacher runner. Increase
+`--evaluation-episodes` to 100 for the next evaluation; increase
+`--training-decisions` when creating new policies if low-level competence is weak.
+Random/rule/LLM comparisons isolate adviser choice. The no-goal comparison measures
+the whole system: goal rewards, relabeling and symbolic adviser information also
+differ. This experiment does not test whether LLM-guided training is better.
 
-Python examples are currently the richest, so we recommend looking at them, even if you plan to use C++.
-The API is almost identical between the languages, with the only difference being that Python uses snake_case and C++ camelCase for methods and functions.
+### Recorded methodology
 
+The completed pilots used these settings; CLI defaults use 100 evaluation reset
+seeds unless `--evaluation-episodes 10` is supplied:
 
-## Original Doom graphics
-Unfortunately, we cannot distribute ViZDoom with original Doom graphics.
-If you own original Doom and Doom 2 games, you can replace [Freedoom](https://freedoom.github.io/) graphics by placing `doom2.wad` into your working directory or `vizdoom` package directory.
+| Setting | Pilot value |
+| --- | --- |
+| Independent training seeds | 32001, 34001, 35001 |
+| Shared evaluation reset seeds | 36000-36009; disjoint from training resets |
+| Training budget | 512 environment decisions per policy and seed |
+| Replay warmup / sampled batch | 32 / 32 physical transitions |
+| Exploration / discount | Training epsilon 0.2 / gamma 0.99; evaluation epsilon 0 |
+| Optimizer / replay capacity | Adam, learning rate 0.001 / 10,000 transitions |
+| Learning updates / target copies | 481 updates; hard copy every 100 updates (4 copies) |
+| Episode limit | 300 decisions |
+| Runtime | CPU, one PyTorch thread |
 
-Alternatively, any base game WAD (including other Doom engine-based games and custom/community games) can be used by pointing to it with the [`set_doom_game_path/setDoomGamePath`](https://vizdoom.farama.org/main/api/python/doom_game/index.html#vizdoom.DoomGame.set_doom_game_path) method.
+The low-level policy receives four stacked 84 x 84 grayscale frames, legal-action
+masks, and a two-element one-hot goal (two zeros for no-goal). Its nonlinear head
+predicts values for six movement/combat combinations: Stay/Left/Right crossed
+with Idle/Shoot. Advisers receive only the privileged `position_slot`,
+`target_slot`, `decision`, and `remaining_ammunition` summary; the rule selects
+ALIGN while unaligned and HIT while aligned, and random selects either goal
+uniformly. This tests symbolic goal advice rather than an LLM interpreting images.
 
+`ALIGN_WITHOUT_FIRE` succeeds when the slots match after an action without
+shooting; its reward is +1 for success, -1 for shooting, otherwise -0.01.
+`HIT_TARGET` succeeds on the environment's target-hit event; its reward is +1 for
+a hit, -0.1 for a missed shot, otherwise -0.01. Each conditioned replay transition
+is labeled for both goals, yielding 64 training rows per sampled batch versus 32
+for no-goal. The no-goal learner uses environment reward: -0.01 per decision,
+an additional +1 for a hit or -0.02 for a missed shot. Double-DQN bootstrapping
+stops on environment termination or requested-goal success; time-limit truncation
+still bootstraps. No-goal bootstrapping stops only on environment termination.
 
-## Documentation
-Detailed descriptions of all ViZDoom types and methods can be found in the [documentation](https://vizdoom.farama.org/).
+Frozen-adviser training alternates behavior goals at reset or goal success. Both
+policies receive the same planned training reset schedule per seed, starting at
+100000, 100512, and 101024 respectively; actual resets differ as policies end
+episodes at different times. The collection-teacher experiment instead trains a
+separate policy for each teacher, with reset schedules starting at its training
+seed. Saved reports contain the actual resets and replay coverage.
 
-Full documentation of the ZDoom engine and ACS scripting language can be found on
-[ZDoom Wiki](https://zdoom.org/wiki/).
+Hit rate counts successful episodes over all scheduled episodes. Mean decision
+cost averages decisions to hit, assigning 300 to every failure, including adviser
+errors. `decisions_to_hit_mean` averages successful episodes only; environment
+return sums environment rewards, independent of relabeled goal rewards. Hits
+follow [BasicV1Env](quickdraw_vizdoom/envs/basic.py): shooting at the target slot
+or a native-engine kill can trigger success. These results therefore describe
+this toy wrapper's mixed symbolic/native task.
 
-Useful articles (for advanced users who want to create custom environments/scenarios):
-- [ZDoom Wiki: ACS (scripting language)](https://zdoom.org/wiki/ACS)
-- [ZDoom Wiki: CVARs (console variables)](https://zdoom.org/wiki/CVARs)
-- [ZDoom Wiki: CCMD (console commands)](https://zdoom.org/wiki/CCMDs)
+The recorded LLM evaluation used OpenRouter `qwen/qwen3.5-9b`, temperature 0,
+64 maximum output tokens, reasoning disabled, JSON output, and a 10-second request
+timeout. The fixed prompt states the two goal definitions and the overall
+target-hit objective. Requests, raw replies, returned model IDs, usage and timing
+are in the report's `llm_prompt` and `teacher_audit` fields. The
+[teacher adapter](quickdraw_vizdoom/goal_teachers.py),
+[learner](quickdraw_vizdoom/learning.py), and
+[evaluation runner](quickdraw_vizdoom/adviser_evaluation.py) implement this protocol.
 
+## Current pilot findings
 
-## Awesome Doom tools/projects
-- [SLADE3](http://slade.mancubus.net/) - Great Doom map (scenario) editor for Linux, macOS and Windows.
-- [Doom Builder 2](http://www.doombuilder.com/) - Another great Doom map editor for Windows.
-- [OBLIGE](http://oblige.sourceforge.net/) - Doom random map generator and [PyOblige](https://github.com/mwydmuch/PyOblige) is a simple Python wrapper for it.
-- [Omgifol](https://github.com/devinacker/omgifol) - Nice Python library for manipulating Doom maps.
-- [NavDoom](https://github.com/agiantwhale/navdoom) - Maze navigation generator for ViZDoom (similar to DeepMind Lab).
-- [MazeExplorer](https://github.com/microsoft/MazeExplorer) - A more sophisticated maze navigation generator for ViZDoom.
-- [Sample Factory](https://github.com/alex-petrenko/sample-factory) - A high-performance reinforcement learning framework for ViZDoom.
-- [EnvPool](https://github.com/sail-sg/envpool/) - A high-performance vectorized environment for ViZDoom.
-- [Obsidian](https://github.com/dashodanger/Obsidian) - Doom random map generator, a continuation of OBLIGE.
-- [LevDoom](https://github.com/TTomilin/LevDoom) - Generalization benchmark in ViZDoom featuring difficulty levels in visual complexity.
-- [COOM](https://github.com/TTomilin/COOM) - Continual learning benchmark in ViZDoom offering task sequences with diverse objectives.
-- [HASARD](https://github.com/TTomilin/HASARD) - A safe reinforcement learning benchmark in ViZDoom
+The completed [four-arm pilot](artifacts/quickdraw/adviser-four-arm-pilot-20261001-v2.json)
+used 512 training decisions (481 updates) per policy and seed, with 30 evaluation
+episodes per arm:
 
-If you have a cool project that uses ViZDoom or could be interesting to ViZDoom community, feel free to open PR to add it to this list!
+| Arm | Target hits | Hit rate | Mean decision cost (failure = 300) |
+| --- | --- | --- | --- |
+| No goal | 19/30 | 63.3% | 113.60 |
+| Random goals | 7/30 | 23.3% | 230.87 |
+| Rule goals | 5/30 | 16.7% | 251.27 |
+| Qwen3.5-9B LLM goals | 11/30 | 36.7% | 191.37 |
+| Always HIT_TARGET (post-hoc control) | 11/30 | 36.7% | 191.37 |
 
+There were no adviser errors or evaluation updates, and all parameter hashes
+remained unchanged. The three original baselines reproduced every episode record
+from the [baseline pilot](artifacts/quickdraw/adviser-baseline-pilot-20261001-v2.json).
+Qwen returned 30 valid goal choices, all `HIT_TARGET`, at a provider-reported total
+cost of $0.0004341 and 55.47 seconds of cumulative request latency.
 
-## Contributions
-This project is maintained and developed in our free time. All bug fixes, new examples, scenarios, and other contributions are welcome! We are also open to feature ideas and design suggestions.
+The observed LLM hit rate exceeded the current rule adviser by 20 percentage
+points and random goals by 13.3 points. However, the
+[post-hoc constant-goal control](artifacts/quickdraw/adviser-always-hit-check-20261001-v1.json)
+matched all 30 LLM episode records, including outcomes, decision counts and goal
+traces, using no API calls. Thus the observed gain is reproducible with a fixed
+goal and does not demonstrate an advantage that requires an LLM. This control was
+added after observing Qwen's choices; its selector latency was not measured.
 
-We have a roadmap for future development work for ViZDoom available [here](https://github.com/Farama-Foundation/ViZDoom/issues/546).
+Hits varied substantially across training seeds (ten episodes per cell):
 
+| Training seed | No goal | Random | Rule | LLM / always HIT_TARGET |
+| --- | --- | --- | --- | --- |
+| 32001 | 10/10 | 0/10 | 0/10 | 0/10 |
+| 34001 | 7/10 | 6/10 | 4/10 | 9/10 |
+| 35001 | 2/10 | 1/10 | 1/10 | 2/10 |
 
-## License
-The code original to ViZDoom is under MIT license. ZDoom uses code from several sources with [varying licensing schemes](http://zdoom.org/wiki/license).
+Five of the six extra LLM hits over rule came from seed 34001. The goal policy for
+seed 32001 hit zero targets with every adviser, demonstrating limited target-hit
+execution at this budget. No-goal had the highest pooled hit rate, but its reward
+and replay setup also differ. Thirty rollouts reuse three independently trained
+policies per policy type and ten reset seeds; they are not thirty independent
+training runs. These are small Basic-task findings, without a general claim about
+LLM teaching or statistical significance. The v1 four-arm artifact retains an
+earlier credential failure; it contains no model responses.
+
+The earlier [collection-teacher pilot](artifacts/quickdraw/goal-teacher-pilot-20261001-v1.json)
+also provides evidence that the learner responds to its goal input:
+
+| Collection teacher | Correct goal success | Swapped goal success |
+| --- | --- | --- |
+| Rule | 37/60 (61.7%) | 8/60 (13.3%) |
+| Random | 34/60 (56.7%) | 9/60 (15.0%) |
+
+Each column covers both requested goals, three training seeds, and ten reset
+seeds. Evaluation supplies the requested goal or its opposite while checking
+success against the original request, stopping on that success or environment
+end. The large success drop with swapped inputs supports goal-sensitive behavior.
+The five-point rule/random gap is exploratory. No LLM was evaluated in this
+collection pilot, and its combined alignment/hit success metric differs from the
+full target-hit task above.
+
+## Acknowledgements and citations
+
+This work builds on ViZDoom, created by Michał Kempka, Marek Wydmuch, Grzegorz Runc,
+Jakub Toczek, and Wojciech Jaśkowski. We thank the original authors, the
+[Farama Foundation and ViZDoom contributors](https://github.com/Farama-Foundation/ViZDoom),
+and the [ZDoom project](https://zdoom.org/) for the platform and engine underlying
+these experiments. The QuickDraw task definitions and findings belong to this
+research fork; the underlying ViZDoom platform is credited to its original authors
+and contributors.
+
+When reporting research using this fork, please cite the original ViZDoom papers:
+
+1. Michał Kempka, Marek Wydmuch, Grzegorz Runc, Jakub Toczek, and Wojciech Jaśkowski
+   (2016). [*ViZDoom: A Doom-based AI Research Platform for Visual Reinforcement
+   Learning*](https://arxiv.org/abs/1605.02097). IEEE Conference on Computational
+   Intelligence and Games, pp. 341-348.
+   [DOI: 10.1109/CIG.2016.7860433](https://doi.org/10.1109/CIG.2016.7860433).
+2. Marek Wydmuch, Michał Kempka, and Wojciech Jaśkowski (2019).
+   [*ViZDoom Competitions: Playing Doom from Pixels*](https://arxiv.org/abs/1809.03470).
+   IEEE Transactions on Games, 11(3), pp. 248-259.
+   [DOI: 10.1109/TG.2018.2877047](https://doi.org/10.1109/TG.2018.2877047).
+
+The original [BibTeX entries](docs/upstream/ViZDoom-README.md#cite-as) and
+[licensing information](docs/upstream/ViZDoom-README.md#license) are retained in the
+archived README. Existing upstream copyright and licensing notices are preserved.
