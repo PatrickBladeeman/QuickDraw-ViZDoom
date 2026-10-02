@@ -13,7 +13,10 @@ import numpy as np
 import torch
 
 from quickdraw_vizdoom.envs import BasicV1Env
-from quickdraw_vizdoom.learning_components import (
+from quickdraw_vizdoom.learning_components import (  # noqa: F401 - compatibility exports
+    GOAL_COUNT,
+    GOAL_TARGET_SYNC_INTERVAL,
+    JOINT_ACTIONS,
     BasicGoal,
     BranchAction,
     BranchingQNetwork,
@@ -23,9 +26,6 @@ from quickdraw_vizdoom.learning_components import (
     GoalPotential,
     GoalRow,
     GoalSelector,
-    GOAL_COUNT,
-    GOAL_TARGET_SYNC_INTERVAL,
-    JOINT_ACTIONS,
     Masks,
     PhysicalTransition,
     Transition,
@@ -430,17 +430,30 @@ def run_training(
 
 
 def _goal_replay_counts(
-    payloads: Sequence[PhysicalTransition], *, goal_conditioning: bool = True
+    payloads: Sequence[PhysicalTransition],
+    *,
+    goal_conditioning: bool = True,
+    fixed_goal: BasicGoal | None = None,
+    environment_reward: bool = False,
 ) -> dict[str, dict[str, int]]:
     behavior, relabeled, actions, rewards, successes = (Counter() for _ in range(5))
     for payload in payloads:
         if payload.behavior_goal is not None:
             behavior[payload.behavior_goal.name] += 1
         if goal_conditioning:
-            for goal in BasicGoal:
+            for _, goal in relabel_transition(
+                payload, goal_conditioning=True, fixed_goal=fixed_goal
+            ):
+                assert goal is not None
                 relabeled[goal.name] += 1
                 actions[str(payload.action)] += 1
-                rewards[str(goal_reward(goal, payload.action, payload.next_info))] += 1
+                rewards[
+                    str(
+                        payload.environment_reward
+                        if environment_reward
+                        else goal_reward(goal, payload.action, payload.next_info)
+                    )
+                ] += 1
                 successes[
                     str(goal_achieved(goal, payload.action, payload.next_info)).lower()
                 ] += 1
@@ -473,6 +486,8 @@ def run_goal_conditioned_training(
         Callable[[Mapping[str, Any], np.random.Generator], BasicGoal] | None
     ) = None,
     goal_conditioning: bool = True,
+    fixed_goal: BasicGoal | int | None = None,
+    environment_reward: bool = False,
 ) -> tuple[dict[str, Any], GoalConditionedQNetwork]:
     """Train Basic with a matched joint-action Double-DQN path.
 
@@ -490,6 +505,15 @@ def run_goal_conditioned_training(
         raise ValueError("epsilon must be between zero and one.")
     if not goal_conditioning and behavior_goal_selector is not None:
         raise ValueError("An unconditioned run cannot use a behavior goal selector.")
+    if not isinstance(environment_reward, bool):
+        raise ValueError("environment_reward must be a bool.")
+    if not goal_conditioning and (fixed_goal is not None or environment_reward):
+        raise ValueError("Unconditioned training already uses environment rewards.")
+    if fixed_goal is not None and behavior_goal_selector is not None:
+        raise ValueError("A fixed goal cannot use a behavior goal selector.")
+    selected_fixed_goal = (
+        None if fixed_goal is None else BasicGoal(operator.index(fixed_goal))
+    )
 
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -504,17 +528,24 @@ def run_goal_conditioned_training(
     target_network.load_state_dict(network.state_dict())
     optimizer = torch.optim.Adam(network.parameters(), lr=1e-3)
     replay: deque[PhysicalTransition] = deque(maxlen=10_000)
-    goals = cycle(BasicGoal) if goal_conditioning else None
+    goals = (
+        cycle(BasicGoal) if goal_conditioning and selected_fixed_goal is None else None
+    )
     goal_rng = np.random.default_rng(seed + 1)
     goal_selections: list[str] = []
+    behavior_goal_decisions = Counter()
 
     def select_behavior_goal(info: Mapping[str, Any]) -> BasicGoal | None:
         if not goal_conditioning:
             return None
         selected = (
-            next(goals)
-            if behavior_goal_selector is None
-            else behavior_goal_selector(info, goal_rng)
+            selected_fixed_goal
+            if selected_fixed_goal is not None
+            else (
+                next(goals)
+                if behavior_goal_selector is None
+                else behavior_goal_selector(info, goal_rng)
+            )
         )
         try:
             goal = BasicGoal(operator.index(selected))
@@ -563,14 +594,18 @@ def run_goal_conditioned_training(
             goal=behavior_goal,
         )
         current_info = info
-        next_observation, environment_reward, terminated, truncated, next_info = (
-            env.step(action)
-        )
+        (
+            next_observation,
+            transition_environment_reward,
+            terminated,
+            truncated,
+            next_info,
+        ) = env.step(action)
         next_masks = next_info["next_unavailable_masks"]
         payload = PhysicalTransition(
             observation,
             action,
-            environment_reward,
+            transition_environment_reward,
             next_observation,
             terminated,
             truncated,
@@ -580,7 +615,9 @@ def run_goal_conditioned_training(
             behavior_goal,
         )
         replay.append(payload)
-        environment_return += float(environment_reward)
+        if behavior_goal is not None:
+            behavior_goal_decisions[behavior_goal.name] += 1
+        environment_return += float(transition_environment_reward)
 
         if len(replay) >= threshold:
             last_loss = goal_train_step(
@@ -592,6 +629,8 @@ def run_goal_conditioned_training(
                 gamma=gamma,
                 device=torch_device,
                 target_network=target_network,
+                fixed_goal=selected_fixed_goal,
+                environment_reward=environment_reward,
             )
             updates += 1
             if updates % GOAL_TARGET_SYNC_INTERVAL == 0:
@@ -620,7 +659,12 @@ def run_goal_conditioned_training(
             "Goal-conditioned run completed without an optimizer update."
         )
     payloads = list(replay)
-    counts = _goal_replay_counts(payloads, goal_conditioning=goal_conditioning)
+    counts = _goal_replay_counts(
+        payloads,
+        goal_conditioning=goal_conditioning,
+        fixed_goal=selected_fixed_goal,
+        environment_reward=environment_reward,
+    )
     summary = {
         "trainer": (
             "goal_conditioned_joint_double_dqn"
@@ -628,7 +672,15 @@ def run_goal_conditioned_training(
             else "unconditioned_joint_double_dqn"
         ),
         "goal_conditioned": goal_conditioning,
-        "goal_names": [goal.name for goal in BasicGoal] if goal_conditioning else [],
+        "goal_names": (
+            [selected_fixed_goal.name]
+            if selected_fixed_goal is not None
+            else [goal.name for goal in BasicGoal] if goal_conditioning else []
+        ),
+        "fixed_goal": (
+            None if selected_fixed_goal is None else selected_fixed_goal.name
+        ),
+        "environment_reward": environment_reward or not goal_conditioning,
         "decisions": steps,
         "optimizer_updates": updates,
         "target_network_sync_interval": GOAL_TARGET_SYNC_INTERVAL,
@@ -639,14 +691,18 @@ def run_goal_conditioned_training(
         "training_episode_seeds": reset_seeds_used,
         "physical_replay_count": len(payloads),
         "relabeled_row_count": (
-            len(BasicGoal) * len(payloads) if goal_conditioning else len(payloads)
+            (1 if selected_fixed_goal is not None else len(BasicGoal)) * len(payloads)
+            if goal_conditioning
+            else len(payloads)
         ),
         "replay_counts": counts,
         "cumulative_environment_reward": environment_return,
     }
-    if goal_conditioning and behavior_goal_selector is not None:
-        summary["behavior_goal_seed"] = seed + 1
+    if goal_conditioning:
         summary["behavior_goal_selection_counts"] = dict(Counter(goal_selections))
+        summary["behavior_goal_decision_counts"] = dict(behavior_goal_decisions)
+        if behavior_goal_selector is not None:
+            summary["behavior_goal_seed"] = seed + 1
     return summary, network
 
 

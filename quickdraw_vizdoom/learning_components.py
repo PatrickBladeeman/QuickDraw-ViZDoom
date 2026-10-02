@@ -54,6 +54,7 @@ Transition = UnconditionedTransition | ConditionedTransition
 GoalSelector = Callable[[Mapping[str, Any]], int]
 GoalPotential = Callable[[Mapping[str, Any], int | None], float]
 
+
 def _image_encoder() -> nn.Sequential:
     return nn.Sequential(
         nn.Conv2d(4, 16, kernel_size=8, stride=4),
@@ -81,6 +82,7 @@ def _prepare_observations(observations: torch.Tensor) -> torch.Tensor:
 
 class EnvironmentStartupError(RuntimeError):
     """Raised when a smoke session cannot start its environment."""
+
 
 class BranchingQNetwork(nn.Module):
     """A shared image encoder with movement and combat Q-value heads."""
@@ -263,6 +265,7 @@ class PhysicalTransition:
         if self.behavior_goal is not None:
             object.__setattr__(self, "behavior_goal", _coerce_goal(self.behavior_goal))
 
+
 def _event_present(info: Mapping[str, Any], event: str) -> bool:
     return bool(info.get(event, False)) or event in info.get("events", ())
 
@@ -274,10 +277,13 @@ def goal_achieved(
 ) -> bool:
     selected = _coerce_goal(goal)
     if selected is BasicGoal.ALIGN_WITHOUT_FIRE:
-        return (
-            action[1] == 0
-            and next_info.get("position_slot") == next_info.get("target_slot")
-        )
+        if "aligned" in next_info:
+            aligned = bool(next_info["aligned"])
+        elif "position_slot" in next_info and "target_slot" in next_info:
+            aligned = next_info["position_slot"] == next_info["target_slot"]
+        else:
+            aligned = False
+        return action[1] == 0 and aligned
     return _event_present(next_info, "target_hit")
 
 
@@ -323,10 +329,17 @@ GoalRow = tuple[PhysicalTransition, BasicGoal | None]
 
 
 def relabel_transition(
-    physical: PhysicalTransition, *, goal_conditioning: bool = True
+    physical: PhysicalTransition,
+    *,
+    goal_conditioning: bool = True,
+    fixed_goal: BasicGoal | int | None = None,
 ) -> tuple[GoalRow, ...]:
     if not goal_conditioning:
+        if fixed_goal is not None:
+            raise ValueError("An unconditioned replay cannot have a fixed goal.")
         return ((physical, None),)
+    if fixed_goal is not None:
+        return ((physical, _coerce_goal(fixed_goal)),)
     return tuple((physical, goal) for goal in BasicGoal)
 
 
@@ -496,6 +509,7 @@ def compute_goal_td_targets(
     transitions: Sequence[GoalRow],
     gamma: float = 0.99,
     device: torch.device | str = "cpu",
+    environment_reward: bool = False,
 ) -> torch.Tensor:
     """Compute masked Double-DQN targets without changing the row's goal."""
 
@@ -519,12 +533,18 @@ def compute_goal_td_targets(
         ),
         device=device,
     )
+    if not isinstance(environment_reward, bool):
+        raise ValueError("environment_reward must be a bool.")
     rewards = torch.as_tensor(
         [
             (
-                goal_reward(goal, physical.action, physical.next_info)
-                if conditioned
-                else physical.environment_reward
+                physical.environment_reward
+                if environment_reward
+                else (
+                    goal_reward(goal, physical.action, physical.next_info)
+                    if conditioned
+                    else physical.environment_reward
+                )
             )
             for physical, goal in transitions
         ],
@@ -534,11 +554,15 @@ def compute_goal_td_targets(
     done = torch.as_tensor(
         [
             (
-                goal_done(
-                    goal, physical.action, physical.next_info, physical.terminated
+                physical.terminated
+                if environment_reward
+                else (
+                    goal_done(
+                        goal, physical.action, physical.next_info, physical.terminated
+                    )
+                    if conditioned
+                    else physical.terminated
                 )
-                if conditioned
-                else physical.terminated
             )
             for physical, goal in transitions
         ],
@@ -566,6 +590,8 @@ def goal_train_step(
     device: torch.device | str = "cpu",
     *,
     target_network: GoalConditionedQNetwork,
+    fixed_goal: BasicGoal | int | None = None,
+    environment_reward: bool = False,
 ) -> float:
     """Perform one optimizer update over relabeled or unconditioned rows."""
 
@@ -577,6 +603,7 @@ def goal_train_step(
         for row in relabel_transition(
             replay[int(index)],
             goal_conditioning=getattr(network, "goal_conditioning", True),
+            fixed_goal=fixed_goal,
         )
     ]
     observations = torch.as_tensor(
@@ -595,7 +622,12 @@ def goal_train_step(
     values = network(observations, goals)
     selected = values.gather(1, actions.unsqueeze(1)).squeeze(1)
     targets = compute_goal_td_targets(
-        network, target_network, rows, gamma=gamma, device=device
+        network,
+        target_network,
+        rows,
+        gamma=gamma,
+        device=device,
+        environment_reward=environment_reward,
     )
     loss = F.smooth_l1_loss(selected, targets)
     optimizer.zero_grad()

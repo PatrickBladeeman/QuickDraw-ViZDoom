@@ -34,6 +34,7 @@ from quickdraw_vizdoom.learning_components import (
     BasicGoal,
     GoalConditionedQNetwork,
     goal_achieved,
+    goal_one_hot,
     select_goal_action,
 )
 
@@ -44,7 +45,15 @@ DECISION_LIMIT = 300
 
 
 def evaluate_adviser(
-    network, env, episode_seeds, training_seed, teacher=None, audit=None
+    network,
+    env,
+    episode_seeds,
+    training_seed,
+    teacher=None,
+    audit=None,
+    *,
+    requested_goal=None,
+    trace_episodes=0,
 ):
     """Run the target-hit task; teacher errors count as failed episodes."""
     if network.goal_conditioning != (teacher is not None):
@@ -58,13 +67,19 @@ def evaluate_adviser(
     network.eval()
     device = next(network.parameters()).device
     rows = []
+    outcome_goal = (
+        BasicGoal.HIT_TARGET if requested_goal is None else BasicGoal(requested_goal)
+    )
     with torch.no_grad():
-        for seed in seeds:
+        for episode_index, seed in enumerate(seeds):
             observation, info = env.reset(seed=seed)
+            native = "native_geometry" in info
+            alignment_decision, steps = None, []
             rng_seed = int(training_seed) * 100_000 + seed
             rng = np.random.default_rng(rng_seed)
             policy_rng = np.random.default_rng(seed)
             total, decisions, hit, error = 0.0, 0, False, None
+            success = False
             goal, need_goal, trace = None, teacher is not None, []
             for _ in range(DECISION_LIMIT):
                 if need_goal:
@@ -96,11 +111,43 @@ def evaluate_adviser(
                     device,
                     goal=goal,
                 )
+                if episode_index < trace_episodes:
+                    values = (
+                        network(
+                            torch.as_tensor(observation, device=device),
+                            None if goal is None else goal_one_hot(goal, device=device),
+                        )
+                        .squeeze(0)
+                        .tolist()
+                    )
+                    step = {
+                        "decision": decisions,
+                        "goal": None if goal is None else goal.name,
+                        "alignment_error": info.get("alignment_error"),
+                        "action": list(action),
+                        "q_values": values,
+                    }
                 observation, reward, terminated, truncated, info = env.step(action)
                 decisions += 1
                 total += float(reward)
                 hit = goal_achieved(BasicGoal.HIT_TARGET, action, info)
-                if hit or terminated or truncated:
+                if native and hit != (info.get("native_kill_count", 0) > 0):
+                    raise RuntimeError(
+                        "Native hit event and engine kill count disagree."
+                    )
+                success = goal_achieved(outcome_goal, action, info)
+                if alignment_decision is None and goal_achieved(
+                    BasicGoal.ALIGN_WITHOUT_FIRE, action, info
+                ):
+                    alignment_decision = decisions
+                if episode_index < trace_episodes:
+                    step.update(
+                        next_alignment_error=info.get("alignment_error"),
+                        events=info.get("events", []),
+                        native_kill_count=info.get("native_kill_count"),
+                    )
+                    steps.append(step)
+                if success or terminated or truncated:
                     break
                 need_goal = teacher is not None and goal_achieved(goal, action, info)
             rows.append(
@@ -116,6 +163,25 @@ def evaluate_adviser(
                     "goal_trace": trace,
                 }
             )
+            if native or requested_goal is not None:
+                row = rows[-1]
+                handoff = any(
+                    left["goal"] == BasicGoal.ALIGN_WITHOUT_FIRE.name
+                    and right["goal"] == BasicGoal.HIT_TARGET.name
+                    for left, right in zip(trace, trace[1:])
+                )
+                row.update(
+                    requested_goal=outcome_goal.name,
+                    requested_goal_success=error is None and success,
+                    native_kill_count=info.get("native_kill_count", 0),
+                    alignment_decision=alignment_decision,
+                    align_to_hit_handoff=handoff,
+                    handoff_hit=handoff and hit,
+                    infrastructure_invalid="infrastructure_invalid"
+                    in info.get("events", []),
+                )
+            if episode_index < trace_episodes:
+                rows[-1]["step_trace"] = steps
     after = _hash(network)
     if before != after:
         raise RuntimeError("Evaluation changed policy parameters.")

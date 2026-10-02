@@ -32,107 +32,147 @@ PROMPT = (
     "until achieved or the episode ends. Return only JSON with exactly one key: "
     '{"goal":"ALIGN_WITHOUT_FIRE"} or {"goal":"HIT_TARGET"}.'
 )
+NATIVE_PROMPT = (
+    "Choose a desired outcome for a low-level FPS policy. Hit the visible Doom "
+    "target with few decisions. ALIGN_WITHOUT_FIRE moves or holds position "
+    "without shooting until aligned is true (native lateral error within 8 "
+    "world units). Positive alignment_error means move left; negative means "
+    "move right. HIT_TARGET permits movement and shooting to kill the native "
+    "target. Goals persist until achieved or the episode ends. Return only "
+    'JSON with exactly one key: {"goal":"ALIGN_WITHOUT_FIRE"} or '
+    '{"goal":"HIT_TARGET"}.'
+)
 
 
 def teacher_summary(info):
     """The identical privileged symbolic input used by every teacher."""
     state = {
-        "position_slot": operator.index(info["position_slot"]),
-        "target_slot": operator.index(info["target_slot"]),
         "decision": operator.index(info.get("decision", 0)),
         "remaining_ammunition": operator.index(info.get("remaining_ammunition", 300)),
     }
+    if "alignment_error" in info:
+        error = float(info["alignment_error"])
+        if not math.isfinite(error) or not isinstance(info.get("aligned"), bool):
+            raise ValueError("Native teacher geometry must be finite and explicit.")
+        state.update(aligned=info["aligned"], alignment_error=error)
+    else:
+        state.update(
+            position_slot=operator.index(info["position_slot"]),
+            target_slot=operator.index(info["target_slot"]),
+        )
+        if not -4 <= state["position_slot"] <= 4 or not -4 <= state["target_slot"] <= 4:
+            raise ValueError("Teacher state is outside the Basic contract.")
     if (
-        not -4 <= state["position_slot"] <= 4
-        or not -4 <= state["target_slot"] <= 4
-        or not 0 <= state["decision"] <= 300
+        not 0 <= state["decision"] <= 300
         or not 0 <= state["remaining_ammunition"] <= 300
     ):
         raise ValueError("Teacher state is outside the Basic contract.")
     return state
 
 
+def validate_llm(url, model, timeout):
+    """Check the shared HTTP boundary without making a provider request."""
+    if not math.isfinite(timeout) or timeout <= 0:
+        raise ValueError("Teacher timeout must be finite and positive.")
+    parsed = urllib.parse.urlsplit(url or "")
+    local = parsed.scheme in ("http", "https") and parsed.hostname in (
+        "localhost",
+        "127.0.0.1",
+        "::1",
+    )
+    if (
+        not (local or url == OPENROUTER_URL)
+        or parsed.username is not None
+        or parsed.password is not None
+        or not model
+    ):
+        raise ValueError(
+            "LLM teacher requires a loopback or OpenRouter URL and model ID."
+        )
+    if url == OPENROUTER_URL:
+        key = os.environ.get("OPENROUTER_API_KEY")
+        if not key:
+            raise ValueError(
+                "Set OPENROUTER_API_KEY in the environment before using OpenRouter."
+            )
+        if not all(33 <= ord(character) <= 126 for character in key):
+            raise ValueError(
+                "OPENROUTER_API_KEY must be visible ASCII without spaces or "
+                "line breaks; paste only the API key."
+            )
+
+
+def request_json(prompt, state, *, url, model, timeout, record):
+    """Shared bounded chat request; callers validate their own result schema."""
+    validate_llm(url, model, timeout)
+    request = {
+        "model": model,
+        "temperature": 0,
+        "max_tokens": 64,
+        "messages": [
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": json.dumps(state, sort_keys=True)},
+        ],
+    }
+    if url == OPENROUTER_URL:
+        request["reasoning"] = {"enabled": False}
+        request["response_format"] = {"type": "json_object"}
+    record["request"] = request
+    headers = {"Content-Type": "application/json"}
+    if url == OPENROUTER_URL:
+        headers["Authorization"] = "Bearer " + os.environ["OPENROUTER_API_KEY"]
+    boundary = urllib.request.Request(
+        url, data=json.dumps(request).encode("utf-8"), headers=headers, method="POST"
+    )
+    with urllib.request.urlopen(boundary, timeout=timeout) as response:
+        raw = response.read(65537)
+    if len(raw) > 65536:
+        raise ValueError("LLM response exceeds 64 KiB.")
+    record["raw_response"] = raw.decode("utf-8")
+    payload = json.loads(record["raw_response"])
+    record["response_model"] = payload.get("model")
+    record["usage"] = payload.get("usage")
+    return json.loads(payload["choices"][0]["message"]["content"])
+
+
 def make_teacher(kind, *, url=None, model=None, timeout=10.0, audit=None):
     """Return a goal selector; failed LLM requests never fall back to a rule."""
-    if kind not in ("rule", "random", "llm"):
-        raise ValueError("Teacher must be rule, random, or llm.")
+    if kind not in ("hit", "rule", "random", "llm"):
+        raise ValueError("Teacher must be hit, rule, random, or llm.")
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("Teacher timeout must be finite and positive.")
     if kind == "llm":
-        parsed = urllib.parse.urlsplit(url or "")
-        local = parsed.scheme in ("http", "https") and parsed.hostname in (
-            "localhost",
-            "127.0.0.1",
-            "::1",
-        )
-        if (
-            not (local or url == OPENROUTER_URL)
-            or parsed.username is not None
-            or parsed.password is not None
-            or not model
-        ):
-            raise ValueError(
-                "LLM teacher requires a loopback or OpenRouter URL and model ID."
-            )
-        if url == OPENROUTER_URL:
-            key = os.environ.get("OPENROUTER_API_KEY")
-            if not key:
-                raise ValueError(
-                    "Set OPENROUTER_API_KEY in the environment before using OpenRouter."
-                )
-            if not all(33 <= ord(character) <= 126 for character in key):
-                raise ValueError(
-                    "OPENROUTER_API_KEY must be visible ASCII without spaces or "
-                    "line breaks; paste only the API key."
-                )
+        validate_llm(url, model, timeout)
 
     def select(info, rng):
         state = teacher_summary(info)
         started = time.perf_counter()
         record = {"teacher": kind, "state": state}
         try:
-            if kind == "rule":
+            if kind == "hit":
+                goal = BasicGoal.HIT_TARGET
+            elif kind == "rule":
+                aligned = (
+                    state["aligned"]
+                    if "aligned" in state
+                    else state["position_slot"] == state["target_slot"]
+                )
                 goal = (
                     BasicGoal.ALIGN_WITHOUT_FIRE
-                    if state["position_slot"] != state["target_slot"]
+                    if not aligned
                     else BasicGoal.HIT_TARGET
                 )
             elif kind == "random":
                 goal = BasicGoal(int(rng.integers(len(BasicGoal))))
             else:
-                request = {
-                    "model": model,
-                    "temperature": 0,
-                    "max_tokens": 64,
-                    "messages": [
-                        {"role": "system", "content": PROMPT},
-                        {"role": "user", "content": json.dumps(state, sort_keys=True)},
-                    ],
-                }
-                if url == OPENROUTER_URL:
-                    request["reasoning"] = {"enabled": False}
-                    request["response_format"] = {"type": "json_object"}
-                record["request"] = request
-                headers = {"Content-Type": "application/json"}
-                if url == OPENROUTER_URL:
-                    headers["Authorization"] = (
-                        "Bearer " + os.environ["OPENROUTER_API_KEY"]
-                    )
-                boundary = urllib.request.Request(
-                    url,
-                    data=json.dumps(request).encode("utf-8"),
-                    headers=headers,
-                    method="POST",
+                content = request_json(
+                    NATIVE_PROMPT if "aligned" in state else PROMPT,
+                    state,
+                    url=url,
+                    model=model,
+                    timeout=timeout,
+                    record=record,
                 )
-                with urllib.request.urlopen(boundary, timeout=timeout) as response:
-                    raw = response.read(65537)
-                if len(raw) > 65536:
-                    raise ValueError("LLM response exceeds 64 KiB.")
-                record["raw_response"] = raw.decode("utf-8")
-                payload = json.loads(record["raw_response"])
-                record["response_model"] = payload.get("model")
-                record["usage"] = payload.get("usage")
-                content = json.loads(payload["choices"][0]["message"]["content"])
                 if not isinstance(content, dict) or set(content) != {"goal"}:
                     raise ValueError("LLM must return exactly one JSON goal field.")
                 goal = BasicGoal[content["goal"]]

@@ -65,6 +65,46 @@ class ThreeStepEnv:
         self.closed = True
 
 
+def test_native_goal_summary_and_handoff_use_actual_geometry(monkeypatch):
+    class NativeEnv(ThreeStepEnv):
+        def reset(self, *, seed):
+            observation, info = super().reset(seed=seed)
+            info.update(native_geometry={}, aligned=False, alignment_error=16.0)
+            return observation, info
+
+        def step(self, action):
+            observation, reward, hit, truncated, info = super().step(action)
+            info.update(
+                aligned=self.position == 2,
+                alignment_error=16.0 - 8.0 * self.position,
+                native_kill_count=int(hit),
+            )
+            return observation, reward, hit, truncated, info
+
+    monkeypatch.setattr(
+        experiment,
+        "select_goal_action",
+        lambda *args, goal, **kwargs: (
+            (2, 0) if goal == BasicGoal.ALIGN_WITHOUT_FIRE else (0, 1)
+        ),
+    )
+    report = experiment.evaluate_adviser(
+        TinyPolicy(), NativeEnv(), [36000], 32001, make_teacher("rule")
+    )
+    episode = report["episodes"][0]
+    assert episode["native_kill_count"] == 1
+    assert episode["alignment_decision"] == 2
+    assert episode["align_to_hit_handoff"] and episode["handoff_hit"]
+    assert episode["requested_goal_success"]
+
+
+def test_native_summary_rejects_nonfinite_geometry():
+    from quickdraw_vizdoom.goal_teachers import teacher_summary
+
+    with pytest.raises(ValueError, match="finite"):
+        teacher_summary({"aligned": False, "alignment_error": float("nan")})
+
+
 def test_no_goal_uses_matched_network_and_environment_reward_ddqn():
     conditioned, plain = GoalConditionedQNetwork(), GoalConditionedQNetwork(False)
     assert conditioned.state_dict().keys() == plain.state_dict().keys()

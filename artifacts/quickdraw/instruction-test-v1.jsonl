@@ -1,0 +1,60 @@
+{"id":"instruction-v1-001","family":"direct","instruction":"Line up with the target without firing, and leave it alive.","task":"preserve"}
+{"id":"instruction-v1-002","family":"direct","instruction":"Get into the target's position without taking a shot.","task":"preserve"}
+{"id":"instruction-v1-003","family":"direct","instruction":"Kill the target.","task":"hit"}
+{"id":"instruction-v1-004","family":"direct","instruction":"Shoot the target down.","task":"hit"}
+{"id":"instruction-v1-005","family":"direct","instruction":"First align with the target, then fire and destroy it.","task":"align_then_hit"}
+{"id":"instruction-v1-006","family":"direct","instruction":"Match the target's position before your first shot, then eliminate it.","task":"align_then_hit"}
+{"id":"instruction-v1-007","family":"polite_request","instruction":"Please move into line with the target and do not shoot it.","task":"preserve"}
+{"id":"instruction-v1-008","family":"polite_request","instruction":"Please align with the target while keeping it unharmed.","task":"preserve"}
+{"id":"instruction-v1-009","family":"polite_request","instruction":"Please hit the target.","task":"hit"}
+{"id":"instruction-v1-010","family":"polite_request","instruction":"Please take out the target.","task":"hit"}
+{"id":"instruction-v1-011","family":"polite_request","instruction":"Please get aligned before shooting the target.","task":"align_then_hit"}
+{"id":"instruction-v1-012","family":"polite_request","instruction":"Please wait to fire until you are lined up, then kill the target.","task":"align_then_hit"}
+{"id":"instruction-v1-013","family":"imperative","instruction":"Reach the target's lane; keep your weapon silent.","task":"preserve"}
+{"id":"instruction-v1-014","family":"imperative","instruction":"Stand aligned with the target and leave it standing.","task":"preserve"}
+{"id":"instruction-v1-015","family":"imperative","instruction":"Eliminate the target.","task":"hit"}
+{"id":"instruction-v1-016","family":"imperative","instruction":"Fire on the target until it is gone.","task":"hit"}
+{"id":"instruction-v1-017","family":"imperative","instruction":"Align first. Only then shoot the target.","task":"align_then_hit"}
+{"id":"instruction-v1-018","family":"imperative","instruction":"Do not fire before alignment; after aligning, destroy the target.","task":"align_then_hit"}
+{"id":"instruction-v1-019","family":"mission","instruction":"Mission: reach the same lane as the target without harming it.","task":"preserve"}
+{"id":"instruction-v1-020","family":"mission","instruction":"Mission: approach until aligned and keep the target alive.","task":"preserve"}
+{"id":"instruction-v1-021","family":"mission","instruction":"Mission: neutralize the target.","task":"hit"}
+{"id":"instruction-v1-022","family":"mission","instruction":"Mission: destroy the target with a shot.","task":"hit"}
+{"id":"instruction-v1-023","family":"mission","instruction":"Mission: establish alignment before firing, then neutralize the target.","task":"align_then_hit"}
+{"id":"instruction-v1-024","family":"mission","instruction":"Mission: no shooting until aligned; once aligned, take out the target.","task":"align_then_hit"}
+{"id":"instruction-v1-025","family":"constraint_first","instruction":"No shots: move until you are aligned with the target.","task":"preserve"}
+{"id":"instruction-v1-026","family":"constraint_first","instruction":"Without firing, bring yourself level with the target.","task":"preserve"}
+{"id":"instruction-v1-027","family":"constraint_first","instruction":"With no movement requirement, kill the target.","task":"hit"}
+{"id":"instruction-v1-028","family":"constraint_first","instruction":"Ignore positioning and hit the target.","task":"hit"}
+{"id":"instruction-v1-029","family":"constraint_first","instruction":"No firing before alignment; kill the target afterward.","task":"align_then_hit"}
+{"id":"instruction-v1-030","family":"constraint_first","instruction":"Without an early shot, align with the target and then eliminate it.","task":"align_then_hit"}
+{"id":"instruction-v1-031","family":"outcome","instruction":"The desired result is alignment with the target while it remains intact.","task":"preserve"}
+{"id":"instruction-v1-032","family":"outcome","instruction":"Finish aligned with the target, with no shot fired and no kill.","task":"preserve"}
+{"id":"instruction-v1-033","family":"outcome","instruction":"The desired result is a dead target.","task":"hit"}
+{"id":"instruction-v1-034","family":"outcome","instruction":"Finish by killing the target.","task":"hit"}
+{"id":"instruction-v1-035","family":"outcome","instruction":"The desired result is a target kill, but only after you align before firing.","task":"align_then_hit"}
+{"id":"instruction-v1-036","family":"outcome","instruction":"Finish with the target destroyed after first getting into alignment.","task":"align_then_hit"}
+{"id":"instruction-v1-037","family":"operational","instruction":"Move to the target's slot and hold fire.","task":"preserve"}
+{"id":"instruction-v1-038","family":"operational","instruction":"Close the position gap without pulling the trigger.","task":"preserve"}
+{"id":"instruction-v1-039","family":"operational","instruction":"Engage and kill the target.","task":"hit"}
+{"id":"instruction-v1-040","family":"operational","instruction":"Put the target down.","task":"hit"}
+{"id":"instruction-v1-041","family":"operational","instruction":"Move into alignment, then begin firing until the target is dead.","task":"align_then_hit"}
+{"id":"instruction-v1-042","family":"operational","instruction":"Get level with the target before pulling the trigger, then kill it.","task":"align_then_hit"}
+{"id":"instruction-v1-043","family":"negative_scope","instruction":"Do not shoot; only align with the target and leave it alive.","task":"preserve"}
+{"id":"instruction-v1-044","family":"negative_scope","instruction":"Never fire while moving into the target's position; leave it alive.","task":"preserve"}
+{"id":"instruction-v1-045","family":"negative_scope","instruction":"Do not preserve the target; kill it.","task":"hit"}
+{"id":"instruction-v1-046","family":"negative_scope","instruction":"Do not wait for alignment: shoot and eliminate the target.","task":"hit"}
+{"id":"instruction-v1-047","family":"negative_scope","instruction":"Do not shoot until alignment is achieved; then kill the target.","task":"align_then_hit"}
+{"id":"instruction-v1-048","family":"negative_scope","instruction":"Never fire before lining up with the target, then take it out.","task":"align_then_hit"}
+{"id":"instruction-v1-049","family":"sequence","instruction":"Move until aligned, stop there, and do not fire.","task":"preserve"}
+{"id":"instruction-v1-050","family":"sequence","instruction":"Find the target's position, match it, and leave the target alive.","task":"preserve"}
+{"id":"instruction-v1-051","family":"sequence","instruction":"Locate the target and kill it.","task":"hit"}
+{"id":"instruction-v1-052","family":"sequence","instruction":"Aim at the target and finish it.","task":"hit"}
+{"id":"instruction-v1-053","family":"sequence","instruction":"First get level with the target; afterward, shoot it dead.","task":"align_then_hit"}
+{"id":"instruction-v1-054","family":"sequence","instruction":"Before any actual shot, match the target's position, then destroy it.","task":"align_then_hit"}
+{"id":"instruction-v1-055","family":"plain_language","instruction":"Get even with the target and don't hurt it.","task":"preserve"}
+{"id":"instruction-v1-056","family":"plain_language","instruction":"Stand where the target is, but leave it alone.","task":"preserve"}
+{"id":"instruction-v1-057","family":"plain_language","instruction":"Bring down the target.","task":"hit"}
+{"id":"instruction-v1-058","family":"plain_language","instruction":"Take the target out.","task":"hit"}
+{"id":"instruction-v1-059","family":"plain_language","instruction":"Get lined up with the target before you shoot it dead.","task":"align_then_hit"}
+{"id":"instruction-v1-060","family":"plain_language","instruction":"Line up first, then fire to take the target out.","task":"align_then_hit"}

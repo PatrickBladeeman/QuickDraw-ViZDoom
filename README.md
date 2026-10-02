@@ -5,6 +5,10 @@ for testing goal-conditioned reinforcement learning and LLM advisers. The curren
 Basic task compares no goal conditioning, random goals, rule-based goals, and
 LLM-selected goals on held-out target-hit episodes.
 
+For new comparisons, use the [native controls](#native-parity-and-hierarchy-controls),
+which score actual Doom kills. The historical Basic pilots below use the
+wrapper-defined hit metric.
+
 QuickDraw adds task wrappers, learning and QA code, and experiment reports to the
 upstream ViZDoom platform. The [original ViZDoom README](docs/upstream/ViZDoom-README.md)
 is preserved for upstream installation instructions, features, and licensing
@@ -185,7 +189,7 @@ The completed [four-arm pilot](artifacts/quickdraw/adviser-four-arm-pilot-202610
 used 512 training decisions (481 updates) per policy and seed, with 30 evaluation
 episodes per arm:
 
-| Arm | Target hits | Hit rate | Mean decision cost (failure = 300) |
+| Arm | Wrapper target hits | Hit rate | Mean decision cost (failure = 300) |
 | --- | --- | --- | --- |
 | No goal | 19/30 | 63.3% | 113.60 |
 | Random goals | 7/30 | 23.3% | 230.87 |
@@ -239,6 +243,298 @@ end. The large success drop with swapped inputs supports goal-sensitive behavior
 The five-point rule/random gap is exploratory. No LLM was evaluated in this
 collection pilot, and its combined alignment/hit success metric differs from the
 full target-hit task above.
+
+### Diagnostic follow-up (2026-10-01)
+
+The [environment audit](artifacts/quickdraw/gc-environment-audit-20261001-v1.json)
+found that the symbolic target is `seed % 9 - 4`, while ACS independently spawns
+the visible Doom target at a random native position. Moving to the symbolic slot
+and shooting scored 18/18 wrapper hits with **zero native kills**. Across 100
+reset seeds, 67 starting observations shared an exact image hash with a different
+symbolic target slot. This demonstrates ambiguity in the initial visual input,
+without proving that every observation history is uninformative. The reported
+pilot metric is the wrapper's mixed symbolic/native success event, not a count
+of native target kills.
+
+The [saved-pilot diagnosis](artifacts/quickdraw/gc-saved-pilot-diagnosis-20261001-v1.json)
+also isolates two execution failures: 14/27 initially unaligned rule episodes
+never selected HIT, and only 4/13 ALIGN-to-HIT handoffs ended in a wrapper hit.
+The three initially aligned episodes added one hit. Alternating goal selections
+did not balance behavior time: seed 35001 spent 475/512 decisions under ALIGN,
+although exhaustive relabeling still supplied 512 training rows for each goal.
+The earlier collection-teacher rates describe separately trained policies.
+
+[Complete representative traces](artifacts/quickdraw/gc-policy-trace-20261001-v2.json)
+record actions, six Q values, slots, native kill counts and unchanged parameter
+hashes. One policy moved right while its symbolic target was left; another trace
+reported a native-kill fallback hit while the two symbolic slots disagreed.
+The current goal vector chooses ALIGN or HIT and carries no explicit left/right
+direction. Establish agreement between visible state, adviser state and rewards
+before using larger runs to assess goal conditioning or LLM-specific benefit.
+
+## Native parity and hierarchy controls
+
+The [native environment](quickdraw_vizdoom/envs/native_basic.py) uses the visible
+Cacodemon's actual coordinates, actual ammunition, and native `KILLCOUNT`.
+Alignment means a lateral error within 8 world units; each decision advances four
+native tics. Only a native kill awards a hit. The original Basic wrapper and
+historical artifacts remain available for reproducing the earlier pilots.
+
+The [native geometry check](artifacts/quickdraw/native-environment-check-20261001-v1.json)
+uses a scripted controller with access to the actual lateral error. It killed the
+native target on all 100 evaluation seeds, with zero false hit events. This checks
+task reachability and scoring; it is not a learned-policy or LLM result.
+
+Run the matched controls:
+
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.native_evaluation --output artifacts/quickdraw/native-controls-new.json
+```
+
+Defaults are 4,096 decisions per policy, five training seeds (32001, 33001, 34001,
+35001, 37001), and all 100 held-out reset seeds. Four policies are trained per
+seed: no-goal, fixed HIT, alternating goals, and rule-guided goals. No-goal and
+fixed HIT use identical environment rewards and one training row per transition;
+the two variable-goal policies use goal rewards and two relabeled rows. They use
+the same architecture, optimizer, budget and planned reset schedule within each
+seed. A constant one-hot goal can change initial Q values and optimization, so
+the fixed-HIT comparison is a parity control, not evidence of useful goal context.
+
+Seven frozen evaluation arms compare no-goal, fixed HIT, alternating-trained
+HIT/rule/random, and rule-trained HIT/rule. Correct/swapped ALIGN and HIT diagnostics
+use the first 20 held-out seeds per training seed; `--diagnostic-episodes 100`
+expands them to the full schedule. Reports include native hit counts/rates,
+environment returns, success-only latency, capped decision cost, handoff success,
+behavior-goal selection and decision counts, sampled training rows, training time,
+paired differences and unchanged parameter hashes. The first episode of each arm
+also records actions, Q values, lateral errors and native kill counts.
+
+The [completed native baseline](artifacts/quickdraw/native-controls-4096-five-seed-20261001-v2.json)
+covers five training seeds and 500 episodes per arm. Decision cost counts the
+actual decisions for hits and assigns 300 to failures.
+
+| Training | Adviser | Native hits | Mean decision cost |
+| --- | --- | --- | --- |
+| No goal | None | 351/500 (70.2%) | 92.98 |
+| Fixed HIT, environment reward | Constant HIT | 363/500 (72.6%) | 85.81 |
+| Alternating goals | Constant HIT | 384/500 (76.8%) | 73.16 |
+| Alternating goals | Rule | 375/500 (75.0%) | 80.05 |
+| Alternating goals | Random | 327/500 (65.4%) | 108.41 |
+| Rule-guided goals | Constant HIT | 333/500 (66.6%) | 105.05 |
+| Rule-guided goals | Rule | 208/500 (41.6%) | 180.45 |
+
+**Concrete finding:** changing only the adviser on frozen alternating-trained
+weights gives rule advising a 9.6 percentage point hit-rate advantage over random
+advising, but constant HIT scores another 1.8 points higher. On rule-trained
+weights, constant HIT beats rule advising by 25.0 points. The rule-trained
+hierarchy never completed initial ALIGN in 231/500 episodes and hit in only
+203/264 completed handoffs. The alternating-trained hierarchy hit in 370/374
+handoffs. Alignment and subsequent HIT execution can therefore be measured
+separately on the coherent native task.
+
+The correct/swapped diagnostic uses 100 episodes per cell (20 held-out reset
+seeds per training seed):
+
+| Training | Correct ALIGN | Swapped ALIGN | Correct HIT | Swapped HIT |
+| --- | --- | --- | --- | --- |
+| Alternating goals | 67/100 | 18/100 | 70/100 | 0/100 |
+| Rule-guided goals | 50/100 | 14/100 | 64/100 | 0/100 |
+
+The goal input affects behavior, while learning remains sensitive to the training
+seed. No-goal hit rates range from 5% to 100%; fixed-HIT rates range from 26% to
+100%. Their pooled 2.4-point difference does not establish a dependable benefit
+from a constant goal. Comparisons with variable-goal training also change the
+reward and relabeling budget, so they measure the complete training system.
+Each policy made 4,096 training decisions and 4,065 optimizer updates; variable
+goals sampled 260,160 training rows versus 130,080 for the parity controls.
+All 3,500 primary and 800 diagnostic episodes passed native-hit, frozen-weight,
+adviser-failure and infrastructure checks. These are exploratory results from
+five training seeds, with zero LLM provider calls.
+
+An LLM comparison reuses a native checkpoint with
+`--arms alternating_hit alternating_rule alternating_random llm --checkpoint <path>`.
+All four arms then share the same alternating-trained frozen policy. The existing
+OpenRouter configuration applies; the native prompt uses actual alignment
+geometry. Baseline runs make zero provider API calls. Outputs reject overwrites.
+
+The [saved five-seed policies](artifacts/quickdraw/native-controls-4096-five-seed-20261001-v2-policies.pt)
+were reused in the [completed two-model evaluation](artifacts/quickdraw/native-llm-comparison-five-seed-20261001-v2.json).
+Both [Qwen3.5-9B](https://openrouter.ai/qwen/qwen3.5-9b) and
+[DeepSeek V3.2](https://openrouter.ai/deepseek/deepseek-v3.2) received the same
+native summary, prompt and goal-persistence protocol. Each ran all 100 evaluation
+seeds for each of the five frozen alternating-trained policies. Temperature was
+zero, reasoning disabled, output limited to 64 tokens, and each request had a
+10-second deadline. Invalid JSON or request failures ended the episode as a
+failure, with no rule fallback. No training was repeated; the validated baseline
+episode rows were reused for paired comparisons.
+
+| Adviser on shared alternating-trained weights | Native hits | Mean decision cost | Failed adviser episodes |
+| --- | --- | --- | --- |
+| Constant HIT | 384/500 (76.8%) | 73.16 | 0 |
+| Rule | 375/500 (75.0%) | 80.05 | 0 |
+| Random | 327/500 (65.4%) | 108.41 | 0 |
+| Qwen3.5-9B | 370/500 (74.0%) | 82.49 | 12 |
+| DeepSeek V3.2 | 375/500 (75.0%) | 80.05 | 0 |
+
+**LLM finding:** DeepSeek reproduced the rule adviser exactly: all 500 goal
+sequences and all 500 hit/decision/return outcomes matched. Qwen beat random
+advising by 8.6 percentage points, but lost to rule advising by 1.0 point and
+constant HIT by 2.8 points. These results do not establish an LLM-specific
+advantage on the current two-goal task.
+
+Qwen had eight timeouts and four malformed-JSON responses. In a secondary
+analysis of the 488 episodes with no adviser error, it hit 370 targets versus
+373 for constant HIT and 364 for rules on those exact same episodes. The primary
+rates above retain all failures. Its initial choices also differed by direction:
+all 144 valid negative-error requests selected HIT, while 239 positive-error
+requests selected ALIGN. This is a descriptive choice pattern; the run does not
+isolate its causal effect.
+
+Qwen made 724 API requests, with reported cost of $0.01271 on 716 responses;
+DeepSeek made 874, with reported cost of $0.02871 on all 874 responses. Mean
+observed request latency was 1.04 and 1.84 seconds respectively. OpenRouter used
+default provider routing and five concurrent evaluation workers. Costs cover
+completed evaluation usage with reported billing, excluding preflight calls,
+the interrupted baseline-replay attempt and unreported timeout billing. Model
+responses may vary across calls even at temperature zero. All LLM episodes used
+unchanged policy hashes and native kill scoring, with zero infrastructure failures.
+
+To reproduce an evaluation with either model, set `OPENROUTER_API_KEY` in the
+process environment and use a new output filename:
+
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.native_evaluation --checkpoint artifacts/quickdraw/native-controls-4096-five-seed-20261001-v2-policies.pt --arms llm --diagnostic-episodes 0 --llm-model qwen/qwen3.5-9b --output artifacts/quickdraw/native-qwen-new.json
+```
+
+Replace the model ID with `deepseek/deepseek-v3.2` for the second model. Pair
+the resulting episodes with the saved baseline by training seed and reset seed.
+
+## Instruction-conditioned adviser benchmark
+
+The [instruction evaluator](quickdraw_vizdoom/instruction_evaluation.py) varies
+the requested outcome while retaining native Basic and the existing ALIGN/HIT
+skills. Instructions request alignment with no shots and a surviving target,
+a native kill, or alignment before the first actual shot followed by a kill.
+An adviser returns one of three bounded plans: ALIGN, HIT, or ALIGN then HIT.
+Execution stops when the plan finishes. Task success checks actual ammunition
+expenditure, alignment history and `KILLCOUNT`; it is not the earlier hit-rate
+metric. Equivalent plans receive credit when their actual behavior obeys the
+instruction. Exact canonical-plan matching is a secondary diagnostic.
+
+The [20 development instructions](artifacts/quickdraw/instruction-development-v1.jsonl)
+were used to implement a lexical rule parser with synonyms, negation and
+ordering. It achieved 100% native task success with the scripted executor on
+that development set. Another agent authored and froze the
+[60 held-out instructions](artifacts/quickdraw/instruction-test-v1.jsonl)
+without inspecting the parser. A separate
+[60-instruction confirmation set](artifacts/quickdraw/instruction-confirmation-v1.jsonl)
+was commissioned before examining the first outcomes. Each evaluation set has
+ten distinct wording families and twenty instructions per task; families and
+exact instructions do not overlap between sets or with development. These are
+agent-authored synthetic cases with independently reviewed labels, not a
+human-user instruction distribution.
+
+The rule and Qwen advisers receive only the instruction and share the same
+three available programs. Gold task labels never enter the LLM request.
+Qwen3.5-9B uses the existing OpenRouter JSON adapter, temperature zero, reasoning
+disabled, 64 output tokens and a ten-second deadline. Each instruction receives
+three independent requests. Invalid output or transport errors count as failed
+plans with task decision cost 300; there is no fallback. Rule abstentions also
+count as failures. Neither prompt nor rule grammar changed after testing began.
+
+Rule, LLM, constant-HIT, random-plan and gold canonical-plan controls execute on
+the same five saved alternating-trained GC policies. The no-goal control uses
+the five paired unconditioned policies. All received 4,096 training decisions;
+the no-goal learner used environment reward and one row per transition, while
+GC used goal rewards and two relabeled rows. Thus LLM versus rule isolates the
+adviser on shared weights, whereas versus no-goal is an end-to-end system
+comparison. Evaluation performs zero updates and verifies parameter hashes.
+
+The scripted geometry executor separately diagnoses instruction interpretation
+and task reachability. Its HIT implementation aligns before firing; it is not
+a direct-fire learner. Deterministic execution is cached once per
+policy/program/reset seed. The resulting instruction scores are counterfactual
+re-scoring of those trajectories, not independent new environment episodes.
+Reports retain the native action traces and report physical episodes and
+decisions separately. Confidence intervals resample wording families, keeping
+requests, layouts and policies within each family. They are conditional on the
+tested frozen policies and layouts, not uncertainty across future training runs.
+
+The [first held-out pilot](artifacts/quickdraw/instruction-qwen-heldout-20261001-v1.json)
+and [independent wording confirmation](artifacts/quickdraw/instruction-qwen-confirmation-20261001-v1.json)
+each used ten held-out reset seeds and all five policy pairs:
+
+| Adviser/control | First set task success | Confirmation task success |
+| --- | --- | --- |
+| Qwen3.5-9B | 79.40% | 77.13% |
+| Frozen lexical rule | 62.57% | 56.73% |
+| No-goal learner | 24.67% | 24.67% |
+| Constant HIT on GC | 30.00% | 30.00% |
+| Random plan on GC | 36.24% | 36.24% |
+| Gold canonical plan on GC | 79.33% | 79.33% |
+
+Qwen's advantage over rules was +16.83 percentage points on the first set
+(97.5% paired family-bootstrap interval: +7.93 to +25.97) and +20.40 on
+confirmation (+8.07 to +30.77). The two primary comparisons are LLM versus rule
+and no-goal; each uses a 97.5% interval. Each pilot actually executed 230 native
+episodes and 14,263 decisions. Each learned arm contains 9,000 counterfactual
+task scores; the uncertainty unit is ten wording families, not those scores.
+Qwen failed on 0/180 first-set requests and 2/180 confirmation requests. Rules
+abstained on eight and nine unique instructions respectively.
+
+The [expanded confirmation](artifacts/quickdraw/instruction-qwen-confirmation-full-20261001-v1.json)
+uses the same confirmation instructions, parser, prompt and five frozen policy
+pairs across **all 100 held-out reset seeds**. It makes a fresh set of 180 Qwen
+requests, retaining two failed requests in the primary rates:
+
+| Adviser/control | Constraint-satisfying task success | Mean task decision cost |
+| --- | --- | --- |
+| Qwen3.5-9B | **73.76%** | **82.59** |
+| Frozen lexical rule | 54.41% | 139.53 |
+| No-goal learner | 24.00% | 229.42 |
+| Constant HIT on GC | 29.87% | 211.76 |
+| Random plan on GC | 34.73% | 197.74 |
+| Gold canonical plan on GC | 75.87% | 76.37 |
+
+Qwen improves task success over the shared-policy rule adviser by **19.35
+percentage points**, with a 97.5% paired family-bootstrap interval of **+7.57
+to +29.49**. Its end-to-end difference from no-goal is +49.76 points
+(+45.97 to +51.87). The difference from rules is positive for each of the five
+training seeds, although one wording family favors rules. The actual execution
+budget is 2,300 native episodes and 162,772 decisions; each learned arm has
+90,000 counterfactual task scores, which are not independent observations.
+The scripted gold-plan executor satisfies every task on all 100 layouts.
+No policy updates, parameter changes or infrastructure failures occurred.
+Rules abstained on nine of sixty unique instructions. Reported billing for this
+expanded run is $0.00313 across 178 responses, excluding unreported timeout
+billing; total request latency is 199.44 seconds across 180 calls.
+
+**Supported scope:** Qwen generalizes these held-out instructions better than
+this development-frozen lexical parser, and that difference improves completion
+through shared learned skills. Much of the rule deficit comes from missing
+paraphrases. A post-hoc diagnostic restricted to the 51 confirmation instructions
+that rules could parse still gives Qwen 73.78% versus rules 64.02% across all
+100 layouts; it retains LLM errors. The primary comparison above retains all
+sixty instructions. A [compact findings summary](artifacts/quickdraw/instruction-findings-20261001-v1.json)
+records all three runs, hashes, costs, primary comparisons and this diagnostic.
+This does not establish superiority over every rule system or an
+intrinsic need for LLM tactical reasoning. The gold-plan control also exposes
+remaining low-level execution failures. Language-directed composition of
+existing grounded skills follows the approach explored in
+[SayCan (Ahn et al., 2022)](https://arxiv.org/abs/2204.01691); our experiment is a
+small synthetic instruction benchmark, not a reproduction of that study.
+
+Reproduce with the existing checkpoint and a new output path:
+
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.instruction_evaluation --cases artifacts/quickdraw/instruction-confirmation-v1.jsonl --checkpoint artifacts/quickdraw/native-controls-4096-five-seed-20261001-v2-policies.pt --llm-model qwen/qwen3.5-9b --evaluation-episodes 100 --output artifacts/quickdraw/instruction-confirmation-new.json
+```
+
+Set `OPENROUTER_API_KEY` in the process environment for LLM requests. Omit
+`--llm-model` to run controls without provider calls, or omit `--checkpoint` for
+the scripted diagnostic alone. Reports reject overwrites and record source,
+case and checkpoint hashes before requests. Future parser/prompt tuning needs
+new held-out wording families; preserve these results.
 
 ## Acknowledgements and citations
 

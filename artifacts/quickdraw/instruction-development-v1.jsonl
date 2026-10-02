@@ -1,0 +1,20 @@
+{"id":"dev-01","family":"dev-align","instruction":"Align without firing.","task":"preserve"}
+{"id":"dev-02","family":"dev-align","instruction":"Aim at the target and stop.","task":"preserve"}
+{"id":"dev-03","family":"dev-protect","instruction":"Line up, but do not shoot.","task":"preserve"}
+{"id":"dev-04","family":"dev-protect","instruction":"Center your aim and keep the target alive.","task":"preserve"}
+{"id":"dev-05","family":"dev-protect","instruction":"Spare the monster; position yourself in front of it.","task":"preserve"}
+{"id":"dev-06","family":"dev-protect","instruction":"Get into firing position; leave your weapon unused.","task":"preserve"}
+{"id":"dev-07","family":"dev-attack","instruction":"Hit the target.","task":"hit"}
+{"id":"dev-08","family":"dev-attack","instruction":"Shoot the monster.","task":"hit"}
+{"id":"dev-09","family":"dev-attack","instruction":"Eliminate the enemy.","task":"hit"}
+{"id":"dev-10","family":"dev-attack","instruction":"Kill the target now.","task":"hit"}
+{"id":"dev-11","family":"dev-attack","instruction":"Take it down.","task":"hit"}
+{"id":"dev-12","family":"dev-attack","instruction":"Open fire.","task":"hit"}
+{"id":"dev-13","family":"dev-attack","instruction":"Attack the target.","task":"hit"}
+{"id":"dev-14","family":"dev-sequence","instruction":"Align before firing.","task":"align_then_hit"}
+{"id":"dev-15","family":"dev-sequence","instruction":"Line up, then shoot.","task":"align_then_hit"}
+{"id":"dev-16","family":"dev-sequence","instruction":"First aim, then hit.","task":"align_then_hit"}
+{"id":"dev-17","family":"dev-sequence","instruction":"Do not shoot until aligned; kill the target.","task":"align_then_hit"}
+{"id":"dev-18","family":"dev-sequence","instruction":"Fire only after you are lined up.","task":"align_then_hit"}
+{"id":"dev-19","family":"dev-sequence","instruction":"Get centered without firing, then eliminate the target.","task":"align_then_hit"}
+{"id":"dev-20","family":"dev-sequence","instruction":"Wait until your aim is aligned, then attack.","task":"align_then_hit"}

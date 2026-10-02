@@ -1,0 +1,1016 @@
+{
+  "version": "quickdraw.native-environment-check.v1",
+  "created_utc": "2026-10-01T20:48:32.711407+00:00",
+  "scope": "Privileged geometry oracle reachability check, not learned-policy or LLM effectiveness",
+  "task": {
+    "alignment_tolerance": 8.0,
+    "decision_tics": 4,
+    "native_kill_only": true
+  },
+  "seeds": [
+    36000,
+    36001,
+    36002,
+    36003,
+    36004,
+    36005,
+    36006,
+    36007,
+    36008,
+    36009,
+    36010,
+    36011,
+    36012,
+    36013,
+    36014,
+    36015,
+    36016,
+    36017,
+    36018,
+    36019,
+    36020,
+    36021,
+    36022,
+    36023,
+    36024,
+    36025,
+    36026,
+    36027,
+    36028,
+    36029,
+    36030,
+    36031,
+    36032,
+    36033,
+    36034,
+    36035,
+    36036,
+    36037,
+    36038,
+    36039,
+    36040,
+    36041,
+    36042,
+    36043,
+    36044,
+    36045,
+    36046,
+    36047,
+    36048,
+    36049,
+    36050,
+    36051,
+    36052,
+    36053,
+    36054,
+    36055,
+    36056,
+    36057,
+    36058,
+    36059,
+    36060,
+    36061,
+    36062,
+    36063,
+    36064,
+    36065,
+    36066,
+    36067,
+    36068,
+    36069,
+    36070,
+    36071,
+    36072,
+    36073,
+    36074,
+    36075,
+    36076,
+    36077,
+    36078,
+    36079,
+    36080,
+    36081,
+    36082,
+    36083,
+    36084,
+    36085,
+    36086,
+    36087,
+    36088,
+    36089,
+    36090,
+    36091,
+    36092,
+    36093,
+    36094,
+    36095,
+    36096,
+    36097,
+    36098,
+    36099
+  ],
+  "episodes": [
+    {
+      "seed": 36000,
+      "initial_alignment_error": -108.49296569824219,
+      "alignment_decision": 10,
+      "native_kills": 1,
+      "decisions": 12,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36001,
+      "initial_alignment_error": -180.6357879638672,
+      "alignment_decision": 8,
+      "native_kills": 1,
+      "decisions": 10,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36002,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36003,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36004,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36005,
+      "initial_alignment_error": 182.3718719482422,
+      "alignment_decision": 8,
+      "native_kills": 1,
+      "decisions": 10,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36006,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36007,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36008,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36009,
+      "initial_alignment_error": -59.39593505859375,
+      "alignment_decision": 4,
+      "native_kills": 1,
+      "decisions": 6,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36010,
+      "initial_alignment_error": -133.5059356689453,
+      "alignment_decision": 19,
+      "native_kills": 1,
+      "decisions": 21,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36011,
+      "initial_alignment_error": -147.7539520263672,
+      "alignment_decision": 7,
+      "native_kills": 1,
+      "decisions": 9,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36012,
+      "initial_alignment_error": -78.86531066894531,
+      "alignment_decision": 9,
+      "native_kills": 1,
+      "decisions": 11,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36013,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36014,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36015,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36016,
+      "initial_alignment_error": -28.712005615234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36017,
+      "initial_alignment_error": 151.65945434570312,
+      "alignment_decision": 7,
+      "native_kills": 1,
+      "decisions": 9,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36018,
+      "initial_alignment_error": 102.16593933105469,
+      "alignment_decision": 18,
+      "native_kills": 1,
+      "decisions": 20,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36019,
+      "initial_alignment_error": -113.92710876464844,
+      "alignment_decision": 10,
+      "native_kills": 1,
+      "decisions": 12,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36020,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36021,
+      "initial_alignment_error": -93.04815673828125,
+      "alignment_decision": 5,
+      "native_kills": 1,
+      "decisions": 7,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36022,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36023,
+      "initial_alignment_error": 100.091552734375,
+      "alignment_decision": 5,
+      "native_kills": 1,
+      "decisions": 7,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36024,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36025,
+      "initial_alignment_error": -31.833251953125,
+      "alignment_decision": 6,
+      "native_kills": 1,
+      "decisions": 8,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36026,
+      "initial_alignment_error": 80.99594116210938,
+      "alignment_decision": 9,
+      "native_kills": 1,
+      "decisions": 11,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36027,
+      "initial_alignment_error": 138.13279724121094,
+      "alignment_decision": 11,
+      "native_kills": 1,
+      "decisions": 13,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36028,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36029,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36030,
+      "initial_alignment_error": -11.292037963867188,
+      "alignment_decision": 1,
+      "native_kills": 1,
+      "decisions": 3,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36031,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36032,
+      "initial_alignment_error": 185.5501251220703,
+      "alignment_decision": 8,
+      "native_kills": 1,
+      "decisions": 10,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36033,
+      "initial_alignment_error": 168.9954833984375,
+      "alignment_decision": 12,
+      "native_kills": 1,
+      "decisions": 14,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36034,
+      "initial_alignment_error": -106.37228393554688,
+      "alignment_decision": 10,
+      "native_kills": 1,
+      "decisions": 12,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36035,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36036,
+      "initial_alignment_error": 7.2796173095703125,
+      "alignment_decision": 1,
+      "native_kills": 1,
+      "decisions": 2,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36037,
+      "initial_alignment_error": -94.82917785644531,
+      "alignment_decision": 5,
+      "native_kills": 1,
+      "decisions": 7,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36038,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36039,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36040,
+      "initial_alignment_error": -175.21026611328125,
+      "alignment_decision": 8,
+      "native_kills": 1,
+      "decisions": 10,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36041,
+      "initial_alignment_error": 122.43292236328125,
+      "alignment_decision": 6,
+      "native_kills": 1,
+      "decisions": 8,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36042,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36043,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36044,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36045,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36046,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36047,
+      "initial_alignment_error": -130.63133239746094,
+      "alignment_decision": 15,
+      "native_kills": 1,
+      "decisions": 17,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36048,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36049,
+      "initial_alignment_error": -188.1372528076172,
+      "alignment_decision": 8,
+      "native_kills": 1,
+      "decisions": 10,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36050,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36051,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36052,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36053,
+      "initial_alignment_error": 89.03836059570312,
+      "alignment_decision": 5,
+      "native_kills": 1,
+      "decisions": 7,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36054,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36055,
+      "initial_alignment_error": -145.89312744140625,
+      "alignment_decision": 7,
+      "native_kills": 1,
+      "decisions": 9,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36056,
+      "initial_alignment_error": -39.38258361816406,
+      "alignment_decision": 3,
+      "native_kills": 1,
+      "decisions": 5,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36057,
+      "initial_alignment_error": 156.14938354492188,
+      "alignment_decision": 7,
+      "native_kills": 1,
+      "decisions": 9,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36058,
+      "initial_alignment_error": 147.05393981933594,
+      "alignment_decision": 7,
+      "native_kills": 1,
+      "decisions": 9,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36059,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36060,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36061,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36062,
+      "initial_alignment_error": 120.30723571777344,
+      "alignment_decision": 6,
+      "native_kills": 1,
+      "decisions": 8,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36063,
+      "initial_alignment_error": -101.03765869140625,
+      "alignment_decision": 5,
+      "native_kills": 1,
+      "decisions": 7,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36064,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36065,
+      "initial_alignment_error": 58.40513610839844,
+      "alignment_decision": 11,
+      "native_kills": 1,
+      "decisions": 13,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36066,
+      "initial_alignment_error": -182.30718994140625,
+      "alignment_decision": 8,
+      "native_kills": 1,
+      "decisions": 10,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36067,
+      "initial_alignment_error": 134.6451873779297,
+      "alignment_decision": 11,
+      "native_kills": 1,
+      "decisions": 13,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36068,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36069,
+      "initial_alignment_error": -41.3250732421875,
+      "alignment_decision": 3,
+      "native_kills": 1,
+      "decisions": 5,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36070,
+      "initial_alignment_error": -30.686691284179688,
+      "alignment_decision": 6,
+      "native_kills": 1,
+      "decisions": 8,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36071,
+      "initial_alignment_error": -62.68067932128906,
+      "alignment_decision": 4,
+      "native_kills": 1,
+      "decisions": 6,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36072,
+      "initial_alignment_error": -36.65751647949219,
+      "alignment_decision": 3,
+      "native_kills": 1,
+      "decisions": 5,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36073,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36074,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36075,
+      "initial_alignment_error": -145.89503479003906,
+      "alignment_decision": 7,
+      "native_kills": 1,
+      "decisions": 9,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36076,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36077,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36078,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36079,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36080,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36081,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36082,
+      "initial_alignment_error": -38.282684326171875,
+      "alignment_decision": 3,
+      "native_kills": 1,
+      "decisions": 5,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36083,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36084,
+      "initial_alignment_error": -152.5250244140625,
+      "alignment_decision": 7,
+      "native_kills": 1,
+      "decisions": 9,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36085,
+      "initial_alignment_error": 25.465057373046875,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36086,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36087,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36088,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36089,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36090,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36091,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36092,
+      "initial_alignment_error": -99.76164245605469,
+      "alignment_decision": 5,
+      "native_kills": 1,
+      "decisions": 7,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36093,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36094,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36095,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36096,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36097,
+      "initial_alignment_error": -137.23997497558594,
+      "alignment_decision": 11,
+      "native_kills": 1,
+      "decisions": 13,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36098,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    },
+    {
+      "seed": 36099,
+      "initial_alignment_error": 28.504974365234375,
+      "alignment_decision": 2,
+      "native_kills": 1,
+      "decisions": 4,
+      "target_hit": true,
+      "terminal_reason": "target_hit"
+    }
+  ],
+  "native_hits": 100,
+  "false_hit_events": 0
+}

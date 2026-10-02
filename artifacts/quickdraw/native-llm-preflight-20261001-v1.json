@@ -1,0 +1,298 @@
+{
+  "version": "quickdraw.native-llm-preflight.v1",
+  "created_utc": "2026-10-01T21:10:37.820361+00:00",
+  "scope": "API format/connectivity only; not policy evaluation",
+  "model_catalog": {
+    "qwen/qwen3.5-9b": {
+      "id": "qwen/qwen3.5-9b",
+      "pricing": {
+        "prompt": "0.0000001",
+        "completion": "0.00000015"
+      },
+      "supported_parameters": [
+        "frequency_penalty",
+        "include_reasoning",
+        "logit_bias",
+        "logprobs",
+        "max_tokens",
+        "min_p",
+        "presence_penalty",
+        "reasoning",
+        "repetition_penalty",
+        "response_format",
+        "seed",
+        "stop",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_k",
+        "top_logprobs",
+        "top_p"
+      ]
+    },
+    "deepseek/deepseek-v3.2": {
+      "id": "deepseek/deepseek-v3.2",
+      "pricing": {
+        "prompt": "0.00000028",
+        "completion": "0.00000042",
+        "input_cache_read": "0.000000028"
+      },
+      "supported_parameters": [
+        "frequency_penalty",
+        "include_reasoning",
+        "logit_bias",
+        "logprobs",
+        "max_tokens",
+        "min_p",
+        "presence_penalty",
+        "reasoning",
+        "repetition_penalty",
+        "response_format",
+        "seed",
+        "stop",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_k",
+        "top_logprobs",
+        "top_p"
+      ]
+    }
+  },
+  "audit": {
+    "qwen/qwen3.5-9b": [
+      {
+        "teacher": "llm",
+        "state": {
+          "decision": 0,
+          "remaining_ammunition": 50,
+          "aligned": false,
+          "alignment_error": -108.49296569824219
+        },
+        "request": {
+          "model": "qwen/qwen3.5-9b",
+          "temperature": 0,
+          "max_tokens": 64,
+          "messages": [
+            {
+              "role": "system",
+              "content": "Choose a desired outcome for a low-level FPS policy. Hit the visible Doom target with few decisions. ALIGN_WITHOUT_FIRE moves or holds position without shooting until aligned is true (native lateral error within 8 world units). Positive alignment_error means move left; negative means move right. HIT_TARGET permits movement and shooting to kill the native target. Goals persist until achieved or the episode ends. Return only JSON with exactly one key: {\"goal\":\"ALIGN_WITHOUT_FIRE\"} or {\"goal\":\"HIT_TARGET\"}."
+            },
+            {
+              "role": "user",
+              "content": "{\"aligned\": false, \"alignment_error\": -108.49296569824219, \"decision\": 0, \"remaining_ammunition\": 50}"
+            }
+          ],
+          "reasoning": {
+            "enabled": false
+          },
+          "response_format": {
+            "type": "json_object"
+          }
+        },
+        "raw_response": "\n         \n{\"id\":\"gen-1790889038-rVDJo8YlERJbzqLuCBGQ\",\"object\":\"chat.completion\",\"created\":1790889038,\"model\":\"qwen/qwen3.5-9b\",\"provider\":\"Venice\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"HIT_TARGET\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":165,\"completion_tokens\":8,\"total_tokens\":173,\"cost\":0.0000177,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0000177,\"upstream_inference_prompt_cost\":0.0000165,\"upstream_inference_completions_cost\":0.0000012},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+        "response_model": "qwen/qwen3.5-9b",
+        "usage": {
+          "prompt_tokens": 165,
+          "completion_tokens": 8,
+          "total_tokens": 173,
+          "cost": 1.77e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 1.77e-05,
+            "upstream_inference_prompt_cost": 1.65e-05,
+            "upstream_inference_completions_cost": 1.2e-06
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 0.6978751000133343
+      },
+      {
+        "teacher": "llm",
+        "state": {
+          "decision": 10,
+          "remaining_ammunition": 50,
+          "aligned": true,
+          "alignment_error": 2.3344573974609375
+        },
+        "request": {
+          "model": "qwen/qwen3.5-9b",
+          "temperature": 0,
+          "max_tokens": 64,
+          "messages": [
+            {
+              "role": "system",
+              "content": "Choose a desired outcome for a low-level FPS policy. Hit the visible Doom target with few decisions. ALIGN_WITHOUT_FIRE moves or holds position without shooting until aligned is true (native lateral error within 8 world units). Positive alignment_error means move left; negative means move right. HIT_TARGET permits movement and shooting to kill the native target. Goals persist until achieved or the episode ends. Return only JSON with exactly one key: {\"goal\":\"ALIGN_WITHOUT_FIRE\"} or {\"goal\":\"HIT_TARGET\"}."
+            },
+            {
+              "role": "user",
+              "content": "{\"aligned\": true, \"alignment_error\": 2.3344573974609375, \"decision\": 10, \"remaining_ammunition\": 50}"
+            }
+          ],
+          "reasoning": {
+            "enabled": false
+          },
+          "response_format": {
+            "type": "json_object"
+          }
+        },
+        "raw_response": "\n         \n{\"id\":\"gen-1790889039-GGVbHohk1Fr1nWqAySR3\",\"object\":\"chat.completion\",\"created\":1790889039,\"model\":\"qwen/qwen3.5-9b\",\"provider\":\"Venice\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"HIT_TARGET\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":166,\"completion_tokens\":8,\"total_tokens\":174,\"cost\":0.0000178,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0000178,\"upstream_inference_prompt_cost\":0.0000166,\"upstream_inference_completions_cost\":0.0000012},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+        "response_model": "qwen/qwen3.5-9b",
+        "usage": {
+          "prompt_tokens": 166,
+          "completion_tokens": 8,
+          "total_tokens": 174,
+          "cost": 1.78e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 1.78e-05,
+            "upstream_inference_prompt_cost": 1.66e-05,
+            "upstream_inference_completions_cost": 1.2e-06
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 0.6745079000247642
+      }
+    ],
+    "deepseek/deepseek-v3.2": [
+      {
+        "teacher": "llm",
+        "state": {
+          "decision": 0,
+          "remaining_ammunition": 50,
+          "aligned": false,
+          "alignment_error": -108.49296569824219
+        },
+        "request": {
+          "model": "deepseek/deepseek-v3.2",
+          "temperature": 0,
+          "max_tokens": 64,
+          "messages": [
+            {
+              "role": "system",
+              "content": "Choose a desired outcome for a low-level FPS policy. Hit the visible Doom target with few decisions. ALIGN_WITHOUT_FIRE moves or holds position without shooting until aligned is true (native lateral error within 8 world units). Positive alignment_error means move left; negative means move right. HIT_TARGET permits movement and shooting to kill the native target. Goals persist until achieved or the episode ends. Return only JSON with exactly one key: {\"goal\":\"ALIGN_WITHOUT_FIRE\"} or {\"goal\":\"HIT_TARGET\"}."
+            },
+            {
+              "role": "user",
+              "content": "{\"aligned\": false, \"alignment_error\": -108.49296569824219, \"decision\": 0, \"remaining_ammunition\": 50}"
+            }
+          ],
+          "reasoning": {
+            "enabled": false
+          },
+          "response_format": {
+            "type": "json_object"
+          }
+        },
+        "raw_response": "\n         \n{\"id\":\"gen-1790889039-JlVb49LogyPnqwRk5Am2\",\"object\":\"chat.completion\",\"created\":1790889039,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ALIGN_WITHOUT_FIRE\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":175,\"completion_tokens\":12,\"total_tokens\":187,\"cost\":0.00005404,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00005404,\"upstream_inference_prompt_cost\":0.000049,\"upstream_inference_completions_cost\":0.00000504},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+        "response_model": "deepseek/deepseek-v3.2",
+        "usage": {
+          "prompt_tokens": 175,
+          "completion_tokens": 12,
+          "total_tokens": 187,
+          "cost": 5.404e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 5.404e-05,
+            "upstream_inference_prompt_cost": 4.9e-05,
+            "upstream_inference_completions_cost": 5.04e-06
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "goal": "ALIGN_WITHOUT_FIRE",
+        "latency_seconds": 1.6489734000060707
+      },
+      {
+        "teacher": "llm",
+        "state": {
+          "decision": 10,
+          "remaining_ammunition": 50,
+          "aligned": true,
+          "alignment_error": 2.3344573974609375
+        },
+        "request": {
+          "model": "deepseek/deepseek-v3.2",
+          "temperature": 0,
+          "max_tokens": 64,
+          "messages": [
+            {
+              "role": "system",
+              "content": "Choose a desired outcome for a low-level FPS policy. Hit the visible Doom target with few decisions. ALIGN_WITHOUT_FIRE moves or holds position without shooting until aligned is true (native lateral error within 8 world units). Positive alignment_error means move left; negative means move right. HIT_TARGET permits movement and shooting to kill the native target. Goals persist until achieved or the episode ends. Return only JSON with exactly one key: {\"goal\":\"ALIGN_WITHOUT_FIRE\"} or {\"goal\":\"HIT_TARGET\"}."
+            },
+            {
+              "role": "user",
+              "content": "{\"aligned\": true, \"alignment_error\": 2.3344573974609375, \"decision\": 10, \"remaining_ammunition\": 50}"
+            }
+          ],
+          "reasoning": {
+            "enabled": false
+          },
+          "response_format": {
+            "type": "json_object"
+          }
+        },
+        "raw_response": "\n         \n{\"id\":\"gen-1790889041-ebYEcrO0p8f0Fnx8cFTn\",\"object\":\"chat.completion\",\"created\":1790889041,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"HIT_TARGET\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":176,\"completion_tokens\":9,\"total_tokens\":185,\"cost\":0.00005306,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00005306,\"upstream_inference_prompt_cost\":0.00004928,\"upstream_inference_completions_cost\":0.00000378},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+        "response_model": "deepseek/deepseek-v3.2",
+        "usage": {
+          "prompt_tokens": 176,
+          "completion_tokens": 9,
+          "total_tokens": 185,
+          "cost": 5.306e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 5.306e-05,
+            "upstream_inference_prompt_cost": 4.928e-05,
+            "upstream_inference_completions_cost": 3.78e-06
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "goal": "HIT_TARGET",
+        "latency_seconds": 1.3905717000016011
+      }
+    ]
+  }
+}

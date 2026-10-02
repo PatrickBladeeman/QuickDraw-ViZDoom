@@ -1,0 +1,208 @@
+{
+  "report_version": "quickdraw.saved-gc-diagnosis.v1",
+  "created_utc": "2026-10-01T19:40:21.523395+00:00",
+  "scope": "Post-hoc analysis of recorded 512-decision frozen-adviser pilot; no retraining or LLM calls",
+  "source_report": "artifacts/quickdraw/adviser-four-arm-pilot-20261001-v2.json",
+  "source_sha256": "897849579f3d7c883c27bfa8f3ee018cb794bd9bd0c94f3f5d2e84a49119e43f",
+  "sessions": [
+    {
+      "training_seed": 32001,
+      "training": {
+        "no_goal": {
+          "training_hits": 44,
+          "reset_count": 45,
+          "physical_transitions": 512,
+          "behavior_goal_decisions": {},
+          "goal_training_rows": {
+            "none": 512
+          },
+          "optimizer_updates": 481
+        },
+        "goal_conditioned": {
+          "training_hits": 7,
+          "reset_count": 8,
+          "physical_transitions": 512,
+          "behavior_goal_decisions": {
+            "ALIGN_WITHOUT_FIRE": 252,
+            "HIT_TARGET": 260
+          },
+          "goal_training_rows": {
+            "ALIGN_WITHOUT_FIRE": 512,
+            "HIT_TARGET": 512
+          },
+          "optimizer_updates": 481,
+          "hit_behavior_share": 0.5078125
+        }
+      },
+      "rule_goal_trace_groups": {
+        "ALIGN_WITHOUT_FIRE": {
+          "episodes": 5,
+          "hits": 0,
+          "episode_seeds": [
+            36000,
+            36001,
+            36002,
+            36003,
+            36009
+          ]
+        },
+        "HIT_TARGET": {
+          "episodes": 1,
+          "hits": 0,
+          "episode_seeds": [
+            36004
+          ]
+        },
+        "ALIGN_WITHOUT_FIRE -> HIT_TARGET": {
+          "episodes": 4,
+          "hits": 0,
+          "episode_seeds": [
+            36005,
+            36006,
+            36007,
+            36008
+          ]
+        }
+      }
+    },
+    {
+      "training_seed": 34001,
+      "training": {
+        "no_goal": {
+          "training_hits": 18,
+          "reset_count": 19,
+          "physical_transitions": 512,
+          "behavior_goal_decisions": {},
+          "goal_training_rows": {
+            "none": 512
+          },
+          "optimizer_updates": 481
+        },
+        "goal_conditioned": {
+          "training_hits": 19,
+          "reset_count": 20,
+          "physical_transitions": 512,
+          "behavior_goal_decisions": {
+            "ALIGN_WITHOUT_FIRE": 230,
+            "HIT_TARGET": 282
+          },
+          "goal_training_rows": {
+            "ALIGN_WITHOUT_FIRE": 512,
+            "HIT_TARGET": 512
+          },
+          "optimizer_updates": 481,
+          "hit_behavior_share": 0.55078125
+        }
+      },
+      "rule_goal_trace_groups": {
+        "ALIGN_WITHOUT_FIRE": {
+          "episodes": 5,
+          "hits": 0,
+          "episode_seeds": [
+            36000,
+            36001,
+            36002,
+            36003,
+            36009
+          ]
+        },
+        "HIT_TARGET": {
+          "episodes": 1,
+          "hits": 1,
+          "episode_seeds": [
+            36004
+          ]
+        },
+        "ALIGN_WITHOUT_FIRE -> HIT_TARGET": {
+          "episodes": 4,
+          "hits": 3,
+          "episode_seeds": [
+            36005,
+            36006,
+            36007,
+            36008
+          ]
+        }
+      }
+    },
+    {
+      "training_seed": 35001,
+      "training": {
+        "no_goal": {
+          "training_hits": 10,
+          "reset_count": 11,
+          "physical_transitions": 512,
+          "behavior_goal_decisions": {},
+          "goal_training_rows": {
+            "none": 512
+          },
+          "optimizer_updates": 481
+        },
+        "goal_conditioned": {
+          "training_hits": 5,
+          "reset_count": 7,
+          "physical_transitions": 512,
+          "behavior_goal_decisions": {
+            "ALIGN_WITHOUT_FIRE": 475,
+            "HIT_TARGET": 37
+          },
+          "goal_training_rows": {
+            "ALIGN_WITHOUT_FIRE": 512,
+            "HIT_TARGET": 512
+          },
+          "optimizer_updates": 481,
+          "hit_behavior_share": 0.072265625
+        }
+      },
+      "rule_goal_trace_groups": {
+        "ALIGN_WITHOUT_FIRE -> HIT_TARGET": {
+          "episodes": 5,
+          "hits": 1,
+          "episode_seeds": [
+            36000,
+            36001,
+            36002,
+            36003,
+            36009
+          ]
+        },
+        "HIT_TARGET": {
+          "episodes": 1,
+          "hits": 0,
+          "episode_seeds": [
+            36004
+          ]
+        },
+        "ALIGN_WITHOUT_FIRE": {
+          "episodes": 4,
+          "hits": 0,
+          "episode_seeds": [
+            36005,
+            36006,
+            36007,
+            36008
+          ]
+        }
+      }
+    }
+  ],
+  "aggregate_rule_goal_trace_groups": {
+    "ALIGN_WITHOUT_FIRE": {
+      "episodes": 14,
+      "hits": 0
+    },
+    "HIT_TARGET": {
+      "episodes": 3,
+      "hits": 1
+    },
+    "ALIGN_WITHOUT_FIRE -> HIT_TARGET": {
+      "episodes": 13,
+      "hits": 4
+    }
+  },
+  "caveats": [
+    "Alignment completion inferred from subsequent HIT_TARGET selection under the recorded rule; no per-decision Q values or native kill counts exist in this historical report.",
+    "Balanced alternation means goal selections alternate, not equal decision time: seed 35001 spent 475 of 512 behavior decisions under ALIGN. Both goals still have 512 relabeled rows.",
+    "The collection-teacher pilot trained different policies; its per-goal rates are not diagnostic measurements of these frozen policies."
+  ]
+}

@@ -1,0 +1,60 @@
+{"id":"confirmation-v1-001","family":"status_brief","instruction":"Get beside the target and keep it safe from gunfire.","task":"preserve"}
+{"id":"confirmation-v1-002","family":"status_brief","instruction":"End up aligned with the target, leaving it unharmed.","task":"preserve"}
+{"id":"confirmation-v1-003","family":"status_brief","instruction":"The target must be killed.","task":"hit"}
+{"id":"confirmation-v1-004","family":"status_brief","instruction":"The target needs to be destroyed.","task":"hit"}
+{"id":"confirmation-v1-005","family":"status_brief","instruction":"Be aligned before the first bullet, then kill the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-006","family":"status_brief","instruction":"Line up with the target first and destroy it afterward.","task":"align_then_hit"}
+{"id":"confirmation-v1-007","family":"field_order","instruction":"Position yourself with the target, but keep it alive.","task":"preserve"}
+{"id":"confirmation-v1-008","family":"field_order","instruction":"Move until both of you share a lane; do not fire.","task":"preserve"}
+{"id":"confirmation-v1-009","family":"field_order","instruction":"Remove the target.","task":"hit"}
+{"id":"confirmation-v1-010","family":"field_order","instruction":"Shoot the target until it dies.","task":"hit"}
+{"id":"confirmation-v1-011","family":"field_order","instruction":"Reach its lane before you fire, then remove the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-012","family":"field_order","instruction":"Settle into alignment first; only after that, shoot the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-013","family":"safety_note","instruction":"Keep the weapon unused and get level with the target.","task":"preserve"}
+{"id":"confirmation-v1-014","family":"safety_note","instruction":"Avoid firing completely while you align with the target.","task":"preserve"}
+{"id":"confirmation-v1-015","family":"safety_note","instruction":"There is no need to hold fire: kill the target.","task":"hit"}
+{"id":"confirmation-v1-016","family":"safety_note","instruction":"Use force to eliminate the target.","task":"hit"}
+{"id":"confirmation-v1-017","family":"safety_note","instruction":"Safety rule: no shots before you are aligned; then eliminate the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-018","family":"safety_note","instruction":"Hold fire until aligned with the target, then shoot to kill.","task":"align_then_hit"}
+{"id":"confirmation-v1-019","family":"objective_card","instruction":"Objective: arrive in the target's lane without damaging it.","task":"preserve"}
+{"id":"confirmation-v1-020","family":"objective_card","instruction":"Objective: align with the target and let it survive.","task":"preserve"}
+{"id":"confirmation-v1-021","family":"objective_card","instruction":"Objective: kill the enemy target.","task":"hit"}
+{"id":"confirmation-v1-022","family":"objective_card","instruction":"Objective: end the target.","task":"hit"}
+{"id":"confirmation-v1-023","family":"objective_card","instruction":"Objective: obtain alignment before your first shot, then kill the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-024","family":"objective_card","instruction":"Objective: first share the target's lane, then fire to destroy it.","task":"align_then_hit"}
+{"id":"confirmation-v1-025","family":"radio_call","instruction":"Control, I need to get in line with the target without shooting it.","task":"preserve"}
+{"id":"confirmation-v1-026","family":"radio_call","instruction":"Control, guide me into alignment and keep the target alive.","task":"preserve"}
+{"id":"confirmation-v1-027","family":"radio_call","instruction":"Control, I am cleared to kill the target.","task":"hit"}
+{"id":"confirmation-v1-028","family":"radio_call","instruction":"Control, the target is to be taken down.","task":"hit"}
+{"id":"confirmation-v1-029","family":"radio_call","instruction":"Control, I must align before firing and then kill the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-030","family":"radio_call","instruction":"Control, no shot is allowed until I am level with the target; then I must destroy it.","task":"align_then_hit"}
+{"id":"confirmation-v1-031","family":"concise_command","instruction":"Align. Do not shoot.","task":"preserve"}
+{"id":"confirmation-v1-032","family":"concise_command","instruction":"Match the target's lane. Keep it alive.","task":"preserve"}
+{"id":"confirmation-v1-033","family":"concise_command","instruction":"Kill it.","task":"hit"}
+{"id":"confirmation-v1-034","family":"concise_command","instruction":"Destroy the target now.","task":"hit"}
+{"id":"confirmation-v1-035","family":"concise_command","instruction":"Align first. Kill second.","task":"align_then_hit"}
+{"id":"confirmation-v1-036","family":"concise_command","instruction":"No early fire. Align, then destroy the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-037","family":"conditional_timing","instruction":"Until you are aligned, do not shoot and do not harm the target.","task":"preserve"}
+{"id":"confirmation-v1-038","family":"conditional_timing","instruction":"Once aligned, stop without firing and leave the target alive.","task":"preserve"}
+{"id":"confirmation-v1-039","family":"conditional_timing","instruction":"When ready, fire and kill the target.","task":"hit"}
+{"id":"confirmation-v1-040","family":"conditional_timing","instruction":"As soon as you can, destroy the target.","task":"hit"}
+{"id":"confirmation-v1-041","family":"conditional_timing","instruction":"Do not shoot unless you are aligned first; then kill the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-042","family":"conditional_timing","instruction":"After alignment, and not before, fire until the target is dead.","task":"align_then_hit"}
+{"id":"confirmation-v1-043","family":"task_assignment","instruction":"Your assignment is to join the target's lane without firing.","task":"preserve"}
+{"id":"confirmation-v1-044","family":"task_assignment","instruction":"Your assignment is to align with the target and spare it.","task":"preserve"}
+{"id":"confirmation-v1-045","family":"task_assignment","instruction":"Your assignment is to eliminate the target.","task":"hit"}
+{"id":"confirmation-v1-046","family":"task_assignment","instruction":"Your assignment is to shoot and kill the target.","task":"hit"}
+{"id":"confirmation-v1-047","family":"task_assignment","instruction":"Your assignment is to align before shooting, then eliminate the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-048","family":"task_assignment","instruction":"Your assignment is to wait for alignment before the first shot and then kill the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-049","family":"action_plan","instruction":"Plan: move alongside the target and leave it untouched.","task":"preserve"}
+{"id":"confirmation-v1-050","family":"action_plan","instruction":"Plan: reach alignment without using a shot.","task":"preserve"}
+{"id":"confirmation-v1-051","family":"action_plan","instruction":"Plan: fire at the target to kill it.","task":"hit"}
+{"id":"confirmation-v1-052","family":"action_plan","instruction":"Plan: finish off the target.","task":"hit"}
+{"id":"confirmation-v1-053","family":"action_plan","instruction":"Plan: align with the target, then start firing and kill it.","task":"align_then_hit"}
+{"id":"confirmation-v1-054","family":"action_plan","instruction":"Plan: no shot before alignment; after alignment, take down the target.","task":"align_then_hit"}
+{"id":"confirmation-v1-055","family":"final_state","instruction":"Leave the target alive, with your position aligned to it.","task":"preserve"}
+{"id":"confirmation-v1-056","family":"final_state","instruction":"The final state should be alignment and an unharmed target.","task":"preserve"}
+{"id":"confirmation-v1-057","family":"final_state","instruction":"The final state should be a dead target.","task":"hit"}
+{"id":"confirmation-v1-058","family":"final_state","instruction":"Leave no living target.","task":"hit"}
+{"id":"confirmation-v1-059","family":"final_state","instruction":"The final state should be a dead target, with alignment reached before any shot.","task":"align_then_hit"}
+{"id":"confirmation-v1-060","family":"final_state","instruction":"Make alignment happen before firing, then leave the target destroyed.","task":"align_then_hit"}
