@@ -1,0 +1,668 @@
+{
+  "analysis_version": "quickdraw.resource-findings.v1",
+  "scope": "Closed-world native resource-prerequisite adviser pilot; shared scripted skills; no learner training or natural-language parsing.",
+  "reports": {
+    "qwen": {
+      "path": "artifacts/quickdraw/resource-qwen-confirmation-20261001-v1.json",
+      "sha256": "3a37a29872d234405ce7cd2eedc0d3ce06e7bbd00135ee332262131ad414f605",
+      "model": "qwen/qwen3.5-9b"
+    },
+    "deepseek": {
+      "path": "artifacts/quickdraw/resource-deepseek-confirmation-20261001-v1.json",
+      "sha256": "874ca4f990cb48345226bbe8f9bd8a6417697a7c72fcaddfcefdaf7999b681ed",
+      "model": "deepseek/deepseek-v3.2"
+    }
+  },
+  "case_sha256": "5dc4db71202d67d2063936d556f856ad3ed49e240670b870807b6e09695e0339",
+  "source_sha256": {
+    "quickdraw_vizdoom\\resource_evaluation.py": "6b859a6419679d94c2e0d2ad8cf920f50025e3cdcd936b51947f324175c28e08",
+    "quickdraw_vizdoom\\envs\\resource_arena.py": "ef83aebf92aa9d78731ab0e9fe1ca4ab913f259c72c24458404c59818bef248d",
+    "quickdraw_vizdoom\\goal_teachers.py": "fb824314923d02f658ae8bfc0cd2461c10acc09ffced914311807852144c4855"
+  },
+  "native_initial_state_parity": true,
+  "conditions": {
+    "rule": {
+      "aggregate": {
+        "episodes": 60,
+        "successes": 60,
+        "success_rate": 1,
+        "mean_decisions_all_episodes": 486.28333333333336,
+        "mean_goals": 2.95,
+        "shots_fired": 137,
+        "selected_target_kill_successes": 137,
+        "selected_target_kill_attempts": 137,
+        "wrong_target_kills": 0,
+        "native_pickups": 40,
+        "ammo_deadlocks": 0,
+        "adviser_failures": 0,
+        "executor_failures": 0,
+        "infrastructure_failures": 0,
+        "api_calls": 0,
+        "api_latency_seconds": 0,
+        "reported_cost_usd": 0,
+        "cost_reporting_calls": 0
+      },
+      "strata": {
+        "direct": {
+          "episodes": 20,
+          "successes": 20,
+          "success_rate": 1,
+          "mean_decisions_all_episodes": 231.6,
+          "mean_goals": 1.85,
+          "shots_fired": 37,
+          "selected_target_kill_successes": 37,
+          "selected_target_kill_attempts": 37,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "required_gate": {
+          "episodes": 20,
+          "successes": 20,
+          "success_rate": 1,
+          "mean_decisions_all_episodes": 562.25,
+          "mean_goals": 3,
+          "shots_fired": 40,
+          "selected_target_kill_successes": 40,
+          "selected_target_kill_attempts": 40,
+          "wrong_target_kills": 0,
+          "native_pickups": 20,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "optional_gate": {
+          "episodes": 20,
+          "successes": 20,
+          "success_rate": 1,
+          "mean_decisions_all_episodes": 665,
+          "mean_goals": 4,
+          "shots_fired": 60,
+          "selected_target_kill_successes": 60,
+          "selected_target_kill_attempts": 60,
+          "wrong_target_kills": 0,
+          "native_pickups": 20,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        }
+      },
+      "failure_counts": {},
+      "successful_pair_cost": {
+        "pairs": 60,
+        "mean_extra_native_decisions_vs_search": 0.9
+      }
+    },
+    "search": {
+      "aggregate": {
+        "episodes": 60,
+        "successes": 60,
+        "success_rate": 1,
+        "mean_decisions_all_episodes": 485.3833333333333,
+        "mean_goals": 2.95,
+        "shots_fired": 137,
+        "selected_target_kill_successes": 137,
+        "selected_target_kill_attempts": 137,
+        "wrong_target_kills": 0,
+        "native_pickups": 40,
+        "ammo_deadlocks": 0,
+        "adviser_failures": 0,
+        "executor_failures": 0,
+        "infrastructure_failures": 0,
+        "api_calls": 0,
+        "api_latency_seconds": 0,
+        "reported_cost_usd": 0,
+        "cost_reporting_calls": 0
+      },
+      "strata": {
+        "direct": {
+          "episodes": 20,
+          "successes": 20,
+          "success_rate": 1,
+          "mean_decisions_all_episodes": 228.9,
+          "mean_goals": 1.85,
+          "shots_fired": 37,
+          "selected_target_kill_successes": 37,
+          "selected_target_kill_attempts": 37,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "required_gate": {
+          "episodes": 20,
+          "successes": 20,
+          "success_rate": 1,
+          "mean_decisions_all_episodes": 562.25,
+          "mean_goals": 3,
+          "shots_fired": 40,
+          "selected_target_kill_successes": 40,
+          "selected_target_kill_attempts": 40,
+          "wrong_target_kills": 0,
+          "native_pickups": 20,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "optional_gate": {
+          "episodes": 20,
+          "successes": 20,
+          "success_rate": 1,
+          "mean_decisions_all_episodes": 665,
+          "mean_goals": 4,
+          "shots_fired": 60,
+          "selected_target_kill_successes": 60,
+          "selected_target_kill_attempts": 60,
+          "wrong_target_kills": 0,
+          "native_pickups": 20,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        }
+      },
+      "failure_counts": {},
+      "successful_pair_cost": {
+        "pairs": 60,
+        "mean_extra_native_decisions_vs_search": 0
+      }
+    },
+    "nearest_no_adviser": {
+      "aggregate": {
+        "episodes": 60,
+        "successes": 9,
+        "success_rate": 0.15,
+        "mean_decisions_all_episodes": 102.4,
+        "mean_goals": 1.6833333333333333,
+        "shots_fired": 77,
+        "selected_target_kill_successes": 77,
+        "selected_target_kill_attempts": 77,
+        "wrong_target_kills": 0,
+        "native_pickups": 0,
+        "ammo_deadlocks": 27,
+        "adviser_failures": 0,
+        "executor_failures": 0,
+        "infrastructure_failures": 0,
+        "api_calls": 0,
+        "api_latency_seconds": 0,
+        "reported_cost_usd": 0,
+        "cost_reporting_calls": 0
+      },
+      "strata": {
+        "direct": {
+          "episodes": 20,
+          "successes": 9,
+          "success_rate": 0.45,
+          "mean_decisions_all_episodes": 178.05,
+          "mean_goals": 2.25,
+          "shots_fired": 37,
+          "selected_target_kill_successes": 37,
+          "selected_target_kill_attempts": 37,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 3,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "required_gate": {
+          "episodes": 20,
+          "successes": 0,
+          "success_rate": 0,
+          "mean_decisions_all_episodes": 63.15,
+          "mean_goals": 1.5,
+          "shots_fired": 20,
+          "selected_target_kill_successes": 20,
+          "selected_target_kill_attempts": 20,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 10,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "optional_gate": {
+          "episodes": 20,
+          "successes": 0,
+          "success_rate": 0,
+          "mean_decisions_all_episodes": 66,
+          "mean_goals": 1.3,
+          "shots_fired": 20,
+          "selected_target_kill_successes": 20,
+          "selected_target_kill_attempts": 20,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 14,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        }
+      },
+      "failure_counts": {
+        "ammo_deadlock": 27,
+        "premature_finish": 24
+      },
+      "successful_pair_cost": {
+        "pairs": 9,
+        "mean_extra_native_decisions_vs_search": 6
+      }
+    },
+    "random": {
+      "aggregate": {
+        "episodes": 60,
+        "successes": 26,
+        "success_rate": 0.43333333333333335,
+        "mean_decisions_all_episodes": 364.76666666666665,
+        "mean_goals": 2.0833333333333335,
+        "shots_fired": 105,
+        "selected_target_kill_successes": 105,
+        "selected_target_kill_attempts": 105,
+        "wrong_target_kills": 0,
+        "native_pickups": 20,
+        "ammo_deadlocks": 34,
+        "adviser_failures": 0,
+        "executor_failures": 0,
+        "infrastructure_failures": 0,
+        "api_calls": 0,
+        "api_latency_seconds": 0,
+        "reported_cost_usd": 0,
+        "cost_reporting_calls": 0
+      },
+      "strata": {
+        "direct": {
+          "episodes": 20,
+          "successes": 15,
+          "success_rate": 0.75,
+          "mean_decisions_all_episodes": 484.2,
+          "mean_goals": 2.7,
+          "shots_fired": 45,
+          "selected_target_kill_successes": 45,
+          "selected_target_kill_attempts": 45,
+          "wrong_target_kills": 0,
+          "native_pickups": 9,
+          "ammo_deadlocks": 5,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "required_gate": {
+          "episodes": 20,
+          "successes": 5,
+          "success_rate": 0.25,
+          "mean_decisions_all_episodes": 283.75,
+          "mean_goals": 1.65,
+          "shots_fired": 28,
+          "selected_target_kill_successes": 28,
+          "selected_target_kill_attempts": 28,
+          "wrong_target_kills": 0,
+          "native_pickups": 5,
+          "ammo_deadlocks": 15,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        },
+        "optional_gate": {
+          "episodes": 20,
+          "successes": 6,
+          "success_rate": 0.3,
+          "mean_decisions_all_episodes": 326.35,
+          "mean_goals": 1.9,
+          "shots_fired": 32,
+          "selected_target_kill_successes": 32,
+          "selected_target_kill_attempts": 32,
+          "wrong_target_kills": 0,
+          "native_pickups": 6,
+          "ammo_deadlocks": 14,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 0,
+          "api_latency_seconds": 0,
+          "reported_cost_usd": 0,
+          "cost_reporting_calls": 0
+        }
+      },
+      "failure_counts": {
+        "ammo_deadlock": 34
+      },
+      "successful_pair_cost": {
+        "pairs": 26,
+        "mean_extra_native_decisions_vs_search": 234.1153846153846
+      }
+    },
+    "qwen": {
+      "aggregate": {
+        "episodes": 60,
+        "successes": 29,
+        "success_rate": 0.48333333333333334,
+        "mean_decisions_all_episodes": 274.8,
+        "mean_goals": 1.7666666666666666,
+        "shots_fired": 91,
+        "selected_target_kill_successes": 91,
+        "selected_target_kill_attempts": 91,
+        "wrong_target_kills": 0,
+        "native_pickups": 14,
+        "ammo_deadlocks": 30,
+        "adviser_failures": 0,
+        "executor_failures": 0,
+        "infrastructure_failures": 0,
+        "api_calls": 106,
+        "api_latency_seconds": 83.02997689996846,
+        "reported_cost_usd": 0.00484917,
+        "cost_reporting_calls": 106
+      },
+      "strata": {
+        "direct": {
+          "episodes": 20,
+          "successes": 19,
+          "success_rate": 0.95,
+          "mean_decisions_all_episodes": 357.9,
+          "mean_goals": 2.15,
+          "shots_fired": 38,
+          "selected_target_kill_successes": 38,
+          "selected_target_kill_attempts": 38,
+          "wrong_target_kills": 0,
+          "native_pickups": 4,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 43,
+          "api_latency_seconds": 37.4217119999812,
+          "reported_cost_usd": 0.00195454,
+          "cost_reporting_calls": 43
+        },
+        "required_gate": {
+          "episodes": 20,
+          "successes": 10,
+          "success_rate": 0.5,
+          "mean_decisions_all_episodes": 360.25,
+          "mean_goals": 2.15,
+          "shots_fired": 33,
+          "selected_target_kill_successes": 33,
+          "selected_target_kill_attempts": 33,
+          "wrong_target_kills": 0,
+          "native_pickups": 10,
+          "ammo_deadlocks": 10,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 43,
+          "api_latency_seconds": 30.884421599912457,
+          "reported_cost_usd": 0.00198468,
+          "cost_reporting_calls": 43
+        },
+        "optional_gate": {
+          "episodes": 20,
+          "successes": 0,
+          "success_rate": 0,
+          "mean_decisions_all_episodes": 106.25,
+          "mean_goals": 1,
+          "shots_fired": 20,
+          "selected_target_kill_successes": 20,
+          "selected_target_kill_attempts": 20,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 20,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 20,
+          "api_latency_seconds": 14.723843300074805,
+          "reported_cost_usd": 0.0009099500000000001,
+          "cost_reporting_calls": 20
+        }
+      },
+      "failure_counts": {
+        "ammo_deadlock": 30,
+        "premature_finish": 1
+      },
+      "successful_pair_cost": {
+        "pairs": 29,
+        "mean_extra_native_decisions_vs_search": 113.72413793103448
+      }
+    },
+    "deepseek": {
+      "aggregate": {
+        "episodes": 60,
+        "successes": 49,
+        "success_rate": 0.8166666666666667,
+        "mean_decisions_all_episodes": 455.35,
+        "mean_goals": 2.6666666666666665,
+        "shots_fired": 124,
+        "selected_target_kill_successes": 124,
+        "selected_target_kill_attempts": 124,
+        "wrong_target_kills": 0,
+        "native_pickups": 36,
+        "ammo_deadlocks": 11,
+        "adviser_failures": 0,
+        "executor_failures": 0,
+        "infrastructure_failures": 0,
+        "api_calls": 160,
+        "api_latency_seconds": 295.2971458004322,
+        "reported_cost_usd": 0.015628052,
+        "cost_reporting_calls": 160
+      },
+      "strata": {
+        "direct": {
+          "episodes": 20,
+          "successes": 20,
+          "success_rate": 1,
+          "mean_decisions_all_episodes": 427.35,
+          "mean_goals": 2.45,
+          "shots_fired": 42,
+          "selected_target_kill_successes": 42,
+          "selected_target_kill_attempts": 42,
+          "wrong_target_kills": 0,
+          "native_pickups": 7,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 49,
+          "api_latency_seconds": 87.59549099992728,
+          "reported_cost_usd": 0.004980336,
+          "cost_reporting_calls": 49
+        },
+        "required_gate": {
+          "episodes": 20,
+          "successes": 16,
+          "success_rate": 0.8,
+          "mean_decisions_all_episodes": 453,
+          "mean_goals": 2.6,
+          "shots_fired": 36,
+          "selected_target_kill_successes": 36,
+          "selected_target_kill_attempts": 36,
+          "wrong_target_kills": 0,
+          "native_pickups": 16,
+          "ammo_deadlocks": 4,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 52,
+          "api_latency_seconds": 100.81155920011224,
+          "reported_cost_usd": 0.0049523925,
+          "cost_reporting_calls": 52
+        },
+        "optional_gate": {
+          "episodes": 20,
+          "successes": 13,
+          "success_rate": 0.65,
+          "mean_decisions_all_episodes": 485.7,
+          "mean_goals": 2.95,
+          "shots_fired": 46,
+          "selected_target_kill_successes": 46,
+          "selected_target_kill_attempts": 46,
+          "wrong_target_kills": 0,
+          "native_pickups": 13,
+          "ammo_deadlocks": 7,
+          "adviser_failures": 0,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 59,
+          "api_latency_seconds": 106.89009560039267,
+          "reported_cost_usd": 0.0056953235,
+          "cost_reporting_calls": 59
+        }
+      },
+      "failure_counts": {
+        "ammo_deadlock": 11
+      },
+      "successful_pair_cost": {
+        "pairs": 49,
+        "mean_extra_native_decisions_vs_search": 87.51020408163265
+      }
+    }
+  },
+  "paired_success_comparisons": {
+    "qwen": {
+      "rule": {
+        "difference": -0.5166666666666667,
+        "paired_case_bootstrap_95_percent": [
+          -0.65,
+          -0.4
+        ],
+        "llm_only_successes": 0,
+        "baseline_only_successes": 31
+      },
+      "search": {
+        "difference": -0.5166666666666667,
+        "paired_case_bootstrap_95_percent": [
+          -0.65,
+          -0.4
+        ],
+        "llm_only_successes": 0,
+        "baseline_only_successes": 31
+      },
+      "nearest_no_adviser": {
+        "difference": 0.3333333333333333,
+        "paired_case_bootstrap_95_percent": [
+          0.21666666666666667,
+          0.45
+        ],
+        "llm_only_successes": 20,
+        "baseline_only_successes": 0
+      },
+      "random": {
+        "difference": 0.05,
+        "paired_case_bootstrap_95_percent": [
+          -0.1,
+          0.2
+        ],
+        "llm_only_successes": 13,
+        "baseline_only_successes": 10
+      }
+    },
+    "deepseek": {
+      "rule": {
+        "difference": -0.18333333333333332,
+        "paired_case_bootstrap_95_percent": [
+          -0.2833333333333333,
+          -0.1
+        ],
+        "llm_only_successes": 0,
+        "baseline_only_successes": 11
+      },
+      "search": {
+        "difference": -0.18333333333333332,
+        "paired_case_bootstrap_95_percent": [
+          -0.2833333333333333,
+          -0.1
+        ],
+        "llm_only_successes": 0,
+        "baseline_only_successes": 11
+      },
+      "nearest_no_adviser": {
+        "difference": 0.6666666666666666,
+        "paired_case_bootstrap_95_percent": [
+          0.55,
+          0.7833333333333333
+        ],
+        "llm_only_successes": 40,
+        "baseline_only_successes": 0
+      },
+      "random": {
+        "difference": 0.38333333333333336,
+        "paired_case_bootstrap_95_percent": [
+          0.21666666666666667,
+          0.55
+        ],
+        "llm_only_successes": 29,
+        "baseline_only_successes": 6
+      }
+    }
+  },
+  "uncertainty_scope": "Descriptive 95% paired-case bootstrap conditional on these 60 generated cases; no population, training-run or equivalence claim.",
+  "executed_native_episodes": 360,
+  "executed_native_decisions": 130139,
+  "api_calls": 266,
+  "reported_cost_usd": 0.020477222,
+  "runtime_at_analysis": {
+    "python": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]",
+    "vizdoom": "1.4.0.dev1"
+  },
+  "validation": {
+    "quickdraw_tests_passed": 137,
+    "upstream_tests_deselected": 686,
+    "ponytail_audit": "Lean already; no new dependencies or unnecessary abstractions."
+  },
+  "supported_finding": "Under the frozen structured-state interface, rules/search completed 60/60, DeepSeek 49/60 and Qwen 29/60. Neither LLM exceeded the competent state-based scripts; adviser selection, not native execution or output formatting, accounts for remaining failures.",
+  "limitations": [
+    "Three stationary targets and one known ammunition prerequisite; closed-world mission structure.",
+    "One deterministic generation schedule and one model response per goal, with reasoning disabled.",
+    "Nearest-target control is scripted, not a trained no-goal learner.",
+    "Initial free-form-object runs remain separate from this fresh schema-constrained confirmation."
+  ]
+}

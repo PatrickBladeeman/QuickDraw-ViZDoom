@@ -1,0 +1,3675 @@
+{
+  "report_version": "quickdraw.resource-adviser.v2",
+  "split": "development",
+  "cases": [
+    {
+      "seed": 71000,
+      "split": "development",
+      "stratum": "direct",
+      "initial_ammo": 2,
+      "cache_ammo": 2,
+      "cache_requires": "B",
+      "required_targets": [
+        "B",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": 32
+        },
+        {
+          "id": "B",
+          "y": 160
+        },
+        {
+          "id": "C",
+          "y": -32
+        }
+      ]
+    },
+    {
+      "seed": 71001,
+      "split": "development",
+      "stratum": "required_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 2,
+      "cache_requires": "C",
+      "required_targets": [
+        "B",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": 160
+        },
+        {
+          "id": "B",
+          "y": -160
+        },
+        {
+          "id": "C",
+          "y": 96
+        }
+      ]
+    },
+    {
+      "seed": 71002,
+      "split": "development",
+      "stratum": "optional_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 2,
+      "cache_requires": "A",
+      "required_targets": [
+        "B",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": 32
+        },
+        {
+          "id": "B",
+          "y": 96
+        },
+        {
+          "id": "C",
+          "y": 160
+        }
+      ]
+    },
+    {
+      "seed": 71003,
+      "split": "development",
+      "stratum": "direct",
+      "initial_ammo": 1,
+      "cache_ammo": 3,
+      "cache_requires": "A",
+      "required_targets": [
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": -96
+        },
+        {
+          "id": "B",
+          "y": 160
+        },
+        {
+          "id": "C",
+          "y": -32
+        }
+      ]
+    },
+    {
+      "seed": 71004,
+      "split": "development",
+      "stratum": "required_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 2,
+      "cache_requires": "C",
+      "required_targets": [
+        "B",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": -96
+        },
+        {
+          "id": "B",
+          "y": -32
+        },
+        {
+          "id": "C",
+          "y": 96
+        }
+      ]
+    },
+    {
+      "seed": 71005,
+      "split": "development",
+      "stratum": "optional_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 3,
+      "cache_requires": "C",
+      "required_targets": [
+        "A",
+        "B"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": -160
+        },
+        {
+          "id": "B",
+          "y": 96
+        },
+        {
+          "id": "C",
+          "y": 32
+        }
+      ]
+    },
+    {
+      "seed": 71006,
+      "split": "development",
+      "stratum": "direct",
+      "initial_ammo": 1,
+      "cache_ammo": 3,
+      "cache_requires": "A",
+      "required_targets": [
+        "B"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": 160
+        },
+        {
+          "id": "B",
+          "y": -32
+        },
+        {
+          "id": "C",
+          "y": -96
+        }
+      ]
+    },
+    {
+      "seed": 71007,
+      "split": "development",
+      "stratum": "required_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 2,
+      "cache_requires": "A",
+      "required_targets": [
+        "A",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": -96
+        },
+        {
+          "id": "B",
+          "y": 32
+        },
+        {
+          "id": "C",
+          "y": -160
+        }
+      ]
+    },
+    {
+      "seed": 71008,
+      "split": "development",
+      "stratum": "optional_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 3,
+      "cache_requires": "A",
+      "required_targets": [
+        "B",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": -96
+        },
+        {
+          "id": "B",
+          "y": 96
+        },
+        {
+          "id": "C",
+          "y": -160
+        }
+      ]
+    },
+    {
+      "seed": 71009,
+      "split": "development",
+      "stratum": "direct",
+      "initial_ammo": 2,
+      "cache_ammo": 3,
+      "cache_requires": "A",
+      "required_targets": [
+        "A",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": 32
+        },
+        {
+          "id": "B",
+          "y": -96
+        },
+        {
+          "id": "C",
+          "y": 96
+        }
+      ]
+    },
+    {
+      "seed": 71010,
+      "split": "development",
+      "stratum": "required_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 2,
+      "cache_requires": "B",
+      "required_targets": [
+        "B",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": -96
+        },
+        {
+          "id": "B",
+          "y": -32
+        },
+        {
+          "id": "C",
+          "y": 160
+        }
+      ]
+    },
+    {
+      "seed": 71011,
+      "split": "development",
+      "stratum": "optional_gate",
+      "initial_ammo": 1,
+      "cache_ammo": 2,
+      "cache_requires": "A",
+      "required_targets": [
+        "B",
+        "C"
+      ],
+      "targets": [
+        {
+          "id": "A",
+          "y": -32
+        },
+        {
+          "id": "B",
+          "y": -160
+        },
+        {
+          "id": "C",
+          "y": -96
+        }
+      ]
+    }
+  ],
+  "case_sha256": "ebc910c62436e6bc9b017a7220b16843025f9bb0b3c475388b7d8cd1b2c1145a",
+  "source_sha256": {
+    "quickdraw_vizdoom\\resource_evaluation.py": "200a901830589b0d705ba15e278613283e3e7ffb6a186d91897d6498d9ac5775",
+    "quickdraw_vizdoom\\envs\\resource_arena.py": "ef83aebf92aa9d78731ab0e9fe1ca4ab913f259c72c24458404c59818bef248d",
+    "quickdraw_vizdoom\\goal_teachers.py": "15e9a4cdb4912c1dc47956726b80a96cbf5cdad7c65e223c058b879296f1b6b7"
+  },
+  "scope": "Adviser-only native resource ordering; shared scripted skills, no policy learning or language parsing.",
+  "reference_cost": "Minimum goal count, then ideal axis-aligned movement units; not an exact native decision optimum.",
+  "llm_model": "deepseek/deepseek-v3.2",
+  "llm_endpoint": "https://openrouter.ai/api/v1/chat/completions",
+  "prompt": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table.",
+  "timeout_seconds": 10.0,
+  "goal_limit": 8,
+  "skill_decision_limit": 600,
+  "decision_tics": 1,
+  "conditions": {
+    "llm": {
+      "episodes": [
+        {
+          "seed": 71000,
+          "stratum": "direct",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 2,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "B",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 2, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"B\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, 32.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, 160.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -32.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905352-NPK4HwkFy2wb1RvOp8tL\",\"object\":\"chat.completion\",\"created\":1790905352,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMINATE\\\",\\\"target_id\\\":\\\"B\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":14,\"total_tokens\":508,\"cost\":0.0001442,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0001442,\"upstream_inference_prompt_cost\":0.00013832,\"upstream_inference_completions_cost\":0.00000588},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 14,
+                "total_tokens": 508,
+                "cost": 0.0001442,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 0.0001442,
+                  "upstream_inference_prompt_cost": 0.00013832,
+                  "upstream_inference_completions_cost": 5.88e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "goal": {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              },
+              "latency_seconds": 1.051169300044421
+            },
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  167.38941955566406
+                ],
+                "ammo": 1,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "B",
+                  "ammo_gain": 2,
+                  "available": true,
+                  "collected": false,
+                  "position": [
+                    160.0,
+                    160.0
+                  ]
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "COLLECT_AMMO"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"COLLECT_AMMO\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": true, \"collected\": false, \"position\": [160.0, 160.0], \"requires_eliminated\": \"B\"}, \"native_kills\": 1, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 167.38941955566406], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, 32.0]}, {\"alive\": false, \"id\": \"B\", \"position\": [160.0, 160.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -32.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905353-xpPVAZp9y6dmWzzyHSaF\",\"object\":\"chat.completion\",\"created\":1790905353,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"C\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":501,\"completion_tokens\":13,\"total_tokens\":514,\"cost\":0.00014574,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00014574,\"upstream_inference_prompt_cost\":0.00014028,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 501,
+                "completion_tokens": 13,
+                "total_tokens": 514,
+                "cost": 0.00014574,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 0.00014574,
+                  "upstream_inference_prompt_cost": 0.00014028,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.5174223000067286
+            }
+          ],
+          "trace": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 2,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "B",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "goal": {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              },
+              "status": "achieved",
+              "decisions": 169,
+              "native_events": [
+                {
+                  "decision": 149,
+                  "killed": [
+                    "B"
+                  ],
+                  "ammo_delta": -1
+                }
+              ],
+              "next_state": {
+                "player_position": [
+                  0.0,
+                  167.38941955566406
+                ],
+                "ammo": 1,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "B",
+                  "ammo_gain": 2,
+                  "available": true,
+                  "collected": false,
+                  "position": [
+                    160.0,
+                    160.0
+                  ]
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "COLLECT_AMMO"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              }
+            }
+          ],
+          "wad_sha256": "d6435b4144b7afe1621befc2bd9e9ecf7ffc7ac687d9eccac0320c2b427d77db",
+          "initial_frame_sha256": "48e3d5f8735b38038def761ef3c82e7757949607c9ec07c7cd290ebd4db35806",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              }
+            ],
+            "goal_count": 2,
+            "ideal_movement_units": 224.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 169,
+          "goal_count": 1,
+          "native_events": [
+            {
+              "decision": 149,
+              "killed": [
+                "B"
+              ],
+              "ammo_delta": -1
+            }
+          ],
+          "final_state": {
+            "player_position": [
+              0.0,
+              167.38941955566406
+            ],
+            "ammo": 1,
+            "native_kills": 1,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  32.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": false,
+                "position": [
+                  160.0,
+                  160.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -32.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "B",
+              "ammo_gain": 2,
+              "available": true,
+              "collected": false,
+              "position": [
+                160.0,
+                160.0
+              ]
+            }
+          },
+          "final_frame_sha256": "8b348a53664df1f007ec87dcfbe5437f9f29e3e3378b0448336ae7ae6f6a02fe"
+        },
+        {
+          "seed": 71001,
+          "stratum": "required_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "C",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"C\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, 160.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -160.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, 96.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905355-jh0Rs9WB2LcRoVIplG31\",\"object\":\"chat.completion\",\"created\":1790905355,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"C\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.00014378,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00014378,\"upstream_inference_prompt_cost\":0.00013832,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 0.00014378,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 0.00014378,
+                  "upstream_inference_prompt_cost": 0.00013832,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.478181999991648
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "576372eec0366eb12f37a6f250c66f957fb4bfa6b002e520bc1aadf64725fe0a",
+          "initial_frame_sha256": "f7a58109b6e7fa2145dd98f1790fb2d2ba2420c02fb17d3e693fcedc27315e25",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              }
+            ],
+            "goal_count": 3,
+            "ideal_movement_units": 672.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  160.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -160.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  96.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "C",
+              "ammo_gain": 2,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "f7a58109b6e7fa2145dd98f1790fb2d2ba2420c02fb17d3e693fcedc27315e25"
+        },
+        {
+          "seed": 71002,
+          "stratum": "optional_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      96.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, 32.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, 96.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, 160.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905357-FwNYY2W3xipAELBcHu0K\",\"object\":\"chat.completion\",\"created\":1790905357,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"A\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.00014378,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00014378,\"upstream_inference_prompt_cost\":0.00013832,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 0.00014378,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 0.00014378,
+                  "upstream_inference_prompt_cost": 0.00013832,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 2.0947051999974065
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "2d074de542599b59e63a5b7a55f9c1f97291ef4b0119851daf46f698c19aaca6",
+          "initial_frame_sha256": "00e5cb409711169b2faf530211e23f9617655724d7ac2a8b58d1080ad2b36223",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              }
+            ],
+            "goal_count": 4,
+            "ideal_movement_units": 480.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  32.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  96.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  160.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "A",
+              "ammo_gain": 2,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "00e5cb409711169b2faf530211e23f9617655724d7ac2a8b58d1080ad2b36223"
+        },
+        {
+          "seed": 71003,
+          "stratum": "direct",
+          "teacher": "llm",
+          "success": true,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 3, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, -96.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, 160.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -32.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905360-vZiA4Hum4N4P7P5Z06W9\",\"object\":\"chat.completion\",\"created\":1790905360,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"SiliconFlow\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMINATE\\\",\\\"target_id\\\":\\\"C\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":468,\"completion_tokens\":13,\"total_tokens\":481,\"cost\":0.000126672,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000126672,\"upstream_inference_prompt_cost\":0.000121212,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 468,
+                "completion_tokens": 13,
+                "total_tokens": 481,
+                "cost": 0.000126672,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 0.000126672,
+                  "upstream_inference_prompt_cost": 0.000121212,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "goal": {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              "latency_seconds": 2.3898986999993213
+            }
+          ],
+          "trace": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "goal": {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              "status": "achieved",
+              "decisions": 62,
+              "native_events": [
+                {
+                  "decision": 42,
+                  "killed": [
+                    "C"
+                  ],
+                  "ammo_delta": -1
+                }
+              ],
+              "next_state": {
+                "player_position": [
+                  0.0,
+                  -38.9361572265625
+                ],
+                "ammo": 0,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              }
+            }
+          ],
+          "wad_sha256": "26710a22437e6702692bf26e6f27d858b1cad360d24ed3fe7b3d401c7fbb42eb",
+          "initial_frame_sha256": "11979feeebb29f8d5bfaf4abbaa15a529a6a6980849ee9528119c130fe7cbcae",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              }
+            ],
+            "goal_count": 1,
+            "ideal_movement_units": 32.0
+          },
+          "decisions": 62,
+          "goal_count": 1,
+          "native_events": [
+            {
+              "decision": 42,
+              "killed": [
+                "C"
+              ],
+              "ammo_delta": -1
+            }
+          ],
+          "final_state": {
+            "player_position": [
+              0.0,
+              -38.9361572265625
+            ],
+            "ammo": 0,
+            "native_kills": 1,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  160.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": false,
+                "position": [
+                  160.0,
+                  -32.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "A",
+              "ammo_gain": 3,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "ee2d9dc0c5883acd4c01f42992e4928eb62e77877c0c7e312b2e1d2fe45bac80"
+        },
+        {
+          "seed": 71004,
+          "stratum": "required_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "C",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"C\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, -96.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -32.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, 96.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905363-IftkE9fYynBC0l46uDrV\",\"object\":\"chat.completion\",\"created\":1790905363,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"C\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.000079268,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":256,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000079268,\"upstream_inference_prompt_cost\":0.000073808,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 7.9268e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 7.9268e-05,
+                  "upstream_inference_prompt_cost": 7.3808e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 2.230099499982316
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "d0e1d29b7d203b2906308c6522323cc28346c110d58e5f3e96abce95970866e0",
+          "initial_frame_sha256": "c0e1d15a2a155325325f9a008ad5434609be4bc6be40d3b6bb942411ac0e0ca0",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              }
+            ],
+            "goal_count": 3,
+            "ideal_movement_units": 544.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -32.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  96.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "C",
+              "ammo_gain": 2,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "c0e1d15a2a155325325f9a008ad5434609be4bc6be40d3b6bb942411ac0e0ca0"
+        },
+        {
+          "seed": 71005,
+          "stratum": "optional_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      96.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "A",
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "C",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 3, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"C\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"A\", \"B\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, -160.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, 96.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, 32.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905365-uEuGjPdeSWg91ElddyHE\",\"object\":\"chat.completion\",\"created\":1790905365,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"C\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.00006314,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":320,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00006314,\"upstream_inference_prompt_cost\":0.00005768,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 6.314e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 320,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 6.314e-05,
+                  "upstream_inference_prompt_cost": 5.768e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.8106217000167817
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "111f25f0b8e49c368a2a83e9a6633d82b2d367168d90b81952f1b7c4d31f48cd",
+          "initial_frame_sha256": "fa9a61941843ef78c63cde38fe45a3c3a1b600920be398344fd5c575d3a480ca",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              }
+            ],
+            "goal_count": 4,
+            "ideal_movement_units": 672.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -160.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  96.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  32.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "A",
+                "B"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "C",
+              "ammo_gain": 3,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "fa9a61941843ef78c63cde38fe45a3c3a1b600920be398344fd5c575d3a480ca"
+        },
+        {
+          "seed": 71006,
+          "stratum": "direct",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 3, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, 160.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -32.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -96.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n\n         \n{\"id\":\"gen-1790905368-MEICuNQHoAns2hPmn0X3\",\"object\":\"chat.completion\",\"created\":1790905368,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Friendli\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMINATE\\\",\\\"target_id\\\":\\\"A\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":468,\"completion_tokens\":14,\"total_tokens\":482,\"cost\":0.000255,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000255,\"upstream_inference_prompt_cost\":0.000234,\"upstream_inference_completions_cost\":0.000021},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 468,
+                "completion_tokens": 14,
+                "total_tokens": 482,
+                "cost": 0.000255,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 0.000255,
+                  "upstream_inference_prompt_cost": 0.000234,
+                  "upstream_inference_completions_cost": 2.1e-05
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "goal": {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              },
+              "latency_seconds": 5.994860599981621
+            },
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  167.38941955566406
+                ],
+                "ammo": 0,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": true,
+                  "collected": false,
+                  "position": [
+                    160.0,
+                    160.0
+                  ]
+                },
+                "available_goals": [
+                  {
+                    "goal": "COLLECT_AMMO"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 0, \"available_goals\": [{\"goal\": \"COLLECT_AMMO\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 3, \"available\": true, \"collected\": false, \"position\": [160.0, 160.0], \"requires_eliminated\": \"A\"}, \"native_kills\": 1, \"objective\": {\"required_targets\": [\"B\"]}, \"player_position\": [0.0, 167.38941955566406], \"targets\": [{\"alive\": false, \"id\": \"A\", \"position\": [160.0, 160.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -32.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -96.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n\n         \n{\"id\":\"gen-1790905374-VTmQ21lTbpJvcTvclKC9\",\"object\":\"chat.completion\",\"created\":1790905374,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Friendli\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"COLLECT_AMMO\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":443,\"completion_tokens\":11,\"total_tokens\":454,\"cost\":0.00019,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":192,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00019,\"upstream_inference_prompt_cost\":0.0001735,\"upstream_inference_completions_cost\":0.0000165},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 443,
+                "completion_tokens": 11,
+                "total_tokens": 454,
+                "cost": 0.00019,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 192,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 0.00019,
+                  "upstream_inference_prompt_cost": 0.0001735,
+                  "upstream_inference_completions_cost": 1.65e-05
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "goal": {
+                "goal": "COLLECT_AMMO"
+              },
+              "latency_seconds": 5.837922399980016
+            },
+            {
+              "state": {
+                "player_position": [
+                  -3.4508514404296875,
+                  156.04270935058594
+                ],
+                "ammo": 3,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": true,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 3, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 3, \"available\": false, \"collected\": true, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 1, \"objective\": {\"required_targets\": [\"B\"]}, \"player_position\": [-3.4508514404296875, 156.04270935058594], \"targets\": [{\"alive\": false, \"id\": \"A\", \"position\": [160.0, 160.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -32.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -96.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905380-489n31R4rQNb7vQFuc1O\",\"object\":\"chat.completion\",\"created\":1790905380,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"B\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":484,\"completion_tokens\":13,\"total_tokens\":497,\"cost\":0.000076468,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":256,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000076468,\"upstream_inference_prompt_cost\":0.000071008,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 484,
+                "completion_tokens": 13,
+                "total_tokens": 497,
+                "cost": 7.6468e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 7.6468e-05,
+                  "upstream_inference_prompt_cost": 7.1008e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.2504818000015803
+            }
+          ],
+          "trace": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "goal": {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              },
+              "status": "achieved",
+              "decisions": 169,
+              "native_events": [
+                {
+                  "decision": 149,
+                  "killed": [
+                    "A"
+                  ],
+                  "ammo_delta": -1
+                }
+              ],
+              "next_state": {
+                "player_position": [
+                  0.0,
+                  167.38941955566406
+                ],
+                "ammo": 0,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": true,
+                  "collected": false,
+                  "position": [
+                    160.0,
+                    160.0
+                  ]
+                },
+                "available_goals": [
+                  {
+                    "goal": "COLLECT_AMMO"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              }
+            },
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  167.38941955566406
+                ],
+                "ammo": 0,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": true,
+                  "collected": false,
+                  "position": [
+                    160.0,
+                    160.0
+                  ]
+                },
+                "available_goals": [
+                  {
+                    "goal": "COLLECT_AMMO"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "goal": {
+                "goal": "COLLECT_AMMO"
+              },
+              "status": "achieved",
+              "decisions": 303,
+              "native_events": [
+                {
+                  "decision": 278,
+                  "killed": [],
+                  "ammo_delta": 3
+                }
+              ],
+              "next_state": {
+                "player_position": [
+                  -3.4508514404296875,
+                  156.04270935058594
+                ],
+                "ammo": 3,
+                "native_kills": 1,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": false,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": true,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              }
+            }
+          ],
+          "wad_sha256": "d4f9779e1291dfb55b72afb24e3e4e4163ad834eddca8d390712cc49ae194db3",
+          "initial_frame_sha256": "11979feeebb29f8d5bfaf4abbaa15a529a6a6980849ee9528119c130fe7cbcae",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              }
+            ],
+            "goal_count": 1,
+            "ideal_movement_units": 32.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 472,
+          "goal_count": 2,
+          "native_events": [
+            {
+              "decision": 149,
+              "killed": [
+                "A"
+              ],
+              "ammo_delta": -1
+            },
+            {
+              "decision": 278,
+              "killed": [],
+              "ammo_delta": 3
+            }
+          ],
+          "final_state": {
+            "player_position": [
+              -3.4508514404296875,
+              156.04270935058594
+            ],
+            "ammo": 3,
+            "native_kills": 1,
+            "targets": [
+              {
+                "id": "A",
+                "alive": false,
+                "position": [
+                  160.0,
+                  160.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -32.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "A",
+              "ammo_gain": 3,
+              "available": false,
+              "collected": true,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "87e173eafd24ab053bf433f979bf3820de6202ea630d18da949be74ced5fc1c6"
+        },
+        {
+          "seed": 71007,
+          "stratum": "required_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -160.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "A",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"A\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, -96.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, 32.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -160.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905382-GuNsqvFDdnxIQhKGsKyx\",\"object\":\"chat.completion\",\"created\":1790905382,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"A\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.00006314,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":320,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00006314,\"upstream_inference_prompt_cost\":0.00005768,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 6.314e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 320,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 6.314e-05,
+                  "upstream_inference_prompt_cost": 5.768e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.8759726000134833
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "791e006957dcb913f21110924a1e2ea6bbd4b8f1af985aa6a6eb80573a5f525b",
+          "initial_frame_sha256": "a34631c5152a2e7706be91e10195f4cb8c50f274445e2580f1e90b62a44575c2",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              }
+            ],
+            "goal_count": 3,
+            "ideal_movement_units": 480.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  32.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -160.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "A",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "A",
+              "ammo_gain": 2,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "a34631c5152a2e7706be91e10195f4cb8c50f274445e2580f1e90b62a44575c2"
+        },
+        {
+          "seed": 71008,
+          "stratum": "optional_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      96.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -160.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 3, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, -96.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, 96.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -160.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905384-P2bw8qEREcDErBi3RbV7\",\"object\":\"chat.completion\",\"created\":1790905384,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"A\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.00006314,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":320,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00006314,\"upstream_inference_prompt_cost\":0.00005768,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 6.314e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 320,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 6.314e-05,
+                  "upstream_inference_prompt_cost": 5.768e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.3390912999748252
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "d9db3b6931e1f720f4048fb223fa7d1dc8d2da03dd8daf6f07643fd220969b03",
+          "initial_frame_sha256": "e34ab1e24fde2f66459336e4e1b8c820ef2328aba437492b277208756d468d4d",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              }
+            ],
+            "goal_count": 4,
+            "ideal_movement_units": 736.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  96.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -160.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "A",
+              "ammo_gain": 3,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "e34ab1e24fde2f66459336e4e1b8c820ef2328aba437492b277208756d468d4d"
+        },
+        {
+          "seed": 71009,
+          "stratum": "direct",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 2,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      32.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "A",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 3,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 2, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 3, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"A\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, 32.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -96.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, 96.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905386-Oc9JKcHkZUzDG5OClFUU\",\"object\":\"chat.completion\",\"created\":1790905386,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"A\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.000079268,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":256,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000079268,\"upstream_inference_prompt_cost\":0.000073808,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 7.9268e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 7.9268e-05,
+                  "upstream_inference_prompt_cost": 7.3808e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.241797199996654
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "9777ed281e7fac16798c9c00a4f0e2f31854209ded7ba5d2ae50fba1102fce6c",
+          "initial_frame_sha256": "59ecb30dc1a24d26886e07fb0ab67f46cf2ec3d4a64848059cfb7f61f909669e",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              }
+            ],
+            "goal_count": 2,
+            "ideal_movement_units": 96.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 2,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  32.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  96.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "A",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "A",
+              "ammo_gain": 3,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "59ecb30dc1a24d26886e07fb0ab67f46cf2ec3d4a64848059cfb7f61f909669e"
+        },
+        {
+          "seed": 71010,
+          "stratum": "required_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      160.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "B",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"B\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, -96.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -32.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, 160.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905387-JC2n7lL2YwkPypbh5W1z\",\"object\":\"chat.completion\",\"created\":1790905387,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"B\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.000079268,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":256,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000079268,\"upstream_inference_prompt_cost\":0.000073808,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 7.9268e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 7.9268e-05,
+                  "upstream_inference_prompt_cost": 7.3808e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.5807850999990478
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "29e320fb500a0bab4dc25217f30031a033942fbf130c40c67fe39b3c52f432e4",
+          "initial_frame_sha256": "11979feeebb29f8d5bfaf4abbaa15a529a6a6980849ee9528119c130fe7cbcae",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              }
+            ],
+            "goal_count": 3,
+            "ideal_movement_units": 544.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -32.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  160.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "B",
+              "ammo_gain": 2,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "11979feeebb29f8d5bfaf4abbaa15a529a6a6980849ee9528119c130fe7cbcae"
+        },
+        {
+          "seed": 71011,
+          "stratum": "optional_gate",
+          "teacher": "llm",
+          "success": false,
+          "adviser_audit": [
+            {
+              "state": {
+                "player_position": [
+                  0.0,
+                  0.0
+                ],
+                "ammo": 1,
+                "native_kills": 0,
+                "targets": [
+                  {
+                    "id": "A",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -32.0
+                    ]
+                  },
+                  {
+                    "id": "B",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -160.0
+                    ]
+                  },
+                  {
+                    "id": "C",
+                    "alive": true,
+                    "position": [
+                      160.0,
+                      -96.0
+                    ]
+                  }
+                ],
+                "objective": {
+                  "required_targets": [
+                    "B",
+                    "C"
+                  ]
+                },
+                "cache": {
+                  "requires_eliminated": "A",
+                  "ammo_gain": 2,
+                  "available": false,
+                  "collected": false,
+                  "position": null
+                },
+                "available_goals": [
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "A"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "B"
+                  },
+                  {
+                    "goal": "ELIMINATE",
+                    "target_id": "C"
+                  },
+                  {
+                    "goal": "FINISH"
+                  }
+                ]
+              },
+              "request": {
+                "model": "deepseek/deepseek-v3.2",
+                "temperature": 0,
+                "max_tokens": 64,
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "Select the next goal in a fully observed Doom mission. Return exactly one JSON object from available_goals. Output shapes are exactly {\"goal\":\"ELIMINATE\",\"target_id\":\"A\"}, {\"goal\":\"COLLECT_AMMO\"}, or {\"goal\":\"FINISH\"}; use the chosen target ID and no other keys or wrapper. Every required target must be eliminated; optional targets need not be killed. Minimize goals, then movement. The shared reliable executor aligns with the named target and fires exactly one round. Each target needs one round. Eliminating cache.requires_eliminated spawns a native ammo pickup at that target's position. COLLECT_AMMO walks to that pickup and back to x=0, increasing ammo by ammo_gain. ELIMINATE ends at x=0 and the selected target's y. Goals persist until completion or failure. Conserve enough ammunition to unlock the cache when required; spending the last round on the wrong target can make the mission impossible. Replan after each goal. FINISH ends the mission and only succeeds if all required targets are eliminated. No natural-language parsing is needed: use the state table."
+                  },
+                  {
+                    "role": "user",
+                    "content": "{\"ammo\": 1, \"available_goals\": [{\"goal\": \"ELIMINATE\", \"target_id\": \"A\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"B\"}, {\"goal\": \"ELIMINATE\", \"target_id\": \"C\"}, {\"goal\": \"FINISH\"}], \"cache\": {\"ammo_gain\": 2, \"available\": false, \"collected\": false, \"position\": null, \"requires_eliminated\": \"A\"}, \"native_kills\": 0, \"objective\": {\"required_targets\": [\"B\", \"C\"]}, \"player_position\": [0.0, 0.0], \"targets\": [{\"alive\": true, \"id\": \"A\", \"position\": [160.0, -32.0]}, {\"alive\": true, \"id\": \"B\", \"position\": [160.0, -160.0]}, {\"alive\": true, \"id\": \"C\", \"position\": [160.0, -96.0]}]}"
+                  }
+                ],
+                "reasoning": {
+                  "enabled": false
+                },
+                "response_format": {
+                  "type": "json_object"
+                }
+              },
+              "raw_response": "\n         \n{\"id\":\"gen-1790905389-Mf3QTFpkfuYZo70vscy4\",\"object\":\"chat.completion\",\"created\":1790905389,\"model\":\"deepseek/deepseek-v3.2\",\"provider\":\"Baidu\",\"system_fingerprint\":null,\"service_tier\":null,\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"goal\\\":\\\"ELIMATE\\\",\\\"target_id\\\":\\\"A\\\"}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":494,\"completion_tokens\":13,\"total_tokens\":507,\"cost\":0.000047012,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":384,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000047012,\"upstream_inference_prompt_cost\":0.000041552,\"upstream_inference_completions_cost\":0.00000546},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}",
+              "response_model": "deepseek/deepseek-v3.2",
+              "usage": {
+                "prompt_tokens": 494,
+                "completion_tokens": 13,
+                "total_tokens": 507,
+                "cost": 4.7012e-05,
+                "is_byok": false,
+                "prompt_tokens_details": {
+                  "cached_tokens": 384,
+                  "cache_write_tokens": 0,
+                  "audio_tokens": 0,
+                  "video_tokens": 0
+                },
+                "cost_details": {
+                  "upstream_inference_cost": 4.7012e-05,
+                  "upstream_inference_prompt_cost": 4.1552e-05,
+                  "upstream_inference_completions_cost": 5.46e-06
+                },
+                "completion_tokens_details": {
+                  "reasoning_tokens": 0,
+                  "image_tokens": 0,
+                  "audio_tokens": 0
+                }
+              },
+              "error": "ValueError: LLM output must exactly match one available goal.",
+              "latency_seconds": 1.0862757000140846
+            }
+          ],
+          "trace": [],
+          "wad_sha256": "3c3ef780175fe445d74eeab145ae510370e22129697396abdb29eb2056b48d11",
+          "initial_frame_sha256": "412f4ac5d94a5569e1fd69c2ebf8ac5f93ba1d5cefd5ee39ecdf1d43d9fcbfa7",
+          "reference": {
+            "goals": [
+              {
+                "goal": "ELIMINATE",
+                "target_id": "A"
+              },
+              {
+                "goal": "COLLECT_AMMO"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "C"
+              },
+              {
+                "goal": "ELIMINATE",
+                "target_id": "B"
+              }
+            ],
+            "goal_count": 4,
+            "ideal_movement_units": 480.0
+          },
+          "failure": "adviser_failure",
+          "error": "ValueError: LLM output must exactly match one available goal.",
+          "decisions": 0,
+          "goal_count": 0,
+          "native_events": [],
+          "final_state": {
+            "player_position": [
+              0.0,
+              0.0
+            ],
+            "ammo": 1,
+            "native_kills": 0,
+            "targets": [
+              {
+                "id": "A",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -32.0
+                ]
+              },
+              {
+                "id": "B",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -160.0
+                ]
+              },
+              {
+                "id": "C",
+                "alive": true,
+                "position": [
+                  160.0,
+                  -96.0
+                ]
+              }
+            ],
+            "objective": {
+              "required_targets": [
+                "B",
+                "C"
+              ]
+            },
+            "cache": {
+              "requires_eliminated": "A",
+              "ammo_gain": 2,
+              "available": false,
+              "collected": false,
+              "position": null
+            }
+          },
+          "final_frame_sha256": "412f4ac5d94a5569e1fd69c2ebf8ac5f93ba1d5cefd5ee39ecdf1d43d9fcbfa7"
+        }
+      ],
+      "aggregate": {
+        "episodes": 12,
+        "successes": 1,
+        "success_rate": 0.08333333333333333,
+        "mean_decisions_all_episodes": 58.583333333333336,
+        "mean_goals": 0.3333333333333333,
+        "shots_fired": 3,
+        "selected_target_kill_successes": 3,
+        "selected_target_kill_attempts": 3,
+        "wrong_target_kills": 0,
+        "native_pickups": 1,
+        "ammo_deadlocks": 0,
+        "adviser_failures": 11,
+        "executor_failures": 0,
+        "infrastructure_failures": 0,
+        "api_calls": 15,
+        "api_latency_seconds": 32.779285399999935,
+        "reported_cost_usd": 0.0016998760000000001,
+        "cost_reporting_calls": 15
+      },
+      "strata": {
+        "direct": {
+          "episodes": 4,
+          "successes": 1,
+          "success_rate": 0.25,
+          "mean_decisions_all_episodes": 175.75,
+          "mean_goals": 1,
+          "shots_fired": 3,
+          "selected_target_kill_successes": 3,
+          "selected_target_kill_attempts": 3,
+          "wrong_target_kills": 0,
+          "native_pickups": 1,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 3,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 7,
+          "api_latency_seconds": 19.283552300010342,
+          "reported_cost_usd": 0.001017348,
+          "cost_reporting_calls": 7
+        },
+        "required_gate": {
+          "episodes": 4,
+          "successes": 0,
+          "success_rate": 0,
+          "mean_decisions_all_episodes": 0,
+          "mean_goals": 0,
+          "shots_fired": 0,
+          "selected_target_kill_successes": 0,
+          "selected_target_kill_attempts": 0,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 4,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 4,
+          "api_latency_seconds": 7.165039199986495,
+          "reported_cost_usd": 0.000365456,
+          "cost_reporting_calls": 4
+        },
+        "optional_gate": {
+          "episodes": 4,
+          "successes": 0,
+          "success_rate": 0,
+          "mean_decisions_all_episodes": 0,
+          "mean_goals": 0,
+          "shots_fired": 0,
+          "selected_target_kill_successes": 0,
+          "selected_target_kill_attempts": 0,
+          "wrong_target_kills": 0,
+          "native_pickups": 0,
+          "ammo_deadlocks": 0,
+          "adviser_failures": 4,
+          "executor_failures": 0,
+          "infrastructure_failures": 0,
+          "api_calls": 4,
+          "api_latency_seconds": 6.330693900003098,
+          "reported_cost_usd": 0.000317072,
+          "cost_reporting_calls": 4
+        }
+      }
+    }
+  },
+  "status": "completed",
+  "paired_success_comparisons": {},
+  "source_unchanged": true
+}

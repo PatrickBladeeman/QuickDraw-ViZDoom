@@ -1,13 +1,14 @@
 # QuickDraw-ViZDoom
 
 QuickDraw-ViZDoom is a research fork of [ViZDoom](https://github.com/Farama-Foundation/ViZDoom)
-for testing goal-conditioned reinforcement learning and LLM advisers. The current
-Basic task compares no goal conditioning, random goals, rule-based goals, and
-LLM-selected goals on held-out target-hit episodes.
+for testing goal-conditioned reinforcement learning and LLM advisers. Basic
+compares no-goal and goal-conditioned learners; the resource arena compares
+state-based scripts and LLM advisers choosing target and ammunition goals.
 
-For new comparisons, use the [native controls](#native-parity-and-hierarchy-controls),
-which score actual Doom kills. The historical Basic pilots below use the
-wrapper-defined hit metric.
+For current adviser findings, see the [state-based resource benchmark](#state-based-resource-adviser-benchmark).
+For Basic learning comparisons, use the [native controls](#native-parity-and-hierarchy-controls),
+which score actual Doom kills. Historical Basic pilots use the wrapper-defined
+hit metric.
 
 QuickDraw adds task wrappers, learning and QA code, and experiment reports to the
 upstream ViZDoom platform. The [original ViZDoom README](docs/upstream/ViZDoom-README.md)
@@ -409,7 +410,131 @@ process environment and use a new output filename:
 Replace the model ID with `deepseek/deepseek-v3.2` for the second model. Pair
 the resulting episodes with the saved baseline by training seed and reset seed.
 
-## Instruction-conditioned adviser benchmark
+## State-based resource adviser benchmark
+
+This is the current adviser experiment. It compares structured-state scripts
+with an LLM choosing goals during play; it does not parse natural-language
+requests. The earlier instruction benchmark below answers a separate question.
+
+The [resource arena](quickdraw_vizdoom/envs/resource_arena.py) generates a native
+ViZDoom room with three stationary, individually identified targets and one
+ammunition pickup. Every target needs one round. Killing a designated target
+spawns the pickup in Doom; collecting it increases native `AMMO2` by two or
+three rounds. Cases specify which targets are required. An optional target can
+be the ammunition prerequisite, so shooting a required target with the last
+round can deadlock the mission.
+
+The [evaluator](quickdraw_vizdoom/resource_evaluation.py) gives every adviser the
+same structured objective, target identities/liveness/positions, player position,
+native ammo, cache dependency/status/gain, and available goals. Goals are
+`ELIMINATE(target_id)`, `COLLECT_AMMO`, and `FINISH`. The LLM selects one numeric
+index into that list and is called after each completed skill. Its prompt
+describes the skill effects and the same one-round resource rules used by the
+scripts. Goals persist through execution. Completion is detected when every
+required native target is dead; premature `FINISH` fails.
+
+The current interface uses [OpenRouter structured outputs](https://openrouter.ai/docs/guides/features/structured-outputs)
+with an integer enum, strict JSON schema and `require_parameters=true` provider
+routing. A returned index maps directly to the shared goal list; there is no
+lexical parser or alias repair. Post-parse validation still rejects wrappers,
+booleans and out-of-range indices. Both models use temperature zero, a 64-token
+response limit and disabled reasoning. Earlier unconstrained JSON runs are
+preserved: Qwen completed 20/60 and DeepSeek 17/60, but many failures were output
+contract violations, so these are interface diagnostics rather than clean
+measurements of planning ability. Adding explicit goal-object examples did not
+reliably eliminate that problem on development cases.
+
+All arms share one reliable scripted skill executor. Elimination aligns with
+the selected target and shoots once; collection walks to the native pickup and
+returns to the firing lane. Target disappearance must match native `KILLCOUNT`;
+pickup disappearance must match the exact positive native ammo delta. Native
+events, boundary states, initial/final frame hashes and generated WAD hashes are
+retained. No symbolic hit fallback is used.
+
+The state-based rule checks ammo sufficiency, collects accessible ammo when
+needed, eliminates the cache prerequisite when ammo is insufficient, then
+selects the nearest remaining required target. A stronger exhaustive script
+replans all feasible orders of at most three eliminations and one collection,
+minimizing goal count and then ideal movement distance. It receives the same
+state; its movement estimate is **not** an exact native decision optimum.
+Both scripts are comparison baselines. Random chooses executable goals;
+nearest-target control ignores the objective and cache. That control is a
+scripted diagnostic, **not a trained no-goal learner**.
+
+The frozen [development run](artifacts/quickdraw/resource-development-20261001-v2.json)
+has twelve cases: rules/search complete 12/12, nearest completes 3/12, and random
+6/12. The held-out design has sixty cases, balanced across direct elimination,
+required cache-gate, and optional cache-gate missions. Development seeds
+71000–71011 and evaluation seeds 72000–72059 use disjoint position grids;
+required targets, target roles, positions and pickup amounts vary. All cases
+are generated before requests and retained without outcome-based filtering.
+This is a small closed-world state-instance holdout with a fixed prerequisite
+schema, rather than unseen game mechanics.
+
+After the interface change, [Qwen development](artifacts/quickdraw/resource-qwen-development-20261001-v4.json)
+completed 6/12 and [DeepSeek development](artifacts/quickdraw/resource-deepseek-development-20261001-v4.json)
+12/12, both with zero invalid outputs or native execution failures. The final
+confirmation set uses fresh seeds 74000–74059 and a third disjoint position
+grid, with the same balanced mission categories. Prompt, interface and scripts
+are frozen before confirmation; its cases are not used to tune them.
+
+The completed [Qwen confirmation](artifacts/quickdraw/resource-qwen-confirmation-20261001-v1.json),
+[DeepSeek confirmation](artifacts/quickdraw/resource-deepseek-confirmation-20261001-v1.json),
+and [paired findings summary](artifacts/quickdraw/resource-findings-20261001-v1.json)
+show:
+
+| Adviser/control | Direct | Required cache gate | Optional cache gate | Total completion |
+| --- | --- | --- | --- | --- |
+| State-based rules | 20/20 | 20/20 | 20/20 | **60/60 (100%)** |
+| Exhaustive state-based search | 20/20 | 20/20 | 20/20 | **60/60 (100%)** |
+| DeepSeek V3.2 | 20/20 | 16/20 | 13/20 | **49/60 (81.7%)** |
+| Qwen3.5-9B | 19/20 | 10/20 | 0/20 | **29/60 (48.3%)** |
+| Random executable goals | 15/20 | 5/20 | 6/20 | 26/60 (43.3%) |
+| Nearest-target scripted control | 9/20 | 0/20 | 0/20 | 9/60 (15.0%) |
+
+**Supported finding:** neither tested LLM improves completion over the competent
+state-based scripts in this known resource-prerequisite setting. DeepSeek's
+difference from rules/search is −18.33 percentage points (descriptive 95% paired
+case-bootstrap interval: −28.33 to −10.00); Qwen's is −51.67 points (−65.00 to
+−40.00). These intervals describe these generated cases, not a population or
+training-run uncertainty estimate. DeepSeek beats the random and nearest
+diagnostics, but that is not an advantage over the strong scripts.
+
+All arms have identical per-case initial native frame and WAD hashes, and both
+reports preserve their source hashes through evaluation. Every selected-target
+elimination succeeds; there are zero wrong-target kills, provider/schema
+failures, executor failures or infrastructure failures. DeepSeek's eleven
+failed missions are ammo deadlocks. Qwen has thirty ammo deadlocks and one
+premature finish. This isolates the remaining weakness to high-level selection
+under the stated interface, rather than native skill execution.
+
+On jointly successful cases, DeepSeek uses **87.51 additional native decisions**
+per mission versus search, and Qwen **113.72**; the rule is only **0.90** above
+search across its sixty successes. These costs use different successful-pair
+subsets and should not be read as a direct DeepSeek-versus-Qwen comparison.
+The confirmation executes 360 native episodes and 130,139 decisions. Its 266
+provider requests report **$0.02048** total billing with complete cost coverage;
+summed API request latency is 378.33 seconds. No learner training occurs.
+
+Reports include per-case/per-stratum completion, ammo deadlocks, target-specific
+kill accuracy, pickup counts, native decision and goal counts, provider/executor/
+infrastructure failures, API latency and reported billing. Failed requests count
+as failed missions without a rule fallback. Costs on jointly successful pairs
+are compared separately, since early failures use fewer decisions. Descriptive
+paired-case bootstrap intervals use 5,000 resamples. Cases, prompt and source
+hashes are recorded before requests, and source stability is checked afterward.
+
+```powershell
+.venv\Scripts\python.exe -m quickdraw_vizdoom.resource_evaluation --split confirmation --cases 60 --arms rule search nearest_no_adviser random llm --llm-model qwen/qwen3.5-9b --output artifacts/quickdraw/resource-new.json
+```
+
+Set `OPENROUTER_API_KEY` in the command's process environment. Omit `llm` from
+`--arms` to run without provider calls. Output paths reject overwrites.
+This pilot isolates adviser effectiveness; it does not yet compare trained
+no-goal and goal-conditioned learners. Those need target-selection and
+ammo-collection skills beyond the existing two-goal Basic checkpoint.
+
+## Instruction-conditioned adviser benchmark (language parsing)
 
 The [instruction evaluator](quickdraw_vizdoom/instruction_evaluation.py) varies
 the requested outcome while retaining native Basic and the existing ALIGN/HIT

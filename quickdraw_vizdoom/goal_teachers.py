@@ -102,7 +102,7 @@ def validate_llm(url, model, timeout):
             )
 
 
-def request_json(prompt, state, *, url, model, timeout, record):
+def request_json(prompt, state, *, url, model, timeout, record, response_schema=None):
     """Shared bounded chat request; callers validate their own result schema."""
     validate_llm(url, model, timeout)
     request = {
@@ -117,6 +117,17 @@ def request_json(prompt, state, *, url, model, timeout, record):
     if url == OPENROUTER_URL:
         request["reasoning"] = {"enabled": False}
         request["response_format"] = {"type": "json_object"}
+    if response_schema is not None:
+        request["response_format"] = {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "adviser_choice",
+                "strict": True,
+                "schema": response_schema,
+            },
+        }
+        if url == OPENROUTER_URL:
+            request["provider"] = {"require_parameters": True}
     record["request"] = request
     headers = {"Content-Type": "application/json"}
     if url == OPENROUTER_URL:
